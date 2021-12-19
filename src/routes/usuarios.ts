@@ -7,13 +7,18 @@ import {
   obtenerUsuario,
   obtenerUsuarios,
 } from '../controllers/usuarios';
-import { esRolValido, existeCorreo } from '../helpers/dbValidators';
+import {
+  esRolValido,
+  existeCorreo,
+  existeUsuarioPorId,
+} from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
 
 const router = Router();
 
 router.get('/', obtenerUsuarios);
-router.get('/:id', obtenerUsuario);
+router.get('/:id');
+
 router.post(
   '/',
   [
@@ -31,7 +36,19 @@ router.post(
   ],
   crearUsuario
 );
-router.put('/:id', actualizarUsuario);
+
+router.put(
+  '/:id',
+  [
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom(existeUsuarioPorId),
+    check('role').custom(esRolValido),
+    validarCampos,
+  ],
+  obtenerUsuario,
+  actualizarUsuario
+);
+
 router.delete('/:id', eliminarUsuario);
 
 export default router;

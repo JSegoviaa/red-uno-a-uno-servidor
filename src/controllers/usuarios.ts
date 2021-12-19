@@ -27,7 +27,17 @@ export const crearUsuario = async (req: Request, res: Response) => {
 
 export const actualizarUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
-  return res.status(400).json({ msg: 'Actualizar usuarios', id });
+  const { _id, password, google, online, correo, ...resto } = req.body;
+
+  if (password) {
+    //Encriptar contraseña
+    const salt = bcryptjs.genSaltSync();
+    resto.password = bcryptjs.hashSync(password, salt);
+  }
+
+  const usuario = await Usuario.findByIdAndUpdate(id, resto);
+
+  res.status(400).json(usuario);
 };
 
 export const eliminarUsuario = async (req: Request, res: Response) => {
