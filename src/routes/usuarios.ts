@@ -7,6 +7,7 @@ import {
   obtenerUsuario,
   obtenerUsuarios,
 } from '../controllers/usuarios';
+import { validarCampos } from '../middlewares/validarCampos';
 
 const router = Router();
 
@@ -24,6 +25,7 @@ router.post(
       'La contraseña debe de tener al menos 6 caracteres'
     ).isLength({ min: 6 }),
     check('role', 'No es un rol permitido').isIn(['Administrador', 'Usuario']),
+    validarCampos,
   ],
   crearUsuario
 );
