@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
-import { validationResult } from 'express-validator';
 import { Usuario } from '../models/usuario';
 
 export const obtenerUsuarios = async (req: Request, res: Response) => {
@@ -14,11 +13,6 @@ export const obtenerUsuario = async (req: Request, res: Response) => {
 };
 
 export const crearUsuario = async (req: Request, res: Response) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json(errors);
-  }
-
   const { nombre, apellido, correo, password, role } = req.body;
   const usuario = new Usuario({ nombre, apellido, correo, password, role });
 
