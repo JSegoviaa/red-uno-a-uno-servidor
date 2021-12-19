@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Usuario } from '../models/usuario';
 
 export const obtenerUsuarios = async (req: Request, res: Response) => {
   return res.status(400).json({ msg: 'Obtener usuarios' });
@@ -11,7 +12,11 @@ export const obtenerUsuario = async (req: Request, res: Response) => {
 };
 
 export const crearUsuario = async (req: Request, res: Response) => {
-  return res.status(400).json({ msg: 'Crear usuarios' });
+  const body = req.body;
+  const usuario = new Usuario(body);
+
+  await usuario.save();
+  res.status(400).json(usuario);
 };
 
 export const actualizarUsuario = async (req: Request, res: Response) => {

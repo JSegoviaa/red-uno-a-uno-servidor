@@ -7,7 +7,6 @@ interface Usuario {
   password: string;
   img: string;
   role: string;
-  enum: string[];
   estado: boolean;
   online: boolean;
   google: boolean;
@@ -27,7 +26,6 @@ const UsuarioSchema = new Schema<Usuario>({
   },
   img: { type: String },
   role: { type: String, required: true },
-  enum: ['Administrador', 'Usuario'],
   estado: { type: Boolean, default: true },
   online: { type: Boolean, default: false },
   google: { type: Boolean, default: false },
