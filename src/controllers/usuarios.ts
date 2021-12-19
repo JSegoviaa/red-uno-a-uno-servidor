@@ -16,14 +16,6 @@ export const crearUsuario = async (req: Request, res: Response) => {
   const { nombre, apellido, correo, password, role } = req.body;
   const usuario = new Usuario({ nombre, apellido, correo, password, role });
 
-  //Verificar si existe correo
-  const existeCorreo = await Usuario.findOne({ correo });
-  if (existeCorreo) {
-    return res.status(400).json({
-      msg: 'El correo ingresado ya está en uso',
-    });
-  }
-
   //Encriptar contraseña
   const salt = bcryptjs.genSaltSync();
   usuario.password = bcryptjs.hashSync(password, salt);
