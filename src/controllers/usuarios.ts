@@ -3,13 +3,21 @@ import bcryptjs from 'bcryptjs';
 import { Usuario } from '../models/usuario';
 
 export const obtenerUsuarios = async (req: Request, res: Response) => {
-  return res.status(400).json({ msg: 'Obtener usuarios' });
+  const { limite = 20, desde = 0 } = req.query;
+  const query = { estado: true };
+
+  const [total, usuarios] = await Promise.all([
+    Usuario.countDocuments(query),
+    Usuario.find(query).skip(Number(desde)).limit(Number(limite)),
+  ]);
+
+  res.json({ total, usuarios });
 };
 
 export const obtenerUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  return res.status(400).json({ msg: 'Obtener usuario', id });
+  return res.json({ msg: 'Obtener usuario', id });
 };
 
 export const crearUsuario = async (req: Request, res: Response) => {
@@ -22,7 +30,7 @@ export const crearUsuario = async (req: Request, res: Response) => {
 
   //Guardar en la base de datos
   await usuario.save();
-  res.status(400).json(usuario);
+  res.json(usuario);
 };
 
 export const actualizarUsuario = async (req: Request, res: Response) => {
@@ -37,10 +45,10 @@ export const actualizarUsuario = async (req: Request, res: Response) => {
 
   const usuario = await Usuario.findByIdAndUpdate(id, resto);
 
-  res.status(400).json(usuario);
+  res.json(usuario);
 };
 
 export const eliminarUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
-  return res.status(400).json({ msg: 'Eliminar usuarios', id });
+  return res.json({ msg: 'Eliminar usuarios', id });
 };
