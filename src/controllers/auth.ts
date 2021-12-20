@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
 import { Usuario } from '../models/usuario';
+import { generarJWT } from '../helpers/generarJWT';
 
 export const login = async (req: Request, res: Response) => {
   const { correo, password } = req.body;
@@ -30,8 +31,9 @@ export const login = async (req: Request, res: Response) => {
     }
 
     //Generar JWT
+    const token = await generarJWT(usuario.id);
 
-    res.json({ correo, password });
+    res.json({ usuario, token });
   } catch (error) {
     console.log(error);
     res.status(500).json().json({
