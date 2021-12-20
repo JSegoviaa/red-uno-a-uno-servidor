@@ -1,7 +1,12 @@
 import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { Usuario } from '../models/usuario';
 
-export const validarJWT = (req: any, res: Response, next: NextFunction) => {
+export const validarJWT = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
   const token = req.header('x-token');
 
   if (!token) {
@@ -10,7 +15,22 @@ export const validarJWT = (req: any, res: Response, next: NextFunction) => {
 
   try {
     const { uid } = jwt.verify(token, process.env.JWT!) as any;
-    req.uid = uid;
+    const usuario = await Usuario.findById(uid);
+
+    if (!usuario) {
+      return res.status(401).json({
+        msg: 'El usuario que intanta hacer esa acción no existe',
+      });
+    }
+
+    //Vericar que el usuario no haya sido dado de baja
+    if (!usuario.estado) {
+      return res.status(401).json({
+        msg: 'Usuario que intenta hacer esa acción ha sido dado de baja',
+      });
+    }
+
+    req.usuario = usuario;
 
     next();
   } catch (error) {

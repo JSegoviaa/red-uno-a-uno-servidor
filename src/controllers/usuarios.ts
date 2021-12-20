@@ -50,9 +50,11 @@ export const actualizarUsuario = async (req: Request, res: Response) => {
   res.json(usuario);
 };
 
-export const eliminarUsuario = async (req: Request, res: Response) => {
+export const eliminarUsuario = async (req: any, res: Response) => {
   const { id } = req.params;
   const usuario = await Usuario.findByIdAndUpdate(id, { estado: false });
 
-  res.json(usuario);
+  const usuarioAutenticado = req.usuario;
+
+  res.json({ usuario, usuarioAutenticado });
 };
