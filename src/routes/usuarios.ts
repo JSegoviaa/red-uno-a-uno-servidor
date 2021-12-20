@@ -14,6 +14,7 @@ import {
 } from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
 import { validarJWT } from '../middlewares/validarJWT';
+import { esAdminRol } from '../middlewares/validarRoles';
 
 const router = Router();
 
@@ -54,6 +55,7 @@ router.delete(
   '/:id',
   [
     validarJWT,
+    esAdminRol,
     check('id', 'No es un id válido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos,
