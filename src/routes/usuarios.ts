@@ -17,7 +17,7 @@ import { validarCampos } from '../middlewares/validarCampos';
 const router = Router();
 
 router.get('/', obtenerUsuarios);
-router.get('/:id');
+router.get('/:id', obtenerUsuario);
 
 router.post(
   '/',

@@ -17,7 +17,9 @@ export const obtenerUsuarios = async (req: Request, res: Response) => {
 export const obtenerUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  return res.json({ msg: 'Obtener usuario', id });
+  const usuario = await Usuario.findById(id);
+
+  res.json(usuario);
 };
 
 export const crearUsuario = async (req: Request, res: Response) => {
