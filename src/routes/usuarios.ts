@@ -13,6 +13,7 @@ import {
   existeUsuarioPorId,
 } from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
+import { validarJWT } from '../middlewares/validarJWT';
 
 const router = Router();
 
@@ -52,6 +53,7 @@ router.put(
 router.delete(
   '/:id',
   [
+    validarJWT,
     check('id', 'No es un id válido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos,
