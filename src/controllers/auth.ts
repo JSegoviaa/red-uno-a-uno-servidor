@@ -33,7 +33,7 @@ export const login = async (req: Request, res: Response) => {
     //Generar JWT
     const token = await generarJWT(usuario.id);
 
-    res.json({ usuario, token });
+    res.json({ ok: true, usuario, token });
   } catch (error) {
     console.log(error);
     res.status(500).json().json({
