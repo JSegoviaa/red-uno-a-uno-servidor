@@ -10,9 +10,10 @@ export const login = async (req: Request, res: Response) => {
     //Verificar si email existe
     const usuario = await Usuario.findOne({ correo });
     if (!usuario) {
-      return res
-        .status(400)
-        .json({ msg: 'El correo electrónico ingresado es incorrecto' });
+      return res.status(400).json({
+        msg: 'El correo electrónico ingresado es incorrecto',
+        ok: false,
+      });
     }
 
     //Verificar si el usuario sigue activo
@@ -27,6 +28,7 @@ export const login = async (req: Request, res: Response) => {
     if (!validPassword) {
       return res.status(400).json({
         msg: 'La contraseña ingresada es incorrecta',
+        ok: false,
       });
     }
 
@@ -38,6 +40,7 @@ export const login = async (req: Request, res: Response) => {
     console.log(error);
     res.status(500).json().json({
       msg: 'Algo salió mal. Pónganse en contacto con el administrador',
+      ok: false,
     });
   }
 };
