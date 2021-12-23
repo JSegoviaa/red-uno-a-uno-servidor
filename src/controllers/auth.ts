@@ -44,3 +44,14 @@ export const login = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const renovarToken = async (req: any, res: Response) => {
+  const uid = req.uid;
+  //Geberar JWT
+
+  const token = await generarJWT(uid);
+
+  const usuario = await Usuario.findById(uid);
+
+  res.json({ ok: true, usuario, token });
+};

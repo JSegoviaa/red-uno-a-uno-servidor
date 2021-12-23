@@ -30,6 +30,7 @@ export const validarJWT = async (
       });
     }
 
+    req.uid = uid;
     req.usuario = usuario;
 
     next();

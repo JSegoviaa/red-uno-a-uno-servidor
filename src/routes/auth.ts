@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { login } from '../controllers/auth';
+import { login, renovarToken } from '../controllers/auth';
 import { validarCampos } from '../middlewares/validarCampos';
+import { validarJWT } from '../middlewares/validarJWT';
 
 const router = Router();
 
@@ -14,5 +15,7 @@ router.post(
   ],
   login
 );
+
+router.get('/renew', validarJWT, renovarToken);
 
 export default router;
