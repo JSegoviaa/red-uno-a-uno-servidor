@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { contacto } from '../controllers/correos';
+import { contacto } from '../emails/contacto';
 import { validarCampos } from '../middlewares/validarCampos';
 
 const router = Router();
