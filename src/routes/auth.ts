@@ -16,6 +16,6 @@ router.post(
   login
 );
 
-router.get('/renew', validarJWT, renovarToken);
+router.get('/renovarToken', validarJWT, renovarToken);
 
 export default router;
