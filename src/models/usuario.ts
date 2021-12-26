@@ -1,5 +1,10 @@
 import { Schema, model } from 'mongoose';
 
+interface Location {
+  lng: number;
+  lat: number;
+}
+
 interface Usuario {
   nombre: string;
   apellido: string;
@@ -10,6 +15,18 @@ interface Usuario {
   estado: boolean;
   online: boolean;
   google: boolean;
+  perfilEmpresarial: string;
+  telefonoOficina: string;
+  telefonoPersonal: string;
+  nombreInmobiliaria: string;
+  direccionFisica: string;
+  coordenadas: Location;
+  facebookpage: string;
+  instagram: string;
+  twitter: string;
+  youtube: string;
+  linkedin: string;
+  logo: string;
 }
 
 const UsuarioSchema = new Schema<Usuario>({
@@ -29,6 +46,18 @@ const UsuarioSchema = new Schema<Usuario>({
   estado: { type: Boolean, default: true },
   online: { type: Boolean, default: false },
   google: { type: Boolean, default: false },
+  perfilEmpresarial: { type: String },
+  telefonoOficina: { type: String },
+  telefonoPersonal: { type: String },
+  nombreInmobiliaria: { type: String },
+  direccionFisica: { type: String },
+  coordenadas: { type: Number },
+  facebookpage: { type: String },
+  instagram: { type: String },
+  twitter: { type: String },
+  youtube: { type: String },
+  linkedin: { type: String },
+  logo: { type: String },
 });
 
 UsuarioSchema.methods.toJSON = function () {
