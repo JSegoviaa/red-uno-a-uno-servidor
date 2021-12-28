@@ -7,23 +7,53 @@ import {
   obtenerInmueblePorId,
   obtenerInmuebles,
 } from '../controllers/inmuebles';
+import {
+  existeCategoriaPorId,
+  existeInmueblePorId,
+} from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
 import { validarJWT } from '../middlewares/validarJWT';
 
 const router = Router();
 
 router.get('/', obtenerInmuebles);
-router.get('/:id', obtenerInmueblePorId);
+router.get(
+  '/:id',
+  [
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom(existeInmueblePorId),
+    validarCampos,
+  ],
+  obtenerInmueblePorId
+);
+
 router.post(
   '/',
   [
     validarJWT,
     check('titulo', 'El título es obligatorio').not().isEmpty(),
+    check('categoria', 'No es un id válido').isMongoId(),
+    check('categoria').custom(existeCategoriaPorId),
     validarCampos,
   ],
   crearInmuebles
 );
-router.put('/:id', actualizarInmueble);
-router.delete('/:id', eliminarInmueble);
+
+router.put(
+  '/:id',
+  [validarJWT, check('id').custom(existeInmueblePorId), validarCampos],
+  actualizarInmueble
+);
+
+router.delete(
+  '/:id',
+  [
+    validarJWT,
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom(existeInmueblePorId),
+    validarCampos,
+  ],
+  eliminarInmueble
+);
 
 export default router;

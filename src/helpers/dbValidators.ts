@@ -1,4 +1,5 @@
 import { Categoria } from '../models/categorias';
+import { Inmueble } from '../models/inmuebles';
 import { Role } from '../models/role';
 import { Usuario } from '../models/usuario';
 
@@ -27,5 +28,12 @@ export const existeCategoriaPorId = async (id: string) => {
   const existeCategoria = await Categoria.findById(id);
   if (!existeCategoria) {
     throw new Error(`No existe una categoria con ese id ${id}`);
+  }
+};
+
+export const existeInmueblePorId = async (id: string) => {
+  const existeInmueble = await Inmueble.findById(id);
+  if (!existeInmueble) {
+    throw new Error(`No existe un inmueble con ese id ${id}`);
   }
 };
