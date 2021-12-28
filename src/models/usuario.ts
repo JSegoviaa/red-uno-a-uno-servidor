@@ -27,6 +27,7 @@ interface Usuario {
   youtube: string;
   linkedin: string;
   logo: string;
+  inmuebles: any;
 }
 
 const UsuarioSchema = new Schema<Usuario>({
@@ -58,6 +59,7 @@ const UsuarioSchema = new Schema<Usuario>({
   youtube: { type: String },
   linkedin: { type: String },
   logo: { type: String },
+  inmuebles: [{ type: Schema.Types.ObjectId, ref: 'Inmueble' }],
 });
 
 UsuarioSchema.methods.toJSON = function () {

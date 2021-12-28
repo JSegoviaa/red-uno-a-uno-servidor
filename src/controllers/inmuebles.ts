@@ -1,5 +1,6 @@
 import { Response, Request } from 'express';
 import { Inmueble } from '../models/inmuebles';
+import { Usuario } from '../models/usuario';
 
 export const obtenerInmuebles = async (req: Request, res: Response) => {
   const { limite = 20, desde = 0 } = req.query;
@@ -8,7 +9,7 @@ export const obtenerInmuebles = async (req: Request, res: Response) => {
   const [total, inmuebles] = await Promise.all([
     Inmueble.countDocuments(query),
     Inmueble.find(query)
-      .populate('usuario', 'nombre')
+      .populate('usuario', ['nombre', 'apellido', 'correo'])
       .populate('categoria', 'nombre')
       .skip(Number(desde))
       .limit(Number(limite)),
@@ -20,7 +21,7 @@ export const obtenerInmuebles = async (req: Request, res: Response) => {
 export const obtenerInmueblePorId = async (req: Request, res: Response) => {
   const { id } = req.params;
   const inmueble = await await Inmueble.findById(id)
-    .populate('usuario', 'nombre')
+    .populate('usuario', ['nombre', 'apellido', 'correo'])
     .populate('categoria', 'nombre');
 
   res.json({ ok: true, inmueble });
@@ -38,6 +39,10 @@ export const crearInmuebles = async (req: any, res: Response) => {
   const inmueble = new Inmueble(data);
 
   await inmueble.save();
+
+  const user: any = await Usuario.findById(req.usuario._id);
+  user.inmuebles = user?.inmuebles.concat(inmueble._id);
+  await user.save();
 
   res.json({
     ok: true,

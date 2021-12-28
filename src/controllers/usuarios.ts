@@ -9,7 +9,10 @@ export const obtenerUsuarios = async (req: Request, res: Response) => {
 
   const [total, usuarios] = await Promise.all([
     Usuario.countDocuments(query),
-    Usuario.find(query).skip(Number(desde)).limit(Number(limite)),
+    Usuario.find(query)
+      .populate('inmuebles', ['titulo', 'precio', 'categoria'])
+      .skip(Number(desde))
+      .limit(Number(limite)),
   ]);
 
   res.json({ total, usuarios });
@@ -18,7 +21,11 @@ export const obtenerUsuarios = async (req: Request, res: Response) => {
 export const obtenerUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const usuario = await Usuario.findById(id);
+  const usuario = await Usuario.findById(id).populate('inmuebles', [
+    'titulo',
+    'precio',
+    'categoria',
+  ]);
 
   res.json(usuario);
 };
