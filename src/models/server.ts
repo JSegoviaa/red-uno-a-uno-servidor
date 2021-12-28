@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import rutasUsuario from '../routes/usuarios';
 import auth from '../routes/auth';
+import categorias from '../routes/categorias';
 import correos from '../routes/correos';
 import inmuebles from '../routes/inmuebles';
 import { dbConnection } from '../database/config';
@@ -11,6 +12,7 @@ class Server {
   private puerto: string;
   private rutas = {
     auth: '/api/auth/',
+    categorias: '/api/categorias/',
     correos: '/api/correos/',
     inmuebles: '/api/inmuebles/',
     usuarios: '/api/usuarios/',
@@ -47,6 +49,7 @@ class Server {
 
   routes() {
     this.app.use(this.rutas.auth, auth);
+    this.app.use(this.rutas.categorias, categorias);
     this.app.use(this.rutas.correos, correos);
     this.app.use(this.rutas.inmuebles, inmuebles);
     this.app.use(this.rutas.usuarios, rutasUsuario);
