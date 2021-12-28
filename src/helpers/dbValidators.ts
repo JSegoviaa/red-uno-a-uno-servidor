@@ -1,3 +1,4 @@
+import { Categoria } from '../models/categorias';
 import { Role } from '../models/role';
 import { Usuario } from '../models/usuario';
 
@@ -19,5 +20,12 @@ export const existeUsuarioPorId = async (id: string) => {
   const existeUsuario = await Usuario.findById(id);
   if (!existeUsuario) {
     throw new Error(`No existe un usuario con ese id ${id}`);
+  }
+};
+
+export const existeCategoriaPorId = async (id: string) => {
+  const existeCategoria = await Categoria.findById(id);
+  if (!existeCategoria) {
+    throw new Error(`No existe una categoria con ese id ${id}`);
   }
 };
