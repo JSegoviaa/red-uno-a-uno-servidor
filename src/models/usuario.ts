@@ -1,10 +1,5 @@
 import { Schema, model } from 'mongoose';
 
-interface Location {
-  lng: number;
-  lat: number;
-}
-
 interface Usuario {
   nombre: string;
   apellido: string;
@@ -20,7 +15,6 @@ interface Usuario {
   telefonoPersonal: string;
   nombreInmobiliaria: string;
   direccionFisica: string;
-  coordenadas: Location;
   facebookpage: string;
   instagram: string;
   twitter: string;
@@ -52,7 +46,6 @@ const UsuarioSchema = new Schema<Usuario>({
   telefonoPersonal: { type: String },
   nombreInmobiliaria: { type: String },
   direccionFisica: { type: String },
-  coordenadas: { type: Number },
   facebookpage: { type: String },
   instagram: { type: String },
   twitter: { type: String },
