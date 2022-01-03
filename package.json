@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && node dist/index.js",
+    "tsc": "tsc",
+    "postinstall": "npm run tsc"
   },
   "keywords": [],
   "author": "",
