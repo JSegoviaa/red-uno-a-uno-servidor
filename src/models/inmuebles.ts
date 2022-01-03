@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 interface Inmueble {
   categoria: any;
@@ -25,13 +25,13 @@ interface Inmueble {
   piscinas: boolean;
   discapacitados: boolean;
   amueblado: boolean;
-  camas: number;
-  closet: number;
-  sala: number;
-  comedor: number;
-  cocina: number;
-  AA: number;
-  refrigerador: number;
+  camas: boolean;
+  closet: boolean;
+  sala: boolean;
+  comedor: boolean;
+  cocina: boolean;
+  AA: boolean;
+  refrigerador: boolean;
   estufa: boolean;
   microondas: boolean;
   minihorno: boolean;
@@ -50,19 +50,19 @@ const InmuebleSchema = new Schema<Inmueble>({
   descripcion: { type: String },
   precio: { type: Number, default: 0 },
   publicado: { type: Boolean, default: true, required: true },
-  usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
-  categoria: { type: Schema.Types.ObjectId, ref: 'Categoria', required: true },
+  usuario: { type: Schema.Types.ObjectId, ref: "Usuario", required: true },
+  categoria: { type: Schema.Types.ObjectId, ref: "Categoria", required: true },
   estado: { type: Boolean, default: true, required: true },
-  AA: { type: Number },
+  AA: { type: Boolean },
   IID: { type: String },
   agua: { type: Boolean },
   amueblado: { type: Boolean },
   antiguedad: { type: String },
   baños: { type: Number },
-  camas: { type: Number },
-  closet: { type: Number },
-  cocina: { type: Number },
-  comedor: { type: Number },
+  camas: { type: Boolean },
+  closet: { type: Boolean },
+  cocina: { type: Boolean },
+  comedor: { type: Boolean },
   comisiones: { type: Number },
   discapacitados: { type: Boolean },
   escuelas: { type: Boolean },
@@ -84,8 +84,8 @@ const InmuebleSchema = new Schema<Inmueble>({
   piscinas: { type: Boolean },
   pisos: { type: Number },
   propertyType: { type: String },
-  refrigerador: { type: Number },
-  sala: { type: Number },
+  refrigerador: { type: Boolean },
+  sala: { type: Boolean },
   secadora: { type: Boolean },
   seguridadPrivada: { type: Boolean },
 });
@@ -95,4 +95,4 @@ InmuebleSchema.methods.toJSON = function () {
   return data;
 };
 
-export const Inmueble = model<Inmueble>('Inmueble', InmuebleSchema);
+export const Inmueble = model<Inmueble>("Inmueble", InmuebleSchema);
