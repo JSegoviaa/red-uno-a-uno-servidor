@@ -1,56 +1,58 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
+import { Router } from "express";
+import { check } from "express-validator";
 import {
   actualizarInmueble,
   crearInmuebles,
   eliminarInmueble,
   obtenerInmueblePorId,
   obtenerInmuebles,
-} from '../controllers/inmuebles';
+} from "../controllers/inmuebles";
 import {
   existeCategoriaPorId,
   existeInmueblePorId,
-} from '../helpers/dbValidators';
-import { validarCampos } from '../middlewares/validarCampos';
-import { validarJWT } from '../middlewares/validarJWT';
+} from "../helpers/dbValidators";
+import { validarCampos } from "../middlewares/validarCampos";
+import { validarJWT } from "../middlewares/validarJWT";
 
 const router = Router();
 
-router.get('/', obtenerInmuebles);
+router.get("/", obtenerInmuebles);
 router.get(
-  '/:id',
+  "/:id",
   [
-    check('id', 'No es un id válido').isMongoId(),
-    check('id').custom(existeInmueblePorId),
+    check("id", "No es un id válido").isMongoId(),
+    check("id").custom(existeInmueblePorId),
     validarCampos,
   ],
   obtenerInmueblePorId
 );
 
 router.post(
-  '/',
+  "/",
   [
     validarJWT,
-    check('titulo', 'El título es obligatorio').not().isEmpty(),
-    check('categoria', 'No es un id válido').isMongoId(),
-    check('categoria').custom(existeCategoriaPorId),
+    check("titulo", "El título es obligatorio").not().isEmpty(),
+    check("precio", "El precio es obligatorio").not().isEmpty(),
+    check("precio", "El precio debe ser mayor a 0").isFloat({ min: 1 }),
+    check("categoria", "No es un id válido").isMongoId(),
+    check("categoria").custom(existeCategoriaPorId),
     validarCampos,
   ],
   crearInmuebles
 );
 
 router.put(
-  '/:id',
-  [validarJWT, check('id').custom(existeInmueblePorId), validarCampos],
+  "/:id",
+  [validarJWT, check("id").custom(existeInmueblePorId), validarCampos],
   actualizarInmueble
 );
 
 router.delete(
-  '/:id',
+  "/:id",
   [
     validarJWT,
-    check('id', 'No es un id válido').isMongoId(),
-    check('id').custom(existeInmueblePorId),
+    check("id", "No es un id válido").isMongoId(),
+    check("id").custom(existeInmueblePorId),
     validarCampos,
   ],
   eliminarInmueble
