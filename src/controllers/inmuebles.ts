@@ -1,6 +1,6 @@
-import { Response, Request } from 'express';
-import { Inmueble } from '../models/inmuebles';
-import { Usuario } from '../models/usuario';
+import { Response, Request } from "express";
+import { Inmueble } from "../models/inmuebles";
+import { Usuario } from "../models/usuario";
 
 export const obtenerInmuebles = async (req: Request, res: Response) => {
   const { limite = 20, desde = 0 } = req.query;
@@ -9,8 +9,8 @@ export const obtenerInmuebles = async (req: Request, res: Response) => {
   const [total, inmuebles] = await Promise.all([
     Inmueble.countDocuments(query),
     Inmueble.find(query)
-      .populate('usuario', ['nombre', 'apellido', 'correo'])
-      .populate('categoria', 'nombre')
+      .populate("usuario", ["nombre", "apellido", "correo"])
+      .populate("categoria", "nombre")
       .skip(Number(desde))
       .limit(Number(limite)),
   ]);
@@ -20,9 +20,9 @@ export const obtenerInmuebles = async (req: Request, res: Response) => {
 
 export const obtenerInmueblePorId = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const inmueble = await await Inmueble.findById(id)
-    .populate('usuario', ['nombre', 'apellido', 'correo'])
-    .populate('categoria', 'nombre');
+  const inmueble = await Inmueble.findById(id)
+    .populate("usuario", ["nombre", "apellido", "correo"])
+    .populate("categoria", "nombre");
 
   res.json({ ok: true, inmueble });
 };
@@ -46,7 +46,7 @@ export const crearInmuebles = async (req: any, res: Response) => {
 
   res.json({
     ok: true,
-    msg: 'Se ha creado el inmueble exitosamente',
+    msg: "Se ha creado el inmueble exitosamente",
     inmueble,
   });
 };
@@ -58,12 +58,27 @@ export const actualizarInmueble = async (req: any, res: Response) => {
   data.usuario = req.usuario._id;
 
   const inmueble = await Inmueble.findByIdAndUpdate(id, data, { new: true });
-  res.json({ ok: true, msg: 'Inmueble actualizado exitosamente', inmueble });
+  res.json({ ok: true, msg: "Inmueble actualizado exitosamente", inmueble });
 };
 
 export const eliminarInmueble = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const inmuebleBorrado = await Inmueble.findByIdAndDelete(id, { new: true });
-  res.json({ ok: true, msg: 'Inmueble eliminado con éxito', inmuebleBorrado });
+  res.json({ ok: true, msg: "Inmueble eliminado con éxito", inmuebleBorrado });
+};
+
+export const obtenerInmueblesPorUsuario = async (
+  req: Request,
+  res: Response
+) => {
+  const { limite = 20, desde = 0 } = req.query;
+  const { id } = req.params;
+
+  const inmueblesUsuario = await Inmueble.find({ usuario: id });
+
+  res.json({
+    ok: true,
+    inmueblesUsuario,
+  });
 };

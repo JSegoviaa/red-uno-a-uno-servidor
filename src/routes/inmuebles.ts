@@ -6,6 +6,7 @@ import {
   eliminarInmueble,
   obtenerInmueblePorId,
   obtenerInmuebles,
+  obtenerInmueblesPorUsuario,
 } from "../controllers/inmuebles";
 import {
   existeCategoriaPorId,
@@ -17,6 +18,9 @@ import { validarJWT } from "../middlewares/validarJWT";
 const router = Router();
 
 router.get("/", obtenerInmuebles);
+
+router.get("/usuario/:id", obtenerInmueblesPorUsuario);
+
 router.get(
   "/:id",
   [
