@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import bcryptjs from 'bcryptjs';
-import { Usuario } from '../models/usuario';
-import { generarJWT } from '../helpers/generarJWT';
+import { Request, Response } from "express";
+import bcryptjs from "bcryptjs";
+import { Usuario } from "../models/usuario";
+import { generarJWT } from "../helpers/generarJWT";
 
 export const obtenerUsuarios = async (req: Request, res: Response) => {
   const { limite = 20, desde = 0 } = req.query;
@@ -10,7 +10,7 @@ export const obtenerUsuarios = async (req: Request, res: Response) => {
   const [total, usuarios] = await Promise.all([
     Usuario.countDocuments(query),
     Usuario.find(query)
-      .populate('inmuebles', ['titulo', 'precio', 'categoria'])
+      .populate("inmuebles", ["titulo", "precio", "categoria"])
       .skip(Number(desde))
       .limit(Number(limite)),
   ]);
@@ -21,10 +21,10 @@ export const obtenerUsuarios = async (req: Request, res: Response) => {
 export const obtenerUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const usuario = await Usuario.findById(id).populate('inmuebles', [
-    'titulo',
-    'precio',
-    'categoria',
+  const usuario = await Usuario.findById(id).populate("inmuebles", [
+    "titulo",
+    "precio",
+    "categoria",
   ]);
 
   res.json(usuario);
@@ -43,7 +43,7 @@ export const crearUsuario = async (req: Request, res: Response) => {
 
   //Guardar en la base de datos
   await usuario.save();
-  res.json({ ok: true, msg: 'Se ha creado usuario con éxito', token, usuario });
+  res.json({ ok: true, msg: "Se ha creado usuario con éxito", token, usuario });
 };
 
 export const actualizarUsuario = async (req: Request, res: Response) => {
@@ -56,12 +56,12 @@ export const actualizarUsuario = async (req: Request, res: Response) => {
     resto.password = bcryptjs.hashSync(password, salt);
   }
 
-  const usuario = await Usuario.findByIdAndUpdate(id, resto);
+  const usuario = await Usuario.findByIdAndUpdate(id, resto, { new: true });
 
   res.json({
     ok: true,
     usuario,
-    msg: 'Se ha actualizado el perfil de usuario',
+    msg: "Se ha actualizado el perfil de usuario",
   });
 };
 
