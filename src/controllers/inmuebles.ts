@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import { Inmueble } from "../models/inmuebles";
-import { Usuario } from "../models/usuario";
 
 export const obtenerInmuebles = async (req: Request, res: Response) => {
   const { limite = 20, desde = 0 } = req.query;
@@ -40,10 +39,6 @@ export const crearInmuebles = async (req: any, res: Response) => {
 
   await inmueble.save();
 
-  const user: any = await Usuario.findById(req.usuario._id);
-  user.inmuebles = user?.inmuebles.concat(inmueble._id);
-  await user.save();
-
   res.json({
     ok: true,
     msg: "Se ha creado el inmueble exitosamente",
@@ -75,7 +70,9 @@ export const obtenerInmueblesPorUsuario = async (
   const { limite = 20, desde = 0 } = req.query;
   const { id } = req.params;
 
-  const inmueblesUsuario = await Inmueble.find({ usuario: id });
+  const inmueblesUsuario = await Inmueble.find({ usuario: id })
+    .skip(Number(desde))
+    .limit(Number(limite));
 
   res.json({
     ok: true,
