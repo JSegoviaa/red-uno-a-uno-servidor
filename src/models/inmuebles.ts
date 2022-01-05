@@ -43,6 +43,9 @@ interface Inmueble {
   precio: number;
   comisiones: number;
   usuario: any;
+  lng: number;
+  lat: number;
+  imgs: string[];
 }
 
 const InmuebleSchema = new Schema<Inmueble>({
@@ -88,6 +91,9 @@ const InmuebleSchema = new Schema<Inmueble>({
   sala: { type: Boolean },
   secadora: { type: Boolean },
   seguridadPrivada: { type: Boolean },
+  lng: { type: Number },
+  lat: { type: Number },
+  imgs: [{ type: String }],
 });
 
 InmuebleSchema.methods.toJSON = function () {
