@@ -40,6 +40,10 @@ router.post(
     check("precio", "El precio debe ser mayor a 0").isFloat({ min: 1 }),
     check("categoria", "No es un id válido").isMongoId(),
     check("categoria").custom(existeCategoriaPorId),
+    check("lat", "La latitud es obligatoria").not().isEmpty(),
+    check("lat", "La latitud es obligatoria").isFloat({ min: -90, max: 90 }),
+    check("lng", "La longitud es obligatoria").not().isEmpty(),
+    check("lng", "La latitud es obligatoria").isFloat({ min: -180, max: 180 }),
     validarCampos,
   ],
   crearInmuebles
