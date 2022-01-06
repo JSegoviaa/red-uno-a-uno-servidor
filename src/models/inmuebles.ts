@@ -1,8 +1,10 @@
 import { Schema, model } from "mongoose";
+const monguurl = require("monguurl");
 
 interface Inmueble {
   categoria: any;
   titulo: string;
+  slug: string;
   publicado: boolean;
   estado: boolean;
   propertyType: string;
@@ -50,6 +52,7 @@ interface Inmueble {
 
 const InmuebleSchema = new Schema<Inmueble>({
   titulo: { type: String, required: true },
+  slug: { type: String, index: { unique: true } },
   descripcion: { type: String },
   precio: { type: Number, default: 0 },
   publicado: { type: Boolean, default: true, required: true },
@@ -100,5 +103,12 @@ InmuebleSchema.methods.toJSON = function () {
   const { __v, estado, ...data } = this.toObject();
   return data;
 };
+
+InmuebleSchema.plugin(
+  monguurl({
+    source: "titulo",
+    target: "slug",
+  })
+);
 
 export const Inmueble = model<Inmueble>("Inmueble", InmuebleSchema);
