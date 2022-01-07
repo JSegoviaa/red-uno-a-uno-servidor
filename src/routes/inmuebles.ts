@@ -50,6 +50,7 @@ router.post(
       min: -180,
       max: 180,
     }),
+    check("direccion", "La dirección es obligatoria").not().isEmpty(),
     validarCampos,
   ],
   crearInmuebles
