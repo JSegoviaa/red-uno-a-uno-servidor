@@ -5,6 +5,7 @@ interface Inmueble {
   categoria: any;
   titulo: string;
   slug: string;
+  direccion: string;
   publicado: boolean;
   estado: boolean;
   propertyType: string;
@@ -55,6 +56,7 @@ const InmuebleSchema = new Schema<Inmueble>({
   slug: { type: String, index: { unique: true } },
   descripcion: { type: String },
   precio: { type: Number, default: 0 },
+  direccion: { type: String },
   publicado: { type: Boolean, default: true, required: true },
   usuario: { type: Schema.Types.ObjectId, ref: "Usuario", required: true },
   categoria: { type: Schema.Types.ObjectId, ref: "Categoria", required: true },
