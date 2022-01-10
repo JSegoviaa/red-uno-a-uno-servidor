@@ -26,6 +26,13 @@ export const obtenerInmueblePorId = async (req: Request, res: Response) => {
   res.json({ ok: true, inmueble });
 };
 
+export const obtenerInmueblePorDir = async (req: Request, res: Response) => {
+  const { direccion } = req.query;
+
+  const inmuebles = await Inmueble.find({ direccion: { $regex: direccion } });
+  res.json({ ok: true, inmuebles });
+};
+
 export const crearInmuebles = async (req: any, res: Response) => {
   const { publicado, estado, usuario, ...body } = req.body;
 
