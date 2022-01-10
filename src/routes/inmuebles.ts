@@ -48,12 +48,6 @@ router.post(
     ).isLength({
       max: 75,
     }),
-    check(
-      "antiguedad",
-      "La antigüedad debe tener máximo 12 caracteres"
-    ).isLength({
-      max: 75,
-    }),
     check("otros", "Otros debe tener máximo 100 caracteres").isLength({
       max: 75,
     }),
