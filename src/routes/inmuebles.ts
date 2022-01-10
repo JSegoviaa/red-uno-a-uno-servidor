@@ -39,7 +39,9 @@ router.post(
   [
     validarJWT,
     check("titulo", "El título es obligatorio").not().isEmpty(),
-    check("titulo", "El título es obligatorio").isLength({ max: 75 }),
+    check("titulo", "El título debe tener a lo mucho 75 caracteres").isLength({
+      max: 75,
+    }),
     check("precio", "El precio es obligatorio").not().isEmpty(),
     check("precio", "El precio debe ser mayor a 0").isFloat({ min: 1 }),
     check("categoria", "No es un id válido").isMongoId(),
