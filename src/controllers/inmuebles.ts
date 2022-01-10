@@ -20,7 +20,13 @@ export const obtenerInmuebles = async (req: Request, res: Response) => {
 export const obtenerInmueblePorId = async (req: Request, res: Response) => {
   const { id } = req.params;
   const inmueble = await Inmueble.findById(id)
-    .populate("usuario", ["nombre", "apellido", "correo"])
+    .populate("usuario", [
+      "nombre",
+      "apellido",
+      "correo",
+      "telefonoPersonal",
+      "telefonoOficina",
+    ])
     .populate("categoria", "nombre");
 
   res.json({ ok: true, inmueble });
