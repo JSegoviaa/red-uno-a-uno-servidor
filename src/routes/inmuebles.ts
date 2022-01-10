@@ -39,7 +39,22 @@ router.post(
   [
     validarJWT,
     check("titulo", "El título es obligatorio").not().isEmpty(),
-    check("titulo", "El título debe tener a lo mucho 75 caracteres").isLength({
+    check("titulo", "El título debe tener máximo 75 caracteres").isLength({
+      max: 75,
+    }),
+    check(
+      "antiguedad",
+      "La antigüedad debe tener máximo 12 caracteres"
+    ).isLength({
+      max: 75,
+    }),
+    check(
+      "antiguedad",
+      "La antigüedad debe tener máximo 12 caracteres"
+    ).isLength({
+      max: 75,
+    }),
+    check("otros", "Otros debe tener máximo 100 caracteres").isLength({
       max: 75,
     }),
     check("precio", "El precio es obligatorio").not().isEmpty(),
