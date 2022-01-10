@@ -46,6 +46,8 @@ router.put(
     check("id").custom(existeUsuarioPorId),
     // check('role').custom(esRolValido),
     // check('correo', 'El correo electrónico ingresado no es correcto').isEmail(),
+    check("nombre", "El nombre no puede quedar vacío").not().isEmpty(),
+    check("apellido", "El apellido no puede quedar vacío").not().isEmpty(),
     check(
       "telefonoOficina",
       "El número telefónico debe tener 10 caracteres"
