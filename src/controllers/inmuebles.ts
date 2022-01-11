@@ -39,6 +39,22 @@ export const obtenerInmueblePorDir = async (req: Request, res: Response) => {
   res.json({ ok: true, inmuebles });
 };
 
+export const obtenerInmueblePorURL = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const inmueble = await Inmueble.findOne({ slug: id })
+    .populate("usuario", [
+      "nombre",
+      "apellido",
+      "correo",
+      "telefonoPersonal",
+      "telefonoOficina",
+    ])
+    .populate("categoria", "nombre");
+
+  res.json({ ok: true, inmueble });
+};
+
 export const crearInmuebles = async (req: any, res: Response) => {
   const { publicado, estado, usuario, ...body } = req.body;
 

@@ -6,6 +6,7 @@ import {
   eliminarInmueble,
   obtenerInmueblePorDir,
   obtenerInmueblePorId,
+  obtenerInmueblePorURL,
   obtenerInmuebles,
   obtenerInmueblesPorUsuario,
 } from "../controllers/inmuebles";
@@ -21,6 +22,8 @@ const router = Router();
 router.get("/", obtenerInmuebles);
 
 router.get("/usuario/:id", obtenerInmueblesPorUsuario);
+
+router.get("/url/:id", obtenerInmueblePorURL);
 
 router.get("/direccion", obtenerInmueblePorDir);
 
