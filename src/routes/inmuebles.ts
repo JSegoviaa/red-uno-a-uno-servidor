@@ -46,10 +46,10 @@ router.post(
       "antiguedad",
       "La antigüedad debe tener máximo 12 caracteres"
     ).isLength({
-      max: 75,
+      max: 12,
     }),
     check("otros", "Otros debe tener máximo 100 caracteres").isLength({
-      max: 75,
+      max: 100,
     }),
     check("precio", "El precio es obligatorio").not().isEmpty(),
     check("precio", "El precio debe ser mayor a 0").isFloat({ min: 1 }),
