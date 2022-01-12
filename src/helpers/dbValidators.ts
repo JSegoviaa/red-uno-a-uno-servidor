@@ -1,16 +1,17 @@
-import { Categoria } from '../models/categorias';
-import { Inmueble } from '../models/inmuebles';
-import { Role } from '../models/role';
-import { Usuario } from '../models/usuario';
+import { Categoria } from "../models/categorias";
+import { Inmueble } from "../models/inmuebles";
+import { Role } from "../models/role";
+import { TipoPropiedad } from "../models/tipoPropiedad";
+import { Usuario } from "../models/usuario";
 
-export const esRolValido = async (role = '') => {
+export const esRolValido = async (role = "") => {
   const existeRol = await Role.findOne({ role });
   if (!existeRol) {
     throw new Error(`El rol ${role} no es válido`);
   }
 };
 
-export const existeCorreo = async (correo = '') => {
+export const existeCorreo = async (correo = "") => {
   const existeEmail = await Usuario.findOne({ correo });
   if (existeEmail) {
     throw new Error(`El correo electrónico ingresado ya ha sido registrado`);
@@ -35,5 +36,12 @@ export const existeInmueblePorId = async (id: string) => {
   const existeInmueble = await Inmueble.findById(id);
   if (!existeInmueble) {
     throw new Error(`No existe un inmueble con ese id ${id}`);
+  }
+};
+
+export const existeTipoDePropiedadPorId = async (id: string) => {
+  const existeTipoPropiedad = await TipoPropiedad.findById(id);
+  if (!existeTipoPropiedad) {
+    throw new Error(`No existe un tipo de propiedad con ese ${id}`);
   }
 };
