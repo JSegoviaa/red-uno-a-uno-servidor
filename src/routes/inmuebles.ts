@@ -13,6 +13,7 @@ import {
 import {
   existeCategoriaPorId,
   existeInmueblePorId,
+  existeTipoDePropiedadPorId,
 } from "../helpers/dbValidators";
 import { validarCampos } from "../middlewares/validarCampos";
 import { validarJWT } from "../middlewares/validarJWT";
@@ -69,6 +70,8 @@ router.post(
       max: 180,
     }),
     check("direccion", "La dirección es obligatoria").not().isEmpty(),
+    check("tipoPropiedad", "No es un id válido").isMongoId(),
+    check("tipoPropiedad").custom(existeTipoDePropiedadPorId),
     validarCampos,
   ],
   crearInmuebles

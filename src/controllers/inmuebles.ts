@@ -10,6 +10,7 @@ export const obtenerInmuebles = async (req: Request, res: Response) => {
     Inmueble.find(query)
       .populate("usuario", ["nombre", "apellido", "correo"])
       .populate("categoria", "nombre")
+      .populate("tipoPropiedad", "nombre")
       .skip(Number(desde))
       .limit(Number(limite)),
   ]);
@@ -27,7 +28,8 @@ export const obtenerInmueblePorId = async (req: Request, res: Response) => {
       "telefonoPersonal",
       "telefonoOficina",
     ])
-    .populate("categoria", "nombre");
+    .populate("categoria", "nombre")
+    .populate("tipoPropiedad", "nombre");
 
   res.json({ ok: true, inmueble });
 };
@@ -53,7 +55,8 @@ export const obtenerInmueblePorURL = async (req: Request, res: Response) => {
       "instagram",
       "twitter",
     ])
-    .populate("categoria", "nombre");
+    .populate("categoria", "nombre")
+    .populate("tipoPropiedad", "nombre");
 
   res.json({ ok: true, inmueble });
 };
