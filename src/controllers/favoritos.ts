@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Favorito } from "../models/favoritos";
-import { Usuario } from "../models/usuario";
 
 export const obtenerFavoritosPorUsuario = async (
   req: Request,
@@ -24,7 +23,7 @@ export const agregarFavoritos = async (req: Request, res: Response) => {
 
   const favoritos = new Favorito({ usuario, inmueble });
 
-  const existeFavorito = await Usuario.findOne({ inmueble });
+  const existeFavorito = await Favorito.findOne({ inmueble });
 
   if (existeFavorito) {
     return res.status(400).json({
