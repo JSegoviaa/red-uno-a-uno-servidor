@@ -16,7 +16,7 @@ class Server {
     auth: "/api/auth/",
     categorias: "/api/categorias/",
     correos: "/api/correos/",
-    favoritos: "/api/favoritos",
+    favoritos: "/api/favoritos/",
     inmuebles: "/api/inmuebles/",
     tipoPropiedad: "/api/tipo-de-propiedad/",
     usuarios: "/api/usuarios/",
