@@ -9,6 +9,8 @@ export const obtenerFavoritosPorUsuario = async (
   const { id } = req.params;
 
   const favoritosUsuario = await Favorito.find({ usuario: id })
+    .populate("inmueble", ["titulo", "slug"])
+    .populate("usuario", "nombre")
     .skip(Number(desde))
     .limit(Number(limite));
 
