@@ -21,6 +21,15 @@ export const obtenerFavoritosPorUsuario = async (
 export const agregarFavoritos = async (req: Request, res: Response) => {
   const { usuario, inmueble } = req.body;
 
+  const existeFavorito = await Favorito.findOne({ usuario, inmueble });
+
+  if (existeFavorito) {
+    return res.status(400).json({
+      ok: false,
+      msg: `Ya has agregado este inmueble a favoritos`,
+    });
+  }
+
   const favoritos = new Favorito({ usuario, inmueble });
 
   await favoritos.save();
@@ -28,6 +37,7 @@ export const agregarFavoritos = async (req: Request, res: Response) => {
   res.json({
     ok: true,
     favoritos,
+    existeFavorito,
     msg: "El inmueble se ha añadido a sus favoritos",
   });
 };

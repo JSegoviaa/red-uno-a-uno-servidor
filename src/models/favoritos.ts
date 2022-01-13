@@ -1,6 +1,9 @@
 import { Schema, model } from "mongoose";
 
-interface Favorito {}
+interface Favorito {
+  usuario: any;
+  inmueble: any;
+}
 
 const FavoritoSchema = new Schema<Favorito>(
   {
