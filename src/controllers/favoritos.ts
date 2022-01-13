@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Favorito } from "../models/favoritos";
+import { Usuario } from "../models/usuario";
 
 export const obtenerFavoritosPorUsuario = async (
   req: Request,
@@ -23,18 +24,22 @@ export const agregarFavoritos = async (req: Request, res: Response) => {
 
   const favoritos = new Favorito({ usuario, inmueble });
 
-  const existeFavorito = await Favorito.findOne({ inmueble });
+  const existeFavorito = await Usuario.findOne({ inmueble });
 
   if (existeFavorito) {
     return res.status(400).json({
       ok: false,
-      msg: `El inmueble con id ${inmueble} ya ha sido agregado a favoritos`,
+      msg: `Este inmueble ya ha sido añadido a tus favoritos`,
     });
   }
 
   await favoritos.save();
 
-  res.json({ ok: true, favoritos });
+  res.json({
+    ok: true,
+    favoritos,
+    msg: "El inmueble se ha añadido a sus favoritos",
+  });
 };
 
 export const eliminarFavoritos = async (req: Request, res: Response) => {
