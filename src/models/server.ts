@@ -4,6 +4,7 @@ import rutasUsuario from "../routes/usuarios";
 import auth from "../routes/auth";
 import categorias from "../routes/categorias";
 import correos from "../routes/correos";
+import favoritos from "../routes/favoritos";
 import inmuebles from "../routes/inmuebles";
 import tipoPropiedad from "../routes/tipoPropiedad";
 import { dbConnection } from "../database/config";
@@ -15,6 +16,7 @@ class Server {
     auth: "/api/auth/",
     categorias: "/api/categorias/",
     correos: "/api/correos/",
+    favoritos: "/api/favoritos",
     inmuebles: "/api/inmuebles/",
     tipoPropiedad: "/api/tipo-de-propiedad/",
     usuarios: "/api/usuarios/",
@@ -53,6 +55,7 @@ class Server {
     this.app.use(this.rutas.auth, auth);
     this.app.use(this.rutas.categorias, categorias);
     this.app.use(this.rutas.correos, correos);
+    this.app.use(this.rutas.favoritos, favoritos);
     this.app.use(this.rutas.inmuebles, inmuebles);
     this.app.use(this.rutas.tipoPropiedad, tipoPropiedad);
     this.app.use(this.rutas.usuarios, rutasUsuario);
