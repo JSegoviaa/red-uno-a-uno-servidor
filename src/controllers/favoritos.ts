@@ -9,8 +9,11 @@ export const obtenerFavoritosPorUsuario = async (
   const { id } = req.params;
 
   const favoritosUsuario = await Favorito.find({ usuario: id })
-    .populate("inmueble", ["titulo", "slug"])
-    .populate("usuario", "nombre")
+    .populate({
+      path: "inmueble",
+      select: ["titulo", "slug"],
+      populate: { path: "usuario", select: ["nombre", "apellido"] },
+    })
     .skip(Number(desde))
     .limit(Number(limite));
 
