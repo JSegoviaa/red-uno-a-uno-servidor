@@ -23,7 +23,7 @@ export const agregarFavoritos = async (req: Request, res: Response) => {
 
   const favoritos = new Favorito({ usuario, inmueble });
 
-  const existeFavorito = await Favorito.findOne({ inmueble });
+  const existeFavorito = await Favorito.find({ inmueble, usuario });
 
   if (existeFavorito) {
     return res.status(400).json({
