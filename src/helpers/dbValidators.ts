@@ -1,5 +1,6 @@
 import { Categoria } from "../models/categorias";
 import { Favorito } from "../models/favoritos";
+import { Historial } from "../models/historial";
 import { Inmueble } from "../models/inmuebles";
 import { Role } from "../models/role";
 import { TipoPropiedad } from "../models/tipoPropiedad";
@@ -44,6 +45,13 @@ export const existeFavPorId = async (id: string) => {
   const existeFav = await Favorito.findById(id);
   if (!existeFav) {
     throw new Error(`No existe un favorito con ese ${id}`);
+  }
+};
+
+export const existeHistPorId = async (id: string) => {
+  const existeHis = await Historial.findById(id);
+  if (!existeHis) {
+    throw new Error(`No existe historial con ese ${id}`);
   }
 };
 

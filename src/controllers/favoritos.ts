@@ -42,7 +42,6 @@ export const agregarFavoritos = async (req: Request, res: Response) => {
   res.json({
     ok: true,
     favoritos,
-    existeFavorito,
     msg: "El inmueble se ha añadido a sus favoritos",
   });
 };
