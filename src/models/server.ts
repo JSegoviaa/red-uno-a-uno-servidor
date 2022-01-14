@@ -8,6 +8,7 @@ import favoritos from "../routes/favoritos";
 import inmuebles from "../routes/inmuebles";
 import historial from "../routes/historial";
 import tipoPropiedad from "../routes/tipoPropiedad";
+import subidas from "../routes/subidas";
 import { dbConnection } from "../database/config";
 
 class Server {
@@ -20,6 +21,7 @@ class Server {
     favoritos: "/api/favoritos/",
     inmuebles: "/api/inmuebles/",
     historial: "/api/historial/",
+    subidas: "/api/subidas/",
     tipoPropiedad: "/api/tipo-de-propiedad/",
     usuarios: "/api/usuarios/",
   };
@@ -62,6 +64,7 @@ class Server {
     this.app.use(this.rutas.historial, historial);
     this.app.use(this.rutas.tipoPropiedad, tipoPropiedad);
     this.app.use(this.rutas.usuarios, rutasUsuario);
+    this.app.use(this.rutas.subidas, subidas);
   }
 
   listen() {
