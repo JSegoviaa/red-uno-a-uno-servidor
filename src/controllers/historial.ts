@@ -5,7 +5,18 @@ export const obtenerHistorialPorUsuario = async (
   req: Request,
   res: Response
 ) => {
-  res.json({ ok: true, msg: "Historial por usuarios" });
+  const { limite = 20, desde = 0 } = req.query;
+  const { id } = req.params;
+
+  const historialUsuario = await Historial.find({ usuario: id })
+    .populate("inmueble", ["titulo", "slug"])
+    .skip(Number(desde))
+    .limit(Number(limite));
+
+  res.json({
+    ok: true,
+    historialUsuario,
+  });
 };
 
 export const agregarHistorial = async (req: Request, res: Response) => {
