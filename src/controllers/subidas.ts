@@ -18,7 +18,11 @@ export const subirFotoPerfil = async (req: Request, res: Response) => {
 
   await usuario.save();
 
-  res.json({ ok: true, msg: "La foto de perfil se ha subido con éxito" });
+  res.json({
+    ok: true,
+    msg: "La foto de perfil se ha subido con éxito",
+    usuario,
+  });
 };
 
 export const subirLogo = async (req: Request, res: Response) => {
