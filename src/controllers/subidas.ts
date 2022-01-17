@@ -30,7 +30,11 @@ export const actualizarImagen = async (req: Request, res: Response) => {
   }
 
   if (usuario.img) {
-    const pathImagen = path.join(__dirname, `../uploads`);
+    const pathImagen = path.join(
+      __dirname,
+      `../public/uploads/usuarios/${id}`,
+      usuario.img
+    );
 
     if (fs.existsSync(pathImagen)) {
       fs.unlinkSync(pathImagen);
@@ -56,19 +60,17 @@ export const actualizarImagenCloudinary = async (req: any, res: Response) => {
       .json({ ok: false, msg: 'No existe un usuario con ese id' + id });
   }
 
-  if (usuario.img) {
-    const nombreArr = usuario.img.split('/');
-    const nombre = nombreArr[nombreArr.length - 1];
-    const [public_id] = nombre.split('.');
-    v2.uploader.destroy(public_id);
-  }
+  // if (usuario.img) {
+  //   const nombreArr = usuario.img.split('/');
+  //   const nombre = nombreArr[nombreArr.length - 1];
+  //   const [public_id] = nombre.split('.');
+  //   v2.uploader.destroy(public_id);
+  // }
 
   try {
     const { name } = req.files.imagen;
     console.log(req.files.imagen);
-    const { secure_url } = await v2.uploader.upload(name, {
-      folder: 'red1d1/usuarios/' + id,
-    });
+    const { secure_url } = await v2.uploader.upload(name);
     usuario.img = secure_url;
 
     await usuario.save();

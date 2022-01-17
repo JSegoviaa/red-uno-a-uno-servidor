@@ -3,6 +3,7 @@ import { check } from 'express-validator';
 import {
   subirImagen,
   actualizarImagenCloudinary,
+  actualizarImagen,
 } from '../controllers/subidas';
 import { validarCampos } from '../middlewares/validarCampos';
 import { validarJWT } from '../middlewares/validarJWT';

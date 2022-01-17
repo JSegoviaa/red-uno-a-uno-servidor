@@ -19,7 +19,7 @@ export const subirArchivo = (
     const nombreTemp = v4() + '.' + extension;
     const uploadPath = path.join(
       __dirname,
-      '../public/uploads',
+      '../public/uploads/',
       carpeta,
       nombreTemp
     );
