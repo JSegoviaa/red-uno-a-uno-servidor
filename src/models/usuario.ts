@@ -1,11 +1,11 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 interface Usuario {
   nombre: string;
   apellido: string;
   correo: string;
   password: string;
-  img: any;
+  img: string | undefined;
   role: string;
   estado: boolean;
   online: boolean;
@@ -20,20 +20,20 @@ interface Usuario {
   twitter: string;
   youtube: string;
   linkedin: string;
-  logo: string;
+  logo: string | undefined;
 }
 
 const UsuarioSchema = new Schema<Usuario>({
-  nombre: { type: String, required: [true, 'El nombre es obligatorio'] },
-  apellido: { type: String, required: [true, 'El nombre es obligatorio'] },
+  nombre: { type: String, required: [true, "El nombre es obligatorio"] },
+  apellido: { type: String, required: [true, "El nombre es obligatorio"] },
   correo: {
     type: String,
-    required: [true, 'El correo es obligatorio'],
+    required: [true, "El correo es obligatorio"],
     unique: true,
   },
   password: {
     type: String,
-    required: [true, 'La contraseña es obligatoria'],
+    required: [true, "La contraseña es obligatoria"],
   },
   img: { type: String },
   role: { type: String, required: true },
@@ -61,4 +61,4 @@ UsuarioSchema.methods.toJSON = function () {
   return usuario;
 };
 
-export const Usuario = model<Usuario>('Usuario', UsuarioSchema);
+export const Usuario = model<Usuario>("Usuario", UsuarioSchema);
