@@ -35,7 +35,11 @@ const UsuarioSchema = new Schema<Usuario>({
     type: String,
     required: [true, "La contraseña es obligatoria"],
   },
-  img: { type: String },
+  img: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/du6f7alxg/image/upload/v1642439660/red1a1/usuarios/2_edlycv.svg",
+  },
   role: { type: String, required: true },
   estado: { type: Boolean, default: true },
   online: { type: Boolean, default: false },
