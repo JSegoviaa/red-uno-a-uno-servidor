@@ -114,3 +114,18 @@ export const obtenerInmueblesPorUsuario = async (
     inmueblesUsuario,
   });
 };
+
+export const array = async (req: any, res: Response) => {
+  const { id } = req.params;
+  const files = req.files?.map((file: Express.Multer.File) => {
+    return file.path;
+  });
+
+  const inmueble = await Inmueble.findById(id);
+
+  inmueble!.imgs = files;
+
+  await inmueble?.save();
+
+  res.json({ ok: true, files });
+};

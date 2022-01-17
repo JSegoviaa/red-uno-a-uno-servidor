@@ -1,7 +1,11 @@
-import { Router } from "express";
+import { Request, Router } from "express";
 import { check } from "express-validator";
+import { v2 } from "cloudinary";
+import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 import {
   actualizarInmueble,
+  array,
   crearInmuebles,
   eliminarInmueble,
   obtenerInmueblePorDir,
@@ -19,6 +23,23 @@ import { validarCampos } from "../middlewares/validarCampos";
 import { validarJWT } from "../middlewares/validarJWT";
 
 const router = Router();
+
+v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: v2,
+  params: async (req: Request, file) => {
+    return {
+      folder: `red1a1/usuarios/inmuebles`,
+    };
+  },
+});
+
+const upload = multer({ storage });
 
 router.get("/", obtenerInmuebles);
 
@@ -93,5 +114,7 @@ router.delete(
   ],
   eliminarInmueble
 );
+
+router.post("/arreglo/:id", upload.array("pictures", 15), array);
 
 export default router;
