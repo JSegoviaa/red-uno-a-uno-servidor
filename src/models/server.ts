@@ -1,34 +1,35 @@
-import express, { Application } from "express";
-import cors from "cors";
-import rutasUsuario from "../routes/usuarios";
-import auth from "../routes/auth";
-import categorias from "../routes/categorias";
-import correos from "../routes/correos";
-import favoritos from "../routes/favoritos";
-import inmuebles from "../routes/inmuebles";
-import historial from "../routes/historial";
-import tipoPropiedad from "../routes/tipoPropiedad";
-import subidas from "../routes/subidas";
-import { dbConnection } from "../database/config";
+import express, { Application } from 'express';
+import cors from 'cors';
+import fileUpload from 'express-fileupload';
+import rutasUsuario from '../routes/usuarios';
+import auth from '../routes/auth';
+import categorias from '../routes/categorias';
+import correos from '../routes/correos';
+import favoritos from '../routes/favoritos';
+import inmuebles from '../routes/inmuebles';
+import historial from '../routes/historial';
+import tipoPropiedad from '../routes/tipoPropiedad';
+import subidas from '../routes/subidas';
+import { dbConnection } from '../database/config';
 
 class Server {
   private app: Application;
   private puerto: string;
   private rutas = {
-    auth: "/api/auth/",
-    categorias: "/api/categorias/",
-    correos: "/api/correos/",
-    favoritos: "/api/favoritos/",
-    inmuebles: "/api/inmuebles/",
-    historial: "/api/historial/",
-    subidas: "/api/subidas/",
-    tipoPropiedad: "/api/tipo-de-propiedad/",
-    usuarios: "/api/usuarios/",
+    auth: '/api/auth/',
+    categorias: '/api/categorias/',
+    correos: '/api/correos/',
+    favoritos: '/api/favoritos/',
+    inmuebles: '/api/inmuebles/',
+    historial: '/api/historial/',
+    subidas: '/api/subidas/',
+    tipoPropiedad: '/api/tipo-de-propiedad/',
+    usuarios: '/api/usuarios/',
   };
 
   constructor() {
     this.app = express();
-    this.puerto = process.env.PORT || "8000";
+    this.puerto = process.env.PORT || '8000';
 
     //Conexión a la base de datos
     this.conectarDB();
@@ -52,7 +53,15 @@ class Server {
     this.app.use(express.json());
 
     //Carpeta pública
-    this.app.use(express.static("src/public"));
+    this.app.use(express.static('src/public'));
+
+    //Subir imágenes
+    this.app.use(
+      fileUpload({
+        limits: { fileSize: 50 * 1024 * 1024 },
+        createParentPath: true,
+      })
+    );
   }
 
   routes() {
