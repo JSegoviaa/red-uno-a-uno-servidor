@@ -3,9 +3,13 @@ import { check } from "express-validator";
 import { v2 } from "cloudinary";
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { subirFotoPerfil, subirLogo } from "../controllers/subidas";
+import { imagenesInmueble, subirFotoPerfil } from "../controllers/subidas";
 import { validarCampos } from "../middlewares/validarCampos";
 import { validarJWT } from "../middlewares/validarJWT";
+import {
+  existeInmueblePorId,
+  existeUsuarioPorId,
+} from "../helpers/dbValidators";
 
 const router = Router();
 
@@ -27,17 +31,19 @@ const storagePerfil = new CloudinaryStorage({
 
 const uploadPerfil = multer({ storage: storagePerfil });
 
-const storageLogo = new CloudinaryStorage({
+const storage = new CloudinaryStorage({
   cloudinary: v2,
-  params: async (req: Request, file) => {
+  params: async (req: Request, file: Express.Multer.File) => {
+    const { pid, uid } = req.params;
+
     return {
-      folder: `red1a1/usuarios/${req.params.id}`,
-      public_id: "logo",
+      folder: `red1a1/usuarios/${uid}/inmuebles/${pid}`,
+      public_id: "",
     };
   },
 });
 
-const uploadLogo = multer({ storage: storageLogo });
+const upload = multer({ storage }).array("pictures", 20);
 
 router.post(
   "/usuarios/:id",
@@ -51,14 +57,17 @@ router.post(
 );
 
 router.post(
-  "/usuarios-logo/:id",
+  "/:uid/:pid",
   [
     validarJWT,
-    check("id", "No es un id válido").isMongoId(),
-    uploadLogo.single("picture"),
+    check("uid", "No es un id válido").isMongoId(),
+    check("uid").custom(existeUsuarioPorId),
+    check("pid", "No es un id válido").isMongoId(),
+    check("pid").custom(existeInmueblePorId),
+    upload,
     validarCampos,
   ],
-  subirLogo
+  imagenesInmueble
 );
 
 export default router;

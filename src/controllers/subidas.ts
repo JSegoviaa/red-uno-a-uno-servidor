@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Usuario } from "../models/usuario";
+import { Inmueble } from "../models/inmuebles";
 
 export const subirFotoPerfil = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -25,24 +26,26 @@ export const subirFotoPerfil = async (req: Request, res: Response) => {
   });
 };
 
-export const subirLogo = async (req: Request, res: Response) => {
-  const { id } = req.params;
+export const imagenesInmueble = async (req: any, res: Response) => {
+  const { uid, pid } = req.params;
 
-  const usuario = await Usuario.findById(id);
+  const inmueble = await Inmueble.findById(pid);
 
-  if (!usuario) {
+  if (!inmueble) {
     return res
       .status(400)
-      .json({ ok: false, msg: "No existe un usuario con ese id" + id });
+      .json({ ok: false, msg: "No existe un inmueble con ese id" + uid });
   }
 
-  const url = req.file?.path;
-  usuario.logo = url;
+  const files = req.files;
 
-  await usuario.save();
-
-  res.json({
-    ok: true,
-    msg: "El logo de la inmobiliaria se ha subido con éxito",
+  const imgs = files.forEach((file: Express.Multer.File) => {
+    return file.path;
   });
+
+  inmueble!.imgs = imgs;
+
+  await inmueble?.save();
+
+  res.json({ ok: true, msg: "Se han subido las imágenes con éxito" });
 };
