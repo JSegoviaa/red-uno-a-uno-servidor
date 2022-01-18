@@ -38,7 +38,6 @@ const storage = new CloudinaryStorage({
 
     return {
       folder: `red1a1/usuarios/${uid}/inmuebles/${pid}`,
-      public_id: "",
     };
   },
 });

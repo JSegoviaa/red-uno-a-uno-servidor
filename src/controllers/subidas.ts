@@ -39,7 +39,7 @@ export const imagenesInmueble = async (req: any, res: Response) => {
 
   const files = req.files;
 
-  const imgs = files.forEach((file: Express.Multer.File) => {
+  const imgs = files.map((file: Express.Multer.File) => {
     return file.path;
   });
 
@@ -47,5 +47,5 @@ export const imagenesInmueble = async (req: any, res: Response) => {
 
   await inmueble?.save();
 
-  res.json({ ok: true, msg: "Se han subido las imágenes con éxito" });
+  res.json({ ok: true, msg: "Se han subido las imágenes con éxito", imgs });
 };
