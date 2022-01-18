@@ -54,6 +54,7 @@ export const obtenerInmueblePorURL = async (req: Request, res: Response) => {
       "facebookpage",
       "instagram",
       "twitter",
+      "img",
     ])
     .populate("categoria", "nombre")
     .populate("tipoPropiedad", "nombre");
