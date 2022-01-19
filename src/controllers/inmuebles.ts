@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import { v2 } from "cloudinary";
 import { Inmueble } from "../models/inmuebles";
 
 export const obtenerInmuebles = async (req: Request, res: Response) => {
@@ -95,6 +96,20 @@ export const actualizarInmueble = async (req: any, res: Response) => {
 export const eliminarInmueble = async (req: Request, res: Response) => {
   const { id } = req.params;
 
+  const inmueble = await Inmueble.findById(id);
+
+  if (inmueble!.imgs.length > 0) {
+    inmueble!.imgs.map((img) => {
+      const nombreArr = img.split("/");
+      const nombre = nombreArr[nombreArr.length - 1];
+      const [public_id] = nombre.split(".");
+
+      v2.uploader.destroy(
+        `red1a1/usuarios/${inmueble?.usuario}/inmuebles/${id}/${public_id}`
+      );
+    });
+  }
+
   const inmuebleBorrado = await Inmueble.findByIdAndDelete(id, { new: true });
   res.json({ ok: true, msg: "Inmueble eliminado con éxito", inmuebleBorrado });
 };
@@ -114,19 +129,4 @@ export const obtenerInmueblesPorUsuario = async (
     ok: true,
     inmueblesUsuario,
   });
-};
-
-export const array = async (req: any, res: Response) => {
-  const { id } = req.params;
-  const files = req.files?.map((file: Express.Multer.File) => {
-    return file.path;
-  });
-
-  const inmueble = await Inmueble.findById(id);
-
-  inmueble!.imgs = files;
-
-  await inmueble?.save();
-
-  res.json({ ok: true, files });
 };

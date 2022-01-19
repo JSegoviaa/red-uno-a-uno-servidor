@@ -5,7 +5,6 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import {
   actualizarInmueble,
-  array,
   crearInmuebles,
   eliminarInmueble,
   obtenerInmueblePorDir,
@@ -114,7 +113,5 @@ router.delete(
   ],
   eliminarInmueble
 );
-
-router.post("/arreglo/:id", upload.array("pictures", 15), array);
 
 export default router;
