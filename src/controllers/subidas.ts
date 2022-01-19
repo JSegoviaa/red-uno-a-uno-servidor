@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Usuario } from "../models/usuario";
 import { Inmueble } from "../models/inmuebles";
+import { v2 } from "cloudinary";
 
 export const subirFotoPerfil = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -35,6 +36,19 @@ export const imagenesInmueble = async (req: any, res: Response) => {
     return res
       .status(400)
       .json({ ok: false, msg: "No existe un inmueble con ese id" + uid });
+  }
+
+  if (inmueble.imgs.length > 0) {
+    inmueble.imgs.map((img) => {
+      const nombreArr = img.split("/");
+      const nombre = nombreArr[nombreArr.length - 1];
+      const [public_id] = nombre.split(".");
+      console.log(public_id);
+
+      v2.uploader.destroy(
+        `red1a1/usuarios/${uid}/inmuebles/${pid}/${public_id}`
+      );
+    });
   }
 
   const files = req.files;
