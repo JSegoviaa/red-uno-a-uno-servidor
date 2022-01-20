@@ -3,7 +3,11 @@ import { check } from "express-validator";
 import { v2 } from "cloudinary";
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { imagenesInmueble, subirFotoPerfil } from "../controllers/subidas";
+import {
+  imagenesInmueble,
+  subirFotoPerfil,
+  subirVideo,
+} from "../controllers/subidas";
 import { validarCampos } from "../middlewares/validarCampos";
 import { validarJWT } from "../middlewares/validarJWT";
 import {
@@ -14,9 +18,9 @@ import {
 const router = Router();
 
 v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: "du6f7alxg",
+  api_key: "575558682358524",
+  api_secret: "gFqgCCTVoJ-RrNufHsd8JHmIa3Y",
 });
 
 const storagePerfil = new CloudinaryStorage({
@@ -44,6 +48,20 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage }).array("pictures", 20);
 
+const storageVideo = new CloudinaryStorage({
+  cloudinary: v2,
+  params: async (req: Request, file: Express.Multer.File) => {
+    const { pid, uid } = req.params;
+
+    return {
+      folder: `red1a1/usuarios/${uid}/inmuebles/${pid}`,
+      public_id: "video",
+    };
+  },
+});
+
+const video = multer({ storage: storageVideo }).single("video");
+
 router.post(
   "/usuarios/:id",
   [
@@ -68,5 +86,7 @@ router.post(
   ],
   imagenesInmueble
 );
+
+router.post("/video/:uid/:pid", video, subirVideo);
 
 export default router;

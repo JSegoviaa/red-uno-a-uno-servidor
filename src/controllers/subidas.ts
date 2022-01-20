@@ -63,3 +63,10 @@ export const imagenesInmueble = async (req: any, res: Response) => {
 
   res.json({ ok: true, msg: "Se han subido las imágenes con éxito" });
 };
+
+export const subirVideo = async (req: Request, res: Response) => {
+  const { uid, pid } = req.params;
+  console.log(req.file?.path, " ?SDAFa ");
+
+  res.json({ ok: true, msg: "El vídeo se ha subido exitosamente", pid, uid });
+};
