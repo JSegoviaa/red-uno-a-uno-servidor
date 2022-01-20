@@ -1,8 +1,10 @@
 import express, { Application } from "express";
 import cors from "cors";
+import { Socket } from "socket.io";
 import rutasUsuario from "../routes/usuarios";
 import auth from "../routes/auth";
 import categorias from "../routes/categorias";
+import chats from "../routes/chats";
 import correos from "../routes/correos";
 import favoritos from "../routes/favoritos";
 import inmuebles from "../routes/inmuebles";
@@ -17,6 +19,7 @@ class Server {
   private rutas = {
     auth: "/api/auth/",
     categorias: "/api/categorias/",
+    chats: "/api/chats/",
     correos: "/api/correos/",
     favoritos: "/api/favoritos/",
     inmuebles: "/api/inmuebles/",
@@ -58,6 +61,7 @@ class Server {
   routes() {
     this.app.use(this.rutas.auth, auth);
     this.app.use(this.rutas.categorias, categorias);
+    this.app.use(this.rutas.chats, chats);
     this.app.use(this.rutas.correos, correos);
     this.app.use(this.rutas.favoritos, favoritos);
     this.app.use(this.rutas.inmuebles, inmuebles);
