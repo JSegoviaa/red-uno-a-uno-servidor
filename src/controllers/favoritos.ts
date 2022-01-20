@@ -11,7 +11,7 @@ export const obtenerFavoritosPorUsuario = async (
   const favoritosUsuario = await Favorito.find({ usuario: id })
     .populate({
       path: "inmueble",
-      select: ["titulo", "slug"],
+      select: ["titulo", "slug", "imgs"],
       populate: { path: "usuario", select: ["nombre", "apellido"] },
     })
     .skip(Number(desde))
