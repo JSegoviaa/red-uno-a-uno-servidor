@@ -61,5 +61,5 @@ export const imagenesInmueble = async (req: any, res: Response) => {
 
   await inmueble?.save();
 
-  res.json({ ok: true, msg: "Se han subido las imágenes con éxito", imgs });
+  res.json({ ok: true, msg: "Se han subido las imágenes con éxito" });
 };
