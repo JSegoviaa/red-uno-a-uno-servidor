@@ -1,8 +1,8 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 interface Favorito {
-  usuario: any;
-  inmueble: any;
+  usuario: Types.ObjectId;
+  inmueble: Types.ObjectId;
 }
 
 const FavoritoSchema = new Schema<Favorito>(
