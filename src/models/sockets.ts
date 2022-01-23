@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import { usuarioConectado, usuarioDesconectado } from '../controllers/sockets';
 import { comprobarJWT } from '../helpers/generarJWT';
 
 class Sockets {
@@ -10,17 +11,18 @@ class Sockets {
   }
 
   socketEvents() {
-    this.io.on('connection', (socket) => {
+    this.io.on('connection', async (socket) => {
       const [valido, uid] = comprobarJWT(socket.handshake.query['x-token']);
       if (!valido) {
         console.log('socket no identifacdo');
+
         return socket.disconnect();
       }
 
-      console.log('cliente conectado', uid);
+      await usuarioConectado(uid);
 
-      socket.on('disconnect', () => {
-        console.log('cliente desconectado');
+      socket.on('disconnect', async () => {
+        await usuarioDesconectado(uid);
       });
     });
   }
