@@ -1,37 +1,45 @@
-import express, { Application } from "express";
-import cors from "cors";
-import { Socket } from "socket.io";
-import rutasUsuario from "../routes/usuarios";
-import auth from "../routes/auth";
-import categorias from "../routes/categorias";
-import chats from "../routes/chats";
-import correos from "../routes/correos";
-import favoritos from "../routes/favoritos";
-import inmuebles from "../routes/inmuebles";
-import historial from "../routes/historial";
-import tipoPropiedad from "../routes/tipoPropiedad";
-import subidas from "../routes/subidas";
-import { dbConnection } from "../database/config";
+import http from 'http';
+import express, { Application } from 'express';
+import cors from 'cors';
+import { Server as ServerIo } from 'socket.io';
+import rutasUsuario from '../routes/usuarios';
+import auth from '../routes/auth';
+import categorias from '../routes/categorias';
+import chats from '../routes/chats';
+import correos from '../routes/correos';
+import favoritos from '../routes/favoritos';
+import inmuebles from '../routes/inmuebles';
+import historial from '../routes/historial';
+import tipoPropiedad from '../routes/tipoPropiedad';
+import subidas from '../routes/subidas';
+import { dbConnection } from '../database/config';
+import Sockets from './sockets';
 
 class Server {
   private app: Application;
   private puerto: string;
+  private server: any;
+  private io: ServerIo;
   private rutas = {
-    auth: "/api/auth/",
-    categorias: "/api/categorias/",
-    chats: "/api/chats/",
-    correos: "/api/correos/",
-    favoritos: "/api/favoritos/",
-    inmuebles: "/api/inmuebles/",
-    historial: "/api/historial/",
-    subidas: "/api/subidas/",
-    tipoPropiedad: "/api/tipo-de-propiedad/",
-    usuarios: "/api/usuarios/",
+    auth: '/api/auth/',
+    categorias: '/api/categorias/',
+    chats: '/api/chats/',
+    correos: '/api/correos/',
+    favoritos: '/api/favoritos/',
+    inmuebles: '/api/inmuebles/',
+    historial: '/api/historial/',
+    subidas: '/api/subidas/',
+    tipoPropiedad: '/api/tipo-de-propiedad/',
+    usuarios: '/api/usuarios/',
   };
 
   constructor() {
     this.app = express();
-    this.puerto = process.env.PORT || "8000";
+    this.puerto = process.env.PORT || '8000';
+
+    //Servidor de sockets
+    this.server = http.createServer(this.app);
+    this.io = new ServerIo(this.server);
 
     //Conexión a la base de datos
     this.conectarDB();
@@ -41,6 +49,9 @@ class Server {
 
     //Rutas de la aplicación
     this.routes();
+
+    //Sockets
+    this.configurarSockets();
   }
 
   async conectarDB() {
@@ -55,7 +66,11 @@ class Server {
     this.app.use(express.json());
 
     //Carpeta pública
-    this.app.use(express.static("src/public"));
+    this.app.use(express.static('src/public'));
+  }
+
+  configurarSockets() {
+    new Sockets(this.io);
   }
 
   routes() {
