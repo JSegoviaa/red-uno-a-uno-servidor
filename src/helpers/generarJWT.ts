@@ -14,3 +14,14 @@ export const generarJWT = (uid: string) => {
     });
   });
 };
+
+export const comprobarJWT = (token: any) => {
+  try {
+    const { uid } = jwt.verify(token, process.env.JWT!) as any;
+
+    return [true, uid];
+  } catch (error) {
+    console.log(error);
+    return [false, null];
+  }
+};
