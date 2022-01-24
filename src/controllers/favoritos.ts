@@ -1,21 +1,24 @@
 import { Request, Response } from "express";
 import { Favorito } from "../models/favoritos";
+import { Inmueble } from "../models/inmuebles";
 
 export const obtenerFavoritosPorUsuario = async (
   req: Request,
   res: Response
 ) => {
-  const { limite = 20, desde = 0 } = req.query;
+  const { limite = 20, desde = 0, user = "" } = req.query;
   const { id } = req.params;
-
-  const favoritosUsuario = await Favorito.find({ usuario: id })
+  const favoritosUsuario = await Favorito.find({
+    usuario: id,
+  })
     .populate({
       path: "inmueble",
       select: ["titulo", "slug", "imgs"],
       populate: { path: "usuario", select: ["nombre", "apellido"] },
     })
     .skip(Number(desde))
-    .limit(Number(limite));
+    .limit(Number(limite))
+    .select("inmueble.usuario.nombre");
 
   res.json({
     ok: true,
@@ -27,6 +30,7 @@ export const agregarFavoritos = async (req: Request, res: Response) => {
   const { usuario, inmueble } = req.body;
 
   const existeFavorito = await Favorito.findOne({ usuario, inmueble });
+  const inmuebleId = await Inmueble.findById(inmueble);
 
   if (existeFavorito) {
     return res.status(400).json({
@@ -35,13 +39,18 @@ export const agregarFavoritos = async (req: Request, res: Response) => {
     });
   }
 
+  if (inmuebleId?.usuario.toString() === usuario) {
+    return res
+      .status(400)
+      .json({ ok: false, msg: "No puedes agregar tu inmueble a favoritos" });
+  }
+
   const favoritos = new Favorito({ usuario, inmueble });
 
   await favoritos.save();
 
   res.json({
     ok: true,
-    favoritos,
     msg: "El inmueble se ha añadido a sus favoritos",
   });
 };
