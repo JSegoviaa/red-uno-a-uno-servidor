@@ -118,18 +118,13 @@ export const obtenerInmueblesPorUsuario = async (
   req: Request,
   res: Response
 ) => {
-  const {
-    limite = 20,
-    desde = 0,
-    recientes = "desc",
-    direccion = "asc",
-  } = req.query;
+  const { limite = 20, desde = 0, orden = "createdAt" } = req.query;
   const { id } = req.params;
 
   const inmueblesUsuario = await Inmueble.find({ usuario: id })
     .skip(Number(desde))
     .limit(Number(limite))
-    .sort({ direccion, createdAd: recientes });
+    .sort(orden);
 
   res.json({
     ok: true,
