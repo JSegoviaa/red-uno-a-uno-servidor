@@ -17,8 +17,8 @@ export const obtenerFavoritosPorUsuario = async (
       populate: { path: "usuario", select: ["nombre", "apellido"] },
     })
     .skip(Number(desde))
-    .limit(Number(limite))
-    .select("inmueble.usuario.nombre");
+    .limit(Number(limite));
+  // .select("inmueble.usuario.nombre");
 
   res.json({
     ok: true,
