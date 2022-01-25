@@ -48,7 +48,7 @@ export const obtenerFavoritosPorUsuarioSolicitud = async (
 };
 
 export const agregarFavoritos = async (req: Request, res: Response) => {
-  const { usuario, inmueble } = req.body;
+  const { usuario, inmueble, propietario } = req.body;
 
   const existeFavorito = await Favorito.findOne({ usuario, inmueble });
   const inmuebleId = await Inmueble.findById(inmueble);
@@ -66,7 +66,7 @@ export const agregarFavoritos = async (req: Request, res: Response) => {
       .json({ ok: false, msg: "No puedes agregar tu inmueble a favoritos" });
   }
 
-  const favoritos = new Favorito({ usuario, inmueble });
+  const favoritos = new Favorito({ usuario, inmueble, propietario });
 
   await favoritos.save();
 
