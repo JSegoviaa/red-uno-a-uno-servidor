@@ -4,6 +4,7 @@ import {
   agregarFavoritos,
   eliminarFavoritos,
   obtenerFavoritosPorUsuario,
+  obtenerFavoritosPorUsuarioSolicitud,
 } from "../controllers/favoritos";
 import { existeFavPorId } from "../helpers/dbValidators";
 import { validarCampos } from "../middlewares/validarCampos";
@@ -12,6 +13,8 @@ import { validarJWT } from "../middlewares/validarJWT";
 const router = Router();
 
 router.get("/usuario/:id", obtenerFavoritosPorUsuario);
+
+router.get("/usuario-solicitud/:id", obtenerFavoritosPorUsuarioSolicitud);
 
 router.post(
   "/",

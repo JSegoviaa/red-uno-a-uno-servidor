@@ -6,6 +6,26 @@ export const obtenerFavoritosPorUsuario = async (
   req: Request,
   res: Response
 ) => {
+  const { id } = req.params;
+
+  const favoritosUsuario = await Favorito.find({
+    usuario: id,
+  }).populate({
+    path: "inmueble",
+    select: ["titulo", "slug", "imgs"],
+    populate: { path: "usuario", select: ["nombre", "apellido"] },
+  });
+
+  res.json({
+    ok: true,
+    favoritosUsuario,
+  });
+};
+
+export const obtenerFavoritosPorUsuarioSolicitud = async (
+  req: Request,
+  res: Response
+) => {
   const { limite = 20, desde = 0, solicitud = "Pendiente" } = req.query;
   const { id } = req.params;
 
