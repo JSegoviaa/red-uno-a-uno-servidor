@@ -8,13 +8,17 @@ export const obtenerHistorialPorUsuario = async (
   const { limite = 20, desde = 0 } = req.query;
   const { id } = req.params;
 
-  const historialUsuario = await Historial.find({ usuario: id })
-    .populate("inmueble", ["titulo", "slug"])
-    .skip(Number(desde))
-    .limit(Number(limite));
+  const [total, historialUsuario] = await Promise.all([
+    Historial.countDocuments({ usuario: id }),
+    Historial.find({ usuario: id })
+      .populate("inmueble", ["titulo", "slug"])
+      .skip(Number(desde))
+      .limit(Number(limite)),
+  ]);
 
   res.json({
     ok: true,
+    total,
     historialUsuario,
   });
 };
