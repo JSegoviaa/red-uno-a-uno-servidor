@@ -38,7 +38,7 @@ const UsuarioSchema = new Schema<Usuario>({
   img: {
     type: String,
     default:
-      "https://res.cloudinary.com/du6f7alxg/image/upload/v1642439660/red1a1/usuarios/2_edlycv.svg",
+      "https://res.cloudinary.com/du6f7alxg/image/upload/v1643232868/red1a1/usuarios/2_y6iklt.svg",
   },
   role: { type: String, required: true },
   estado: { type: Boolean, default: true },
