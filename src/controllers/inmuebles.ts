@@ -38,7 +38,11 @@ export const obtenerInmueblePorId = async (req: Request, res: Response) => {
 export const obtenerInmueblePorDir = async (req: Request, res: Response) => {
   const { direccion } = req.query;
 
-  const inmuebles = await Inmueble.find({ direccion: { $regex: direccion } });
+  const inmuebles = await Inmueble.find({
+    direccion: { $regex: direccion },
+  })
+    .populate("categoria", "nomber")
+    .populate("tipoPropiedad", "nombre");
   res.json({ ok: true, inmuebles });
 };
 
