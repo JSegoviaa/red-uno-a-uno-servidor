@@ -1,19 +1,17 @@
-import { Request, Response } from "express";
-import { Historial } from "../models/historial";
+import { Request, Response } from 'express';
+import { Historial } from '../models/historial';
 
-export const obtenerHistorialPorUsuario = async (
-  req: Request,
-  res: Response
-) => {
+export const obtenerHistorialPorUsuario = async (req: Request, res: Response) => {
   const { limite = 20, desde = 0 } = req.query;
   const { id } = req.params;
 
   const [total, historialUsuario] = await Promise.all([
     Historial.countDocuments({ usuario: id }),
     Historial.find({ usuario: id })
-      .populate("inmueble", ["titulo", "slug"])
+      .populate('inmueble', ['titulo', 'slug'])
       .skip(Number(desde))
-      .limit(Number(limite)),
+      .limit(Number(limite))
+      .sort('-createdAt'),
   ]);
 
   res.json({
@@ -30,7 +28,7 @@ export const agregarHistorial = async (req: Request, res: Response) => {
 
   await historial.save();
 
-  res.json({ ok: true, msg: "", historial });
+  res.json({ ok: true, msg: '', historial });
 };
 
 export const eliminarHistorial = async (req: Request, res: Response) => {
@@ -40,7 +38,7 @@ export const eliminarHistorial = async (req: Request, res: Response) => {
 
   res.json({
     ok: true,
-    msg: "Se ha eliminado de tu historial",
+    msg: 'Se ha eliminado de tu historial',
     historial,
   });
 };
