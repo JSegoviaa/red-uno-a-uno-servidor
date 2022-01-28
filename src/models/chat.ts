@@ -1,18 +1,12 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 interface Chat {
-  remitente: Types.ObjectId;
-  destinatario: Types.ObjectId;
+  miembros: ArrayConstructor;
 }
 
 const ChatSchema = new Schema<Chat>(
   {
-    remitente: { type: Schema.Types.ObjectId, ref: "Usuario", required: true },
-    destinatario: {
-      type: Schema.Types.ObjectId,
-      ref: "Usuario",
-      required: true,
-    },
+    miembros: { type: Array },
   },
   { timestamps: true }
 );
@@ -23,4 +17,4 @@ ChatSchema.methods.toJSON = function () {
   return data;
 };
 
-export const Favorito = model<Chat>("Chat", ChatSchema);
+export const Chat = model<Chat>('Chat', ChatSchema);

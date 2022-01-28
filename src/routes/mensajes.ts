@@ -1,9 +1,11 @@
 import { Router } from 'express';
-import { obtenerMensajes } from '../controllers/mensajes';
+import { crearMensaje, obtenerMensajes } from '../controllers/mensajes';
 import { validarJWT } from '../middlewares/validarJWT';
 
 const router = Router();
 
-router.get('/:de', validarJWT, obtenerMensajes);
+router.post('/', crearMensaje);
+
+router.get('/:id', obtenerMensajes);
 
 export default router;

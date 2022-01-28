@@ -1,10 +1,9 @@
-import { Router } from "express";
-import { iniciarChat, obtenerChats } from "../controllers/chats";
-
+import { Router } from 'express';
+import { crearChat, obtenerChatsPorUsuario } from '../controllers/chats';
 const router = Router();
 
-router.get("/", obtenerChats);
+router.post('/', crearChat);
 
-router.post("/", iniciarChat);
+router.get('/:uid', obtenerChatsPorUsuario);
 
 export default router;

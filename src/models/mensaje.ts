@@ -1,18 +1,18 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 interface Mensaje {
-  de: Types.ObjectId;
-  para: Types.ObjectId;
+  conversacion: string;
+  remitente: string;
   mensaje: string;
 }
 
 const MensajeSchema = new Schema<Mensaje>(
   {
-    de: { type: Schema.Types.ObjectId, ref: "Usuario", required: true },
-    para: { type: Schema.Types.ObjectId, ref: "Usuario", required: true },
-    mensaje: { type: String, require: true },
+    conversacion: { type: String },
+    remitente: { type: String },
+    mensaje: { type: String },
   },
   { timestamps: true }
 );
 
-export const Mensaje = model<Mensaje>("Mensaje", MensajeSchema);
+export const Mensaje = model<Mensaje>('Mensaje', MensajeSchema);
