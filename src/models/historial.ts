@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types } from 'mongoose';
 
 interface Historial {
   usuario: Types.ObjectId;
@@ -7,8 +7,8 @@ interface Historial {
 
 const HistorialSchema = new Schema<Historial>(
   {
-    usuario: { type: Schema.Types.ObjectId, ref: "Usuario", required: true },
-    inmueble: { type: Schema.Types.ObjectId, ref: "Inmueble", required: true },
+    usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    inmueble: { type: Schema.Types.ObjectId, ref: 'Inmueble', required: true },
   },
   { timestamps: true }
 );
@@ -19,4 +19,4 @@ HistorialSchema.methods.toJSON = function () {
   return data;
 };
 
-export const Historial = model<Historial>("Historial", HistorialSchema);
+export const Historial = model<Historial>('Historial', HistorialSchema);
