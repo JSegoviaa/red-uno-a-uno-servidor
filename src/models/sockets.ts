@@ -14,7 +14,7 @@ class Sockets {
     let users: any = [];
 
     const addUser = (uid: string, sid: string) => {
-      !users.some((usuario: any) => usuario.uid === uid && users.push({ uid, sid }));
+      !users.some(((usuario: any) => usuario.uid === uid) && users.push({ uid, sid }));
     };
 
     this.io.on('connection', async (socket) => {
