@@ -11,6 +11,12 @@ class Sockets {
   }
 
   socketEvents() {
+    let users: any = [];
+
+    const addUser = (uid: string, sid: string) => {
+      !users.some((usuario: any) => usuario.uid === uid && users.push({ uid, sid }));
+    };
+
     this.io.on('connection', async (socket) => {
       const [valido, uid] = comprobarJWT(socket.handshake.query['x-token']);
       if (!valido) {
@@ -21,7 +27,10 @@ class Sockets {
 
       await usuarioConectado(uid);
 
-      socket.emit('welcome', 'Mensaje de bienvenida');
+      socket.on('agregar-usuario', (uid) => {
+        addUser(uid, socket.id);
+        socket.emit('mostrar-usuarios', users);
+      });
 
       socket.on('disconnect', async () => {
         await usuarioDesconectado(uid);
