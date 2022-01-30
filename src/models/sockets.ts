@@ -21,6 +21,8 @@ class Sockets {
 
       await usuarioConectado(uid);
 
+      socket.emit('welcome', 'Mensaje de bienvenida');
+
       socket.on('disconnect', async () => {
         await usuarioDesconectado(uid);
       });
