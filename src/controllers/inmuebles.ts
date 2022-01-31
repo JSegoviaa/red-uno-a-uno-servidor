@@ -35,10 +35,7 @@ export const obtenerInmueblesLista = async (req: Request, res: Response) => {
 
   const [total, inmuebles] = await Promise.all([
     Inmueble.countDocuments(query),
-    Inmueble.find({ direccion: { $regex: direccion } })
-      .populate('categoria', 'nombre')
-      .populate('tipoPropiedad', 'nombre')
-      .limit(Number(limite)),
+    Inmueble.find(query).populate('categoria', 'nombre').populate('tipoPropiedad', 'nombre').limit(Number(limite)),
   ]);
 
   res.json({ ok: true, total, inmuebles });
