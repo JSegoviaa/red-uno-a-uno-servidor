@@ -1,17 +1,27 @@
 import { Request, Response } from 'express';
 import { Mensaje } from '../models/mensaje';
 
-export const obtenerMensajes = async (req: Request, res: Response) => {
+export const obtenerMensajes = async (req: any, res: Response) => {
   const { id } = req.params;
+  const miId = req.uid;
 
-  try {
-    const mensajes = await Mensaje.find({ conversacion: id });
+  const mensajes = await Mensaje.find({
+    $or: [
+      { remitente: miId, para: id },
+      { remitente: id, para: miId },
+    ],
+  }).sort({ createdAt: 'desc' });
 
-    res.status(200).json({ ok: true, mensajes });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ ok: false, error });
-  }
+  res.json({ ok: true, mensajes, miId, id });
+
+  // try {
+  //   const mensajes = await Mensaje.find({ conversacion: id });
+
+  //   res.status(200).json({ ok: true, mensajes });
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(500).json({ ok: false, error });
+  // }
 };
 
 export const crearMensaje = async (req: Request, res: Response) => {
