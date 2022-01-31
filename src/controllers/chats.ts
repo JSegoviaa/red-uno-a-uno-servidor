@@ -4,7 +4,11 @@ import { Chat } from '../models/chat';
 export const crearChat = async (req: Request, res: Response) => {
   const { remitente, destinatario } = req.body;
 
-  const nuevoChat = new Chat({ miembros: [remitente, destinatario] });
+  const nuevoChat = new Chat({
+    miembros: [remitente, destinatario],
+    remitente,
+    para: destinatario,
+  });
 
   try {
     const guardarChat = await nuevoChat.save();
