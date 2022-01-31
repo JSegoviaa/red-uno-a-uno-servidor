@@ -10,7 +10,7 @@ export const obtenerMensajes = async (req: any, res: Response) => {
       { remitente: miId, para: id },
       { remitente: id, para: miId },
     ],
-  }).sort({ createdAt: 'desc' });
+  }).sort({ createdAt: 'asc' });
 
   res.json({ ok: true, mensajes, miId, id });
 
