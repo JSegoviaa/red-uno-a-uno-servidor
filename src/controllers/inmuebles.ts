@@ -31,7 +31,7 @@ export const obtenerInmueblePorId = async (req: Request, res: Response) => {
 
 export const obtenerInmueblePorDir = async (req: Request, res: Response) => {
   const { direccion, limite = 20 } = req.query;
-  const query = { publicado: true };
+  const query = { publicado: true, direccion: { $regex: direccion } };
 
   const [total, inmuebles] = await Promise.all([
     Inmueble.countDocuments(query),
