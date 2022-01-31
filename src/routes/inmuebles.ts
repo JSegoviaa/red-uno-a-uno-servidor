@@ -1,8 +1,8 @@
-import { Request, Router } from "express";
-import { check } from "express-validator";
-import { v2 } from "cloudinary";
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { Request, Router } from 'express';
+import { check } from 'express-validator';
+import { v2 } from 'cloudinary';
+import multer from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import {
   actualizarInmueble,
   crearInmuebles,
@@ -11,15 +11,12 @@ import {
   obtenerInmueblePorId,
   obtenerInmueblePorURL,
   obtenerInmuebles,
+  obtenerInmueblesLista,
   obtenerInmueblesPorUsuario,
-} from "../controllers/inmuebles";
-import {
-  existeCategoriaPorId,
-  existeInmueblePorId,
-  existeTipoDePropiedadPorId,
-} from "../helpers/dbValidators";
-import { validarCampos } from "../middlewares/validarCampos";
-import { validarJWT } from "../middlewares/validarJWT";
+} from '../controllers/inmuebles';
+import { existeCategoriaPorId, existeInmueblePorId, existeTipoDePropiedadPorId } from '../helpers/dbValidators';
+import { validarCampos } from '../middlewares/validarCampos';
+import { validarJWT } from '../middlewares/validarJWT';
 
 const router = Router();
 
@@ -40,77 +37,63 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-router.get("/", obtenerInmuebles);
+router.get('/', obtenerInmuebles);
 
-router.get("/usuario/:id", obtenerInmueblesPorUsuario);
+router.get('/usuario/:id', obtenerInmueblesPorUsuario);
 
-router.get("/url/:id", obtenerInmueblePorURL);
+router.get('/url/:id', obtenerInmueblePorURL);
 
-router.get("/direccion", obtenerInmueblePorDir);
+router.get('/direccion', obtenerInmueblePorDir);
+
+router.get('/lista-inmuebles', obtenerInmueblesLista);
 
 router.get(
-  "/:id",
-  [
-    check("id", "No es un id válido").isMongoId(),
-    check("id").custom(existeInmueblePorId),
-    validarCampos,
-  ],
+  '/:id',
+  [check('id', 'No es un id válido').isMongoId(), check('id').custom(existeInmueblePorId), validarCampos],
   obtenerInmueblePorId
 );
 
 router.post(
-  "/",
+  '/',
   [
     validarJWT,
-    check("titulo", "El título es obligatorio").not().isEmpty(),
-    check("titulo", "El título debe tener máximo 75 caracteres").isLength({
+    check('titulo', 'El título es obligatorio').not().isEmpty(),
+    check('titulo', 'El título debe tener máximo 75 caracteres').isLength({
       max: 75,
     }),
-    check(
-      "antiguedad",
-      "La antigüedad debe tener máximo 12 caracteres"
-    ).isLength({
+    check('antiguedad', 'La antigüedad debe tener máximo 12 caracteres').isLength({
       max: 12,
     }),
-    check("otros", "Otros debe tener máximo 100 caracteres").isLength({
+    check('otros', 'Otros debe tener máximo 100 caracteres').isLength({
       max: 100,
     }),
-    check("precio", "El precio es obligatorio").not().isEmpty(),
-    check("precio", "El precio debe ser mayor a 0").isFloat({ min: 1 }),
-    check("categoria", "No es un id válido").isMongoId(),
-    check("categoria").custom(existeCategoriaPorId),
-    check("lat", "La latitud es obligatoria").not().isEmpty(),
-    check("lat", "La latitud es debe de estar entre el rango dado").isFloat({
+    check('precio', 'El precio es obligatorio').not().isEmpty(),
+    check('precio', 'El precio debe ser mayor a 0').isFloat({ min: 1 }),
+    check('categoria', 'No es un id válido').isMongoId(),
+    check('categoria').custom(existeCategoriaPorId),
+    check('lat', 'La latitud es obligatoria').not().isEmpty(),
+    check('lat', 'La latitud es debe de estar entre el rango dado').isFloat({
       min: -90,
       max: 90,
     }),
-    check("lng", "La longitud es obligatoria").not().isEmpty(),
-    check("lng", "La longitud debe de estar entre el rango dado").isFloat({
+    check('lng', 'La longitud es obligatoria').not().isEmpty(),
+    check('lng', 'La longitud debe de estar entre el rango dado').isFloat({
       min: -180,
       max: 180,
     }),
-    check("direccion", "La dirección es obligatoria").not().isEmpty(),
-    check("tipoPropiedad", "No es un id válido").isMongoId(),
-    check("tipoPropiedad").custom(existeTipoDePropiedadPorId),
+    check('direccion', 'La dirección es obligatoria').not().isEmpty(),
+    check('tipoPropiedad', 'No es un id válido').isMongoId(),
+    check('tipoPropiedad').custom(existeTipoDePropiedadPorId),
     validarCampos,
   ],
   crearInmuebles
 );
 
-router.put(
-  "/:id",
-  [validarJWT, check("id").custom(existeInmueblePorId), validarCampos],
-  actualizarInmueble
-);
+router.put('/:id', [validarJWT, check('id').custom(existeInmueblePorId), validarCampos], actualizarInmueble);
 
 router.delete(
-  "/:id",
-  [
-    validarJWT,
-    check("id", "No es un id válido").isMongoId(),
-    check("id").custom(existeInmueblePorId),
-    validarCampos,
-  ],
+  '/:id',
+  [validarJWT, check('id', 'No es un id válido').isMongoId(), check('id').custom(existeInmueblePorId), validarCampos],
   eliminarInmueble
 );
 
