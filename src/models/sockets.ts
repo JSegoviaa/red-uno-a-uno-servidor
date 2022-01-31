@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import { usuarioConectado, usuarioDesconectado } from '../controllers/sockets';
+import { guardarMensaje, usuarioConectado, usuarioDesconectado } from '../controllers/sockets';
 import { comprobarJWT } from '../helpers/generarJWT';
 
 class Sockets {
@@ -11,12 +11,6 @@ class Sockets {
   }
 
   socketEvents() {
-    let users: any = [];
-
-    const addUser = (uid: string, sid: string) => {
-      !users.some(((usuario: any) => usuario.uid === uid) && users.push({ uid, sid }));
-    };
-
     this.io.on('connection', async (socket) => {
       const [valido, uid] = comprobarJWT(socket.handshake.query['x-token']);
       if (!valido) {
@@ -27,9 +21,12 @@ class Sockets {
 
       await usuarioConectado(uid);
 
-      socket.on('agregar-usuario', (uid) => {
-        addUser(uid, socket.id);
-        socket.emit('mostrar-usuarios', users);
+      socket.join(uid);
+
+      socket.on('mensaje-personal', async (payload) => {
+        const mensaje = await guardarMensaje(payload);
+        this.io.to(payload.para).emit('mensaje-personal', mensaje);
+        this.io.to(payload.remitente).emit('mensaje-personal', mensaje);
       });
 
       socket.on('disconnect', async () => {
