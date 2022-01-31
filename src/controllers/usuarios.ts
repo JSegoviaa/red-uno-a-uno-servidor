@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import bcryptjs from "bcryptjs";
-import { Usuario } from "../models/usuario";
-import { generarJWT } from "../helpers/generarJWT";
+import { Request, Response } from 'express';
+import bcryptjs from 'bcryptjs';
+import { Usuario } from '../models/usuario';
+import { generarJWT } from '../helpers/generarJWT';
 
 export const obtenerUsuarios = async (req: Request, res: Response) => {
   const { limite = 20, desde = 0 } = req.query;
@@ -18,6 +18,7 @@ export const obtenerUsuarios = async (req: Request, res: Response) => {
 export const obtenerUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
+  if (!id) return;
   const usuario = await Usuario.findById(id);
 
   res.json(usuario);
@@ -36,7 +37,7 @@ export const crearUsuario = async (req: Request, res: Response) => {
 
   //Guardar en la base de datos
   await usuario.save();
-  res.json({ ok: true, msg: "Se ha creado usuario con éxito", token, usuario });
+  res.json({ ok: true, msg: 'Se ha creado usuario con éxito', token, usuario });
 };
 
 export const actualizarUsuario = async (req: Request, res: Response) => {
@@ -54,7 +55,7 @@ export const actualizarUsuario = async (req: Request, res: Response) => {
   res.json({
     ok: true,
     usuario,
-    msg: "Se ha actualizado el perfil de usuario",
+    msg: 'Se ha actualizado el perfil de usuario',
   });
 };
 
