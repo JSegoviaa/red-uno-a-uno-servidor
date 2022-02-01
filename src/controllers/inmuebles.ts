@@ -126,10 +126,14 @@ export const obtenerInmueblesPorUsuario = async (req: Request, res: Response) =>
   const { limite = 20, desde = 0, orden = 'createdAt' } = req.query;
   const { id } = req.params;
 
-  const inmueblesUsuario = await Inmueble.find({ usuario: id }).skip(Number(desde)).limit(Number(limite)).sort(orden);
+  const [total, inmueblesUsuario] = await Promise.all([
+    Inmueble.countDocuments({ usuario: id }),
+    Inmueble.find({ usuario: id }).skip(Number(desde)).limit(Number(limite)).sort(orden),
+  ]);
 
   res.json({
     ok: true,
+    total,
     inmueblesUsuario,
   });
 };
