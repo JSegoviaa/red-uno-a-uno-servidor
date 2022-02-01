@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Mensaje } from '../models/mensaje';
 
 export const obtenerMensajes = async (req: any, res: Response) => {
-  const { id } = req.params;
+  const { id, limite = 100 } = req.params;
   const miId = req.uid;
 
   const mensajes = await Mensaje.find({
@@ -10,7 +10,9 @@ export const obtenerMensajes = async (req: any, res: Response) => {
       { remitente: miId, para: id },
       { remitente: id, para: miId },
     ],
-  }).sort({ createdAt: 'asc' });
+  })
+    .sort({ createdAt: 'asc' })
+    .limit(limite);
 
   res.json({ ok: true, mensajes, miId, id });
 };
