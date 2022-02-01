@@ -8,7 +8,16 @@ export const obtenerFavoritosPorUsuario = async (req: Request, res: Response) =>
 
   const [total, favoritosUsuario] = await Promise.all([
     Favorito.countDocuments({ usuario: id }),
-    Favorito.find({ usuario: id }).populate('inmueble', ['titulo', 'slug']).skip(Number(desde)).limit(Number(limite)),
+    Favorito.find({
+      usuario: id,
+    })
+      .populate({
+        path: 'inmueble',
+        select: ['titulo', 'slug', 'imgs'],
+        populate: { path: 'usuario', select: ['nombre', 'apellido'] },
+      })
+      .skip(Number(desde))
+      .limit(Number(limite)),
   ]);
 
   res.json({
