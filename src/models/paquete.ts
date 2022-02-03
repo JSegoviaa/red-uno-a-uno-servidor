@@ -13,8 +13,8 @@ const PaqueteSchema = new Schema<Paquete>(
     nombre: { type: String, required: true },
     descripcion: { type: String, required: true },
     precioAnual: { type: Number, required: true },
-    precioSemestral: { type: Number, required: true },
-    precioTrimestral: { type: Number, required: true },
+    precioSemestral: { type: Number },
+    precioTrimestral: { type: Number },
   },
   { timestamps: true }
 );
