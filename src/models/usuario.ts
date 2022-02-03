@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 interface Usuario {
   nombre: string;
@@ -21,24 +21,24 @@ interface Usuario {
   youtube: string;
   linkedin: string;
   logo: string | undefined;
+  paqueteAdquirido: string;
 }
 
 const UsuarioSchema = new Schema<Usuario>({
-  nombre: { type: String, required: [true, "El nombre es obligatorio"] },
-  apellido: { type: String, required: [true, "El nombre es obligatorio"] },
+  nombre: { type: String, required: [true, 'El nombre es obligatorio'] },
+  apellido: { type: String, required: [true, 'El nombre es obligatorio'] },
   correo: {
     type: String,
-    required: [true, "El correo es obligatorio"],
+    required: [true, 'El correo es obligatorio'],
     unique: true,
   },
   password: {
     type: String,
-    required: [true, "La contraseña es obligatoria"],
+    required: [true, 'La contraseña es obligatoria'],
   },
   img: {
     type: String,
-    default:
-      "https://res.cloudinary.com/du6f7alxg/image/upload/v1643232868/red1a1/usuarios/2_y6iklt.svg",
+    default: 'https://res.cloudinary.com/du6f7alxg/image/upload/v1643232868/red1a1/usuarios/2_y6iklt.svg',
   },
   role: { type: String, required: true },
   estado: { type: Boolean, default: true },
@@ -55,6 +55,7 @@ const UsuarioSchema = new Schema<Usuario>({
   youtube: { type: String },
   linkedin: { type: String },
   logo: { type: String },
+  paqueteAdquirido: { type: String },
 });
 
 UsuarioSchema.methods.toJSON = function () {
@@ -65,4 +66,4 @@ UsuarioSchema.methods.toJSON = function () {
   return usuario;
 };
 
-export const Usuario = model<Usuario>("Usuario", UsuarioSchema);
+export const Usuario = model<Usuario>('Usuario', UsuarioSchema);
