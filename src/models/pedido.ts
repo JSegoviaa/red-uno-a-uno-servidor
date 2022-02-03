@@ -6,7 +6,7 @@ interface Pedido {
   precio: number;
   totalUsuarios: number;
   importe: number;
-  fechaPago: boolean;
+  fechaPago: string;
   fechaVencimiento: string;
   metodoPago: string;
   vigencia: boolean;
@@ -18,9 +18,9 @@ const PedidoSchema = new Schema<Pedido>(
     usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
     paquete: { type: Schema.Types.ObjectId, ref: 'Paquete', required: true },
     precio: { type: Number, required: true },
-    totalUsuarios: { type: Number, required: true },
+    totalUsuarios: { type: Number },
     importe: { type: Number, required: true },
-    fechaPago: { type: Boolean, required: true },
+    fechaPago: { type: String, required: true },
     fechaVencimiento: { type: String, required: true },
     metodoPago: { type: String, required: true },
     vigencia: { type: Boolean, required: true },
