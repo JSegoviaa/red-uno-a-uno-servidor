@@ -11,6 +11,7 @@ import favoritos from '../routes/favoritos';
 import inmuebles from '../routes/inmuebles';
 import historial from '../routes/historial';
 import mensajes from '../routes/mensajes';
+import paquetes from '../routes/paquetes';
 import pedidos from '../routes/pedido';
 import tipoPropiedad from '../routes/tipoPropiedad';
 import subidas from '../routes/subidas';
@@ -31,6 +32,7 @@ class Server {
     inmuebles: '/api/inmuebles/',
     historial: '/api/historial/',
     mensajes: '/api/mensajes/',
+    paquetes: '/api/paquetes/',
     pedidos: '/api/pedidos/',
     subidas: '/api/subidas/',
     tipoPropiedad: '/api/tipo-de-propiedad/',
@@ -86,6 +88,7 @@ class Server {
     this.app.use(this.rutas.inmuebles, inmuebles);
     this.app.use(this.rutas.historial, historial);
     this.app.use(this.rutas.mensajes, mensajes);
+    this.app.use(this.rutas.paquetes, paquetes);
     this.app.use(this.rutas.pedidos, pedidos);
     this.app.use(this.rutas.tipoPropiedad, tipoPropiedad);
     this.app.use(this.rutas.usuarios, rutasUsuario);
