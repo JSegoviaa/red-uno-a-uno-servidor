@@ -19,10 +19,26 @@ export const obtenerPedido = async (req: Request, res: Response) => {
 
 export const obtenerPedidoPorUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const { desde = 0, limite = 15 } = req.query;
 
-  const pedidosUsuario = await Pedido.find({ usuario: id }).populate('paquete', 'nombre').sort('-createdAt');
+  // const pedidosUsuario = await Pedido.find({ usuario: id }).populate('paquete', 'nombre').sort('-createdAt');
 
-  res.json({ ok: true, msg: 'Obtener pedido de usuario', pedidosUsuario });
+  // res.json({ ok: true, msg: 'Obtener pedido de usuario', pedidosUsuario });
+
+  const [total, historialPedidos] = await Promise.all([
+    Pedido.countDocuments({ usuario: id }),
+    Pedido.find({ usuario: id })
+      .populate('paquete', 'nombre')
+      .skip(Number(desde))
+      .limit(Number(limite))
+      .sort('-createdAt'),
+  ]);
+
+  res.json({
+    ok: true,
+    total,
+    historialPedidos,
+  });
 };
 
 export const crearPedido = async (req: Request, res: Response) => {
