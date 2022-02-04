@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+// import Stripe from 'stripe';
 import { Pedido } from '../models/pedido';
+// const stripe = new Stripe('', { typescript: true, apiVersion: '2020-08-27' });
 
 export const obtenerPedidos = async (req: Request, res: Response) => {
   const pedidos = await Pedido.find();
@@ -24,28 +26,29 @@ export const obtenerPedidoPorUsuario = async (req: Request, res: Response) => {
 };
 
 export const crearPedido = async (req: Request, res: Response) => {
-  const {
-    usuario,
-    paquete,
-    precio,
-    importe,
-    fechaPago,
-    fechaVencimiento,
-    metodoPago,
-    vigencia,
-    idStripe,
-    totalUsuarios,
-  } = req.body;
+  const { usuario, paquete, precio, fechaPago, fechaVencimiento, metodoPago, vigencia, totalUsuarios, idStripe } =
+    req.body;
+
+  const importe = totalUsuarios * precio;
+
+  // const paymentIntent = await stripe.paymentIntents.create({
+  //   amount: importe,
+  //   currency: 'mxn',
+  //   automatic_payment_methods: { enabled: true },
+  // });
 
   const pedido = new Pedido({
     usuario,
     paquete,
     precio,
-    importe,
+    importe: importe,
+    // importe: paymentIntent.amount,
     fechaPago,
+    // fechaPago: paymentIntent.created,
     fechaVencimiento,
     metodoPago,
     vigencia,
+    // idStripe: paymentIntent.id,
     idStripe,
     totalUsuarios,
   });
