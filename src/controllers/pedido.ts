@@ -20,16 +20,26 @@ export const obtenerPedido = async (req: Request, res: Response) => {
 export const obtenerPedidoPorUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const pedidosUsuario = await Pedido.find({ usuario: id });
+  const pedidosUsuario = await Pedido.find({ usuario: id }).populate('paquete', 'nombre');
 
   res.json({ ok: true, msg: 'Obtener pedido de usuario', pedidosUsuario });
 };
 
 export const crearPedido = async (req: Request, res: Response) => {
-  const { usuario, paquete, precio, fechaPago, fechaVencimiento, metodoPago, vigencia, totalUsuarios, idStripe } =
-    req.body;
+  const {
+    usuario,
+    paquete,
+    precio,
+    fechaPago,
+    fechaVencimiento,
+    metodoPago,
+    vigencia,
+    totalUsuarios,
+    idStripe,
+    importe,
+  } = req.body;
 
-  const importe = totalUsuarios * precio;
+  // const importe = totalUsuarios * precio;
 
   // const paymentIntent = await stripe.paymentIntents.create({
   //   amount: importe,
@@ -41,7 +51,7 @@ export const crearPedido = async (req: Request, res: Response) => {
     usuario,
     paquete,
     precio,
-    importe: importe,
+    importe,
     // importe: paymentIntent.amount,
     fechaPago,
     // fechaPago: paymentIntent.created,
