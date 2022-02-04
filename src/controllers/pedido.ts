@@ -25,7 +25,7 @@ export const obtenerPedidoPorUsuario = async (req: Request, res: Response) => {
 
   // res.json({ ok: true, msg: 'Obtener pedido de usuario', pedidosUsuario });
 
-  const [total, historialPedidos] = await Promise.all([
+  const [total, pedidosUsuario] = await Promise.all([
     Pedido.countDocuments({ usuario: id }),
     Pedido.find({ usuario: id })
       .populate('paquete', 'nombre')
@@ -37,7 +37,7 @@ export const obtenerPedidoPorUsuario = async (req: Request, res: Response) => {
   res.json({
     ok: true,
     total,
-    historialPedidos,
+    pedidosUsuario,
   });
 };
 
