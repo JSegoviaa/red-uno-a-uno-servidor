@@ -20,7 +20,7 @@ export const obtenerPedido = async (req: Request, res: Response) => {
 export const obtenerPedidoPorUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const pedidosUsuario = await Pedido.find({ usuario: id }).populate('paquete', 'nombre');
+  const pedidosUsuario = await Pedido.find({ usuario: id }).populate('paquete', 'nombre').sort({ createdAt: 'asc' });
 
   res.json({ ok: true, msg: 'Obtener pedido de usuario', pedidosUsuario });
 };
