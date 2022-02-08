@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
-// import Stripe from 'stripe';
+import Stripe from 'stripe';
 import { Pedido } from '../models/pedido';
-// const stripe = new Stripe('', { typescript: true, apiVersion: '2020-08-27' });
+const stripe = new Stripe(
+  'sk_test_51JaTznCGqe3RvXVDn9Hj9XKJFptPF97YIdCUipNFQFkilIpPiHXb9QDkao19oEHQatkY8HAWo6WZm0F6GrPpe8Mv00hhq1gz9W',
+  { typescript: true, apiVersion: '2020-08-27' }
+);
 
 export const obtenerPedidos = async (req: Request, res: Response) => {
   const pedidos = await Pedido.find();
@@ -51,34 +54,36 @@ export const crearPedido = async (req: Request, res: Response) => {
     metodoPago,
     vigencia,
     totalUsuarios,
-    idStripe,
     importe,
+    idStripe,
   } = req.body;
 
-  // const importe = totalUsuarios * precio;
-
-  // const paymentIntent = await stripe.paymentIntents.create({
-  //   amount: importe,
-  //   currency: 'mxn',
-  //   automatic_payment_methods: { enabled: true },
-  // });
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: importe * 100,
+    currency: 'mxn',
+    automatic_payment_methods: { enabled: true },
+    payment_method: idStripe,
+    confirm: true,
+    return_url: 'https://www.google.com/',
+  });
 
   const pedido = new Pedido({
     usuario,
     paquete,
     precio,
     importe,
-    // importe: paymentIntent.amount,
     fechaPago,
-    // fechaPago: paymentIntent.created,
     fechaVencimiento,
     metodoPago,
     vigencia,
-    // idStripe: paymentIntent.id,
-    idStripe,
+    idStripe: paymentIntent.id,
     totalUsuarios,
   });
 
   await pedido.save();
-  res.json({ ok: true, msg: 'Su paquete ha sido añadido con éxito', pedido });
+  res.json({
+    ok: true,
+    msg: 'Su paquete ha sido añadido con éxito',
+    pedido,
+  });
 };
