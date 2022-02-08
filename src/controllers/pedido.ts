@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import { Pedido } from '../models/pedido';
-const stripe = new Stripe(
-  'sk_test_51JaTznCGqe3RvXVDn9Hj9XKJFptPF97YIdCUipNFQFkilIpPiHXb9QDkao19oEHQatkY8HAWo6WZm0F6GrPpe8Mv00hhq1gz9W',
-  { typescript: true, apiVersion: '2020-08-27' }
-);
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY || '', { typescript: true, apiVersion: '2020-08-27' });
 
 export const obtenerPedidos = async (req: Request, res: Response) => {
   const pedidos = await Pedido.find();
