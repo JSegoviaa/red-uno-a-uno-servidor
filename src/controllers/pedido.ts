@@ -59,32 +59,60 @@ export const crearPedido = async (req: Request, res: Response) => {
     idStripe,
   } = req.body;
 
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: importe * totalUsuarios * 100,
-    currency: 'mxn',
-    automatic_payment_methods: { enabled: true },
-    payment_method: idStripe,
-    confirm: true,
-    return_url: 'https://www.google.com/',
-  });
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: importe * totalUsuarios * 100,
+      currency: 'mxn',
+      automatic_payment_methods: { enabled: true },
+      payment_method: idStripe,
+      confirm: true,
+      return_url: 'https://www.google.com/' /*Cambiar al dominio de red1a1 cuando sea https*/,
+    });
 
-  const pedido = new Pedido({
-    usuario,
-    paquete,
-    precio,
-    importe,
-    fechaPago,
-    fechaVencimiento,
-    metodoPago,
-    vigencia,
-    idStripe: paymentIntent.id,
-    totalUsuarios,
-  });
+    const pedido = new Pedido({
+      usuario,
+      paquete,
+      precio,
+      importe,
+      fechaPago,
+      fechaVencimiento,
+      metodoPago,
+      vigencia,
+      idStripe: paymentIntent.id,
+      totalUsuarios,
+    });
 
-  await pedido.save();
-  res.json({
-    ok: true,
-    msg: 'Su paquete ha sido añadido con éxito',
-    pedido,
-  });
+    await pedido.save();
+    res.json({
+      ok: true,
+      msg: 'Su paquete ha sido añadido con éxito',
+      pedido,
+    });
+  } catch (error: any) {
+    switch (error.raw.decline_code || error.raw.code) {
+      case 'insufficient_funds':
+        return res.json({ ok: false, msg: 'Fondos insuficientes' });
+
+      case 'card_declined':
+        return res.json({ ok: false, msg: 'Su tarjeta ha sido rechazada' });
+
+      case 'expired_card':
+        return res.json({ ok: false, msg: 'Su tarjeta ha caducado' });
+
+      case 'processing_error':
+        return res.json({
+          ok: false,
+          msg: 'Hubo un error al momento de procesar el pago. Inténtelo nuevamente más tarde',
+        });
+
+      case 'incorrect_cvc':
+        return res.json({ ok: false, msg: 'Código de seguridad incorrecto' });
+
+      case 'incorrect_number':
+        return res.json({ ok: false, msg: 'El número de tarjeta no es correcto' });
+
+      default:
+        return res.json({ ok: false, msg: error.raw.message });
+    }
+  }
 };
