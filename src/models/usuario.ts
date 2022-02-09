@@ -22,6 +22,7 @@ interface Usuario {
   linkedin: string;
   logo: string | undefined;
   paqueteAdquirido: string;
+  usuarios: number;
 }
 
 const UsuarioSchema = new Schema<Usuario>({
@@ -56,6 +57,7 @@ const UsuarioSchema = new Schema<Usuario>({
   linkedin: { type: String },
   logo: { type: String },
   paqueteAdquirido: { type: String },
+  usuarios: { type: Number },
 });
 
 UsuarioSchema.methods.toJSON = function () {

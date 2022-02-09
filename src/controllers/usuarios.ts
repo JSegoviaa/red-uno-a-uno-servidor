@@ -61,9 +61,9 @@ export const actualizarUsuario = async (req: Request, res: Response) => {
 
 export const actualizarRolUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { role, paqueteAdquirido } = req.body;
+  const { role, paqueteAdquirido, usuarios } = req.body;
 
-  const usuario = await Usuario.findByIdAndUpdate(id, { role, paqueteAdquirido }, { new: true });
+  const usuario = await Usuario.findByIdAndUpdate(id, { role, paqueteAdquirido, usuarios }, { new: true });
 
   res.json({ ok: true, msg: `Se ha añadido el paquete ${role} a tu cuenta`, usuario });
 };
