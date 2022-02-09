@@ -19,7 +19,8 @@ export const obtenerPaquete = async (req: Request, res: Response) => {
 };
 
 export const obtenerPaquetes = async (req: Request, res: Response) => {
-  const paquetes = await Paquete.find();
+  const { desde = 1 } = req.params;
+  const paquetes = await Paquete.find().skip(Number(desde));
 
   res.json({ ok: true, msg: '', paquetes });
 };

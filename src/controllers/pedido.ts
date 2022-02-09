@@ -61,7 +61,7 @@ export const crearPedido = async (req: Request, res: Response) => {
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: importe * totalUsuarios * 100,
+      amount: importe * 100,
       currency: 'mxn',
       automatic_payment_methods: { enabled: true },
       payment_method: idStripe,
@@ -91,13 +91,13 @@ export const crearPedido = async (req: Request, res: Response) => {
   } catch (error: any) {
     switch (error.raw.decline_code || error.raw.code) {
       case 'insufficient_funds':
-        return res.json({ ok: false, msg: 'Fondos insuficientes' });
+        return res.json({ ok: false, msg: 'Fondos insuficientes. Inténtelo con otra tarjeta' });
 
       case 'card_declined':
-        return res.json({ ok: false, msg: 'Su tarjeta ha sido rechazada' });
+        return res.json({ ok: false, msg: 'Su tarjeta ha sido rechazada. Inténtelo con otra tarjeta' });
 
       case 'expired_card':
-        return res.json({ ok: false, msg: 'Su tarjeta ha caducado' });
+        return res.json({ ok: false, msg: 'Su tarjeta ha caducado. Inténtelo con otra tarjeta' });
 
       case 'processing_error':
         return res.json({
@@ -106,10 +106,10 @@ export const crearPedido = async (req: Request, res: Response) => {
         });
 
       case 'incorrect_cvc':
-        return res.json({ ok: false, msg: 'Código de seguridad incorrecto' });
+        return res.json({ ok: false, msg: 'Código de seguridad incorrecto. Inténtelo nuevamente' });
 
       case 'incorrect_number':
-        return res.json({ ok: false, msg: 'El número de tarjeta no es correcto' });
+        return res.json({ ok: false, msg: 'El número de tarjeta no es correcto. Inténtelo de nuevo' });
 
       default:
         return res.json({ ok: false, msg: error.raw.message });
