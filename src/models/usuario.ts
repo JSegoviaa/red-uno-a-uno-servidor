@@ -23,6 +23,7 @@ interface Usuario {
   logo: string | undefined;
   paqueteAdquirido: string;
   usuarios: number;
+  propietario?: string;
 }
 
 const UsuarioSchema = new Schema<Usuario>({
@@ -58,6 +59,7 @@ const UsuarioSchema = new Schema<Usuario>({
   logo: { type: String },
   paqueteAdquirido: { type: String },
   usuarios: { type: Number },
+  propietario: { type: String },
 });
 
 UsuarioSchema.methods.toJSON = function () {

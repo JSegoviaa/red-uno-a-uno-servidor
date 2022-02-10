@@ -25,8 +25,8 @@ export const obtenerUsuario = async (req: Request, res: Response) => {
 };
 
 export const crearUsuario = async (req: Request, res: Response) => {
-  const { nombre, apellido, correo, password, role } = req.body;
-  const usuario = new Usuario({ nombre, apellido, correo, password, role });
+  const { nombre, apellido, correo, password, role, propietario } = req.body;
+  const usuario = new Usuario({ nombre, apellido, correo, password, role, propietario });
 
   //Encriptar contraseña
   const salt = bcryptjs.genSaltSync();

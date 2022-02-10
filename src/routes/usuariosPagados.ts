@@ -5,6 +5,7 @@ import {
   crearUsuarioP,
   eliminarUsuarioP,
   obtenerUsuarioP,
+  obtenerUsuarioPorDueño,
   obtenerUsuariosP,
 } from '../controllers/usuariosPagados';
 
@@ -13,6 +14,8 @@ const router = Router();
 router.get('/', obtenerUsuariosP);
 
 router.get('/:id', obtenerUsuarioP);
+
+router.get('/usuarios/:id', obtenerUsuarioPorDueño);
 
 router.post('/', crearUsuarioP);
 
