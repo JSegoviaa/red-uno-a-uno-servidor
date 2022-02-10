@@ -4,8 +4,10 @@ import {
   actualizarRolUsuario,
   actualizarUsuario,
   crearUsuario,
+  crearUsuarioPropietario,
   eliminarUsuario,
   obtenerUsuario,
+  obtenerUsuarioPorPropietario,
   obtenerUsuarios,
 } from '../controllers/usuarios';
 import { esRolValido, existeCorreo, existeUsuarioPorId } from '../helpers/dbValidators';
@@ -17,6 +19,7 @@ const router = Router();
 
 router.get('/', obtenerUsuarios);
 router.get('/:id', obtenerUsuario);
+router.get('/propietario/:id', obtenerUsuarioPorPropietario);
 
 router.post(
   '/',
@@ -31,6 +34,22 @@ router.post(
     validarCampos,
   ],
   crearUsuario
+);
+
+router.post(
+  '/propietario',
+  [
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('propietario', 'El propietario es obligatorio').not().isEmpty(),
+    check('apellido', 'El apellido es obligatorio').not().isEmpty(),
+    check('correo', 'El correo electrónico ingresado no es correcto').isEmail(),
+    check('password', 'La contraseña es obligatoria').not().isEmpty(),
+    check('password', 'La contraseña debe de tener al menos 6 caracteres').isLength({ min: 6 }),
+    check('correo').custom(existeCorreo),
+    check('role').custom(esRolValido),
+    validarCampos,
+  ],
+  crearUsuarioPropietario
 );
 
 router.put(

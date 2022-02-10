@@ -15,7 +15,6 @@ import paquetes from '../routes/paquetes';
 import pedidos from '../routes/pedido';
 import tipoPropiedad from '../routes/tipoPropiedad';
 import subidas from '../routes/subidas';
-import usuariosPagados from '../routes/usuariosPagados';
 import { dbConnection } from '../database/config';
 import Sockets from './sockets';
 
@@ -94,7 +93,6 @@ class Server {
     this.app.use(this.rutas.pedidos, pedidos);
     this.app.use(this.rutas.tipoPropiedad, tipoPropiedad);
     this.app.use(this.rutas.usuarios, rutasUsuario);
-    this.app.use(this.rutas.usuariosPagados, usuariosPagados);
     this.app.use(this.rutas.subidas, subidas);
   }
 

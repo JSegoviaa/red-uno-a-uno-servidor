@@ -24,9 +24,24 @@ export const obtenerUsuario = async (req: Request, res: Response) => {
   res.json(usuario);
 };
 
+export const obtenerUsuarioPorPropietario = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const [total, misUsuarios] = await Promise.all([
+    Usuario.countDocuments({ propietario: id }),
+    Usuario.find({ propietario: id }),
+  ]);
+
+  res.json({
+    ok: true,
+    total,
+    misUsuarios,
+  });
+};
+
 export const crearUsuario = async (req: Request, res: Response) => {
-  const { nombre, apellido, correo, password, role, propietario } = req.body;
-  const usuario = new Usuario({ nombre, apellido, correo, password, role, propietario });
+  const { nombre, apellido, correo, password, role } = req.body;
+  const usuario = new Usuario({ nombre, apellido, correo, password, role });
 
   //Encriptar contraseña
   const salt = bcryptjs.genSaltSync();
@@ -38,6 +53,19 @@ export const crearUsuario = async (req: Request, res: Response) => {
   //Guardar en la base de datos
   await usuario.save();
   res.json({ ok: true, msg: 'Se ha creado usuario con éxito', token, usuario });
+};
+
+export const crearUsuarioPropietario = async (req: Request, res: Response) => {
+  const { nombre, apellido, correo, password, role, propietario } = req.body;
+  const usuario = new Usuario({ nombre, apellido, correo, password, role, propietario });
+
+  //Encriptar contraseña
+  const salt = bcryptjs.genSaltSync();
+  usuario.password = bcryptjs.hashSync(password, salt);
+
+  //Guardar en la base de datos
+  await usuario.save();
+  res.json({ ok: true, msg: 'Se ha creado usuario con éxito', usuario });
 };
 
 export const actualizarUsuario = async (req: Request, res: Response) => {
