@@ -63,7 +63,6 @@ export const googleLogin = async (req: Request, res: Response) => {
   try {
     const { correo, nombre, img, apellido } = await googleVerify(id_token);
 
-    await googleVerify(id_token);
     let usuario = await Usuario.findOne({ correo });
 
     if (!usuario) {
