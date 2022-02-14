@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { login, renovarToken } from '../controllers/auth';
+import { googleLogin, login, renovarToken } from '../controllers/auth';
 import { validarCampos } from '../middlewares/validarCampos';
 import { validarJWT } from '../middlewares/validarJWT';
 
@@ -17,5 +17,7 @@ router.post(
 );
 
 router.get('/renovarToken', validarJWT, renovarToken);
+
+router.post('/google', check('id_token', 'El id_token es necesario').not().isEmpty(), googleLogin);
 
 export default router;

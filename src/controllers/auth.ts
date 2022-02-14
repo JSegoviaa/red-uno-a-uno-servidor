@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
 import { Usuario } from '../models/usuario';
 import { generarJWT } from '../helpers/generarJWT';
+import { googleVerify } from '../helpers/googleVerify';
 
 export const login = async (req: Request, res: Response) => {
   const { correo, password } = req.body;
@@ -54,4 +55,51 @@ export const renovarToken = async (req: any, res: Response) => {
   const usuario = await Usuario.findById(uid);
 
   res.json({ ok: true, usuario, token });
+};
+
+export const googleLogin = async (req: Request, res: Response) => {
+  const { id_token } = req.body;
+
+  try {
+    const { correo, nombre, img, apellido } = await googleVerify(id_token);
+
+    await googleVerify(id_token);
+    let usuario = await Usuario.findOne({ correo });
+
+    if (!usuario) {
+      const data = {
+        nombre,
+        apellido,
+        correo,
+        password: ':P',
+        img,
+        google: true,
+        role: 'Usuario',
+      };
+
+      usuario = new Usuario(data);
+      await usuario.save();
+    }
+
+    if (!usuario.estado) {
+      return res.status(401).json({
+        msg: 'Hable con el administrador, usuario bloqueado',
+      });
+    }
+
+    // Generar el JWT
+    const token = await generarJWT(usuario.id);
+
+    res.json({
+      ok: true,
+      usuario,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      msg: 'Token de Google no es válido',
+      error,
+    });
+  }
 };
