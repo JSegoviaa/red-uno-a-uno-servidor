@@ -86,3 +86,18 @@ export const subirVideo = async (req: Request, res: Response) => {
 
   res.json({ ok: true, msg: 'El vídeo se ha subido exitosamente', pid, uid });
 };
+
+export const eliminarImgs = async (req: Request, res: Response) => {
+  const { uid, pid } = req.params;
+  const { imgs } = req.body;
+
+  imgs.map((img: string) => {
+    const nombreArr = img.split('/');
+    const nombre = nombreArr[nombreArr.length - 1];
+    const [public_id] = nombre.split('.');
+
+    v2.uploader.destroy(`red1a1/usuarios/${uid}/inmuebles/${pid}/${public_id}`);
+  });
+
+  res.json({ ok: true, msg: 'Se han eliminado las imágenes' });
+};

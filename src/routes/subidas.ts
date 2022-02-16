@@ -3,7 +3,7 @@ import { check } from 'express-validator';
 import { v2 } from 'cloudinary';
 import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import { actualizarImgs, imagenesInmueble, subirFotoPerfil, subirVideo } from '../controllers/subidas';
+import { actualizarImgs, eliminarImgs, imagenesInmueble, subirFotoPerfil, subirVideo } from '../controllers/subidas';
 import { validarCampos } from '../middlewares/validarCampos';
 import { validarJWT } from '../middlewares/validarJWT';
 import { existeInmueblePorId, existeUsuarioPorId } from '../helpers/dbValidators';
@@ -90,5 +90,18 @@ router.post(
 );
 
 router.post('/video/:uid/:pid', video, subirVideo);
+
+router.put(
+  '/imagenes/:uid/:pid',
+  [
+    validarJWT,
+    check('uid', 'No es un id válido').isMongoId(),
+    check('uid').custom(existeUsuarioPorId),
+    check('pid', 'No es un id válido').isMongoId(),
+    check('pid').custom(existeInmueblePorId),
+    validarCampos,
+  ],
+  eliminarImgs
+);
 
 export default router;
