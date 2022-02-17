@@ -22,7 +22,7 @@ export const contacto = async (req: Request, res: Response) => {
   });
 
   const mailOptions = {
-    from: 'Red1a1 <no-reply>@red1a1.com>',
+    from: 'Red1a1 <no-reply@red1a1.com>',
     to: process.env.SMTP_ENVIAR_A,
     subject: `¡${nombre} ${apellido} se ha puesto en contacto!`,
     html: contentHTML,

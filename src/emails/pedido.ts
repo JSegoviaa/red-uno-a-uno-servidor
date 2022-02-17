@@ -23,7 +23,7 @@ export const nuevoPedido = async (req: Request, res: Response) => {
   });
 
   const mailOptions = {
-    from: 'Red1a1 <no-reply>@red1a1.com>',
+    from: 'Red1a1 <no-reply@red1a1.com>',
     to: correo,
     subject: `¡Te has suscrito nuestro plan ${nombrePaquete}!`,
     html: contentHTML,
@@ -62,7 +62,7 @@ export const nuevoPedidoAdmin = async (req: Request, res: Response) => {
   });
 
   const mailOptions = {
-    from: 'Red1a1 <no-reply>@red1a1.com>',
+    from: 'Red1a1 <no-reply@red1a1.com>',
     to: process.env.SMTP_ENVIAR_A,
     subject: `¡${nombre} ${apellido} se ha suscrito al plan ${nombrePaquete}!`,
     html: contentHTML,
