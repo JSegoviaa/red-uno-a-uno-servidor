@@ -29,6 +29,16 @@ class Sockets {
         this.io.to(payload.remitente).emit('mensaje-personal', mensaje);
       });
 
+      socket.on('nueva-notificacion', async (notificacion) => {
+        console.log(notificacion);
+        this.io.to(notificacion.para).emit('obtener-notificacion', {
+          de: notificacion.remitente,
+          mensaje: notificacion.mensaje,
+          nombre: notificacion.nombre,
+          apellido: notificacion.apellido,
+        });
+      });
+
       socket.on('disconnect', async () => {
         await usuarioDesconectado(uid);
       });
