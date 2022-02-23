@@ -140,14 +140,14 @@ export const obtenerInmueblesPorUsuario = async (req: Request, res: Response) =>
 
 export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response) => {
   const {
-    lat_south_east,
-    lng_south_east,
-    lat_south_west,
-    lng_south_west,
-    lat_north_east,
-    lng_north_east,
-    lat_north_west,
-    lng_north_west,
+    lat_south_east = 1,
+    lng_south_east = 1,
+    lat_south_west = 1,
+    lng_south_west = 1,
+    lat_north_east = 1,
+    lng_north_east = 1,
+    lat_north_west = 1,
+    lng_north_west = 1,
   } = req.query;
 
   try {
@@ -170,32 +170,36 @@ export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response)
 export const obtenerInmueblesListaCoords = async (req: Request, res: Response) => {
   const {
     limite = 20,
-    lat_south_east,
-    lng_south_east,
-    lat_south_west,
-    lng_south_west,
-    lat_north_east,
-    lng_north_east,
-    lat_north_west,
-    lng_north_west,
+    lat_south_east = 1,
+    lng_south_east = 1,
+    lat_south_west = 1,
+    lng_south_west = 1,
+    lat_north_east = 1,
+    lng_north_east = 1,
+    lat_north_west = 1,
+    lng_north_west = 1,
   } = req.query;
   const query = { publicado: true };
 
-  const [total, inmuebles] = await Promise.all([
-    Inmueble.countDocuments(query),
-    Inmueble.find(query)
-      .populate('categoria', 'nombre')
-      .populate('tipoPropiedad', 'nombre')
-      .where('lat')
-      .lt(Number(lat_north_east) && Number(lat_north_west))
-      .where('lat')
-      .gt(Number(lat_south_east) && Number(lat_south_west))
-      .where('lng')
-      .lt(Number(lng_south_east) && Number(lng_north_east))
-      .where('lng')
-      .gt(Number(lng_north_west) && Number(lng_south_west))
-      .limit(Number(limite)),
-  ]);
+  try {
+    const [total, inmuebles] = await Promise.all([
+      Inmueble.countDocuments(query),
+      Inmueble.find(query)
+        .populate('categoria', 'nombre')
+        .populate('tipoPropiedad', 'nombre')
+        .where('lat')
+        .lt(Number(lat_north_east) && Number(lat_north_west))
+        .where('lat')
+        .gt(Number(lat_south_east) && Number(lat_south_west))
+        .where('lng')
+        .lt(Number(lng_south_east) && Number(lng_north_east))
+        .where('lng')
+        .gt(Number(lng_north_west) && Number(lng_south_west))
+        .limit(Number(limite)),
+    ]);
 
-  res.json({ ok: true, total, inmuebles });
+    res.json({ ok: true, total, inmuebles });
+  } catch (error) {
+    console.log(error);
+  }
 };
