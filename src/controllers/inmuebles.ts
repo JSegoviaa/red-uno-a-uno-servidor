@@ -137,3 +137,65 @@ export const obtenerInmueblesPorUsuario = async (req: Request, res: Response) =>
     inmueblesUsuario,
   });
 };
+
+export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response) => {
+  const {
+    lat_south_east,
+    lng_south_east,
+    lat_south_west,
+    lng_south_west,
+    lat_north_east,
+    lng_north_east,
+    lat_north_west,
+    lng_north_west,
+  } = req.query;
+
+  try {
+    const inmuebles = await Inmueble.find()
+      .where('lat')
+      .lt(Number(lat_north_east) && Number(lat_north_west))
+      .where('lat')
+      .gt(Number(lat_south_east) && Number(lat_south_west))
+      .where('lng')
+      .lt(Number(lng_south_east) && Number(lng_north_east))
+      .where('lng')
+      .gt(Number(lng_north_west) && Number(lng_south_west));
+
+    res.json({ ok: true, inmuebles });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const obtenerInmueblesListaCoords = async (req: Request, res: Response) => {
+  const {
+    limite = 20,
+    lat_south_east,
+    lng_south_east,
+    lat_south_west,
+    lng_south_west,
+    lat_north_east,
+    lng_north_east,
+    lat_north_west,
+    lng_north_west,
+  } = req.query;
+  const query = { publicado: true };
+
+  const [total, inmuebles] = await Promise.all([
+    Inmueble.countDocuments(query),
+    Inmueble.find(query)
+      .populate('categoria', 'nombre')
+      .populate('tipoPropiedad', 'nombre')
+      .limit(Number(limite))
+      .where('lat')
+      .lt(Number(lat_north_east) && Number(lat_north_west))
+      .where('lat')
+      .gt(Number(lat_south_east) && Number(lat_south_west))
+      .where('lng')
+      .lt(Number(lng_south_east) && Number(lng_north_east))
+      .where('lng')
+      .gt(Number(lng_north_west) && Number(lng_south_west)),
+  ]);
+
+  res.json({ ok: true, total, inmuebles });
+};

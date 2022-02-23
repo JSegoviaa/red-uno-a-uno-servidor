@@ -7,11 +7,13 @@ import {
   actualizarInmueble,
   crearInmuebles,
   eliminarInmueble,
+  obtenerInmueblePorCoordenadas,
   obtenerInmueblePorDir,
   obtenerInmueblePorId,
   obtenerInmueblePorURL,
   obtenerInmuebles,
   obtenerInmueblesLista,
+  obtenerInmueblesListaCoords,
   obtenerInmueblesPorUsuario,
 } from '../controllers/inmuebles';
 import { existeCategoriaPorId, existeInmueblePorId, existeTipoDePropiedadPorId } from '../helpers/dbValidators';
@@ -96,5 +98,9 @@ router.delete(
   [validarJWT, check('id', 'No es un id válido').isMongoId(), check('id').custom(existeInmueblePorId), validarCampos],
   eliminarInmueble
 );
+
+router.get('/inmuebles/coordenadas', obtenerInmueblePorCoordenadas);
+
+router.get('/lista-inmuebles/coordenadas', obtenerInmueblesListaCoords);
 
 export default router;
