@@ -186,7 +186,6 @@ export const obtenerInmueblesListaCoords = async (req: Request, res: Response) =
     Inmueble.find(query)
       .populate('categoria', 'nombre')
       .populate('tipoPropiedad', 'nombre')
-      .limit(Number(limite))
       .where('lat')
       .lt(Number(lat_north_east) && Number(lat_north_west))
       .where('lat')
@@ -194,7 +193,8 @@ export const obtenerInmueblesListaCoords = async (req: Request, res: Response) =
       .where('lng')
       .lt(Number(lng_south_east) && Number(lng_north_east))
       .where('lng')
-      .gt(Number(lng_north_west) && Number(lng_south_west)),
+      .gt(Number(lng_north_west) && Number(lng_south_west))
+      .limit(Number(limite)),
   ]);
 
   res.json({ ok: true, total, inmuebles });
