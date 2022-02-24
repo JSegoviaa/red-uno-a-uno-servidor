@@ -3,28 +3,58 @@ import { Favorito } from '../models/favoritos';
 import { Inmueble } from '../models/inmuebles';
 
 export const obtenerFavoritosPorUsuario = async (req: Request, res: Response) => {
-  const { limite = 20, desde = 0 } = req.query;
+  const { limite = 20, desde = 0, dueño = '' } = req.query;
   const { id } = req.params;
 
-  const [total, favoritosUsuario] = await Promise.all([
-    Favorito.countDocuments({ usuario: id }),
-    Favorito.find({
-      usuario: id,
-    })
-      .populate({
-        path: 'inmueble',
-        select: ['titulo', 'slug', 'imgs'],
-        populate: { path: 'usuario', select: ['nombre', 'apellido'] },
-      })
-      .skip(Number(desde))
-      .limit(Number(limite)),
-  ]);
+  try {
+    if (dueño !== '') {
+      const [total, favoritosUsuario] = await Promise.all([
+        Favorito.countDocuments({ usuario: id, propietario: dueño }),
+        Favorito.find({
+          usuario: id,
+          propietario: dueño,
+        })
+          .populate({
+            path: 'inmueble',
+            select: ['titulo', 'slug', 'imgs'],
+            populate: { path: 'usuario', select: ['nombre', 'apellido'] },
+          })
+          .skip(Number(desde))
+          .limit(Number(limite)),
+      ]);
 
-  res.json({
-    ok: true,
-    total,
-    favoritosUsuario,
-  });
+      res.json({
+        ok: true,
+        total,
+        favoritosUsuario,
+      });
+    }
+
+    if (dueño === '') {
+      const [total, favoritosUsuario] = await Promise.all([
+        Favorito.countDocuments({ usuario: id }),
+        Favorito.find({
+          usuario: id,
+        })
+          .populate({
+            path: 'inmueble',
+            select: ['titulo', 'slug', 'imgs'],
+            populate: { path: 'usuario', select: ['nombre', 'apellido'] },
+          })
+          .skip(Number(desde))
+          .limit(Number(limite)),
+      ]);
+
+      res.json({
+        ok: true,
+        total,
+        favoritosUsuario,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ ok: false, error });
+  }
 };
 
 export const obtenerFavoritosPorUsuarioSolicitud = async (req: Request, res: Response) => {
