@@ -152,6 +152,8 @@ export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response)
 
   try {
     const inmuebles = await Inmueble.find()
+      .populate('categoria', 'nombre')
+      .populate('tipoPropiedad', 'nombre')
       .where('lat')
       .lt(Number(lat_north_east) && Number(lat_north_west))
       .where('lat')
