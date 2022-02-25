@@ -149,8 +149,10 @@ export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response)
     lat_north_west = Number(1),
     lng_north_west = Number(1),
   } = req.query;
+  const query = { publicado: true };
+
   try {
-    const inmuebles = await Inmueble.find()
+    const inmuebles = await Inmueble.find(query)
       .populate('categoria', 'nombre')
       .populate('tipoPropiedad', 'nombre')
       .where('lat')
