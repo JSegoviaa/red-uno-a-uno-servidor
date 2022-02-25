@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
 import { Usuario } from '../models/usuario';
 import { generarJWT } from '../helpers/generarJWT';
 import { googleVerify } from '../helpers/googleVerify';
@@ -70,7 +71,7 @@ export const googleLogin = async (req: Request, res: Response) => {
         nombre,
         apellido,
         correo,
-        password: ':P',
+        password: uuidv4(),
         img,
         google: true,
         role: 'Usuario',
