@@ -171,14 +171,14 @@ export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response)
 export const obtenerInmueblesListaCoords = async (req: Request, res: Response) => {
   const {
     limite = 20,
-    lat_south_east = 1,
-    lng_south_east = 1,
-    lat_south_west = 1,
-    lng_south_west = 1,
-    lat_north_east = 1,
-    lng_north_east = 1,
-    lat_north_west = 1,
-    lng_north_west = 1,
+    lat_south_east = Number(1),
+    lng_south_east = Number(1),
+    lat_south_west = Number(1),
+    lng_south_west = Number(1),
+    lat_north_east = Number(1),
+    lng_north_east = Number(1),
+    lat_north_west = Number(1),
+    lng_north_west = Number(1),
   } = req.query;
   const query = { publicado: true };
 
