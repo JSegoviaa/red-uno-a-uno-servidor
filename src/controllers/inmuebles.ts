@@ -140,16 +140,15 @@ export const obtenerInmueblesPorUsuario = async (req: Request, res: Response) =>
 
 export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response) => {
   const {
-    lat_south_east = 1,
-    lng_south_east = 1,
-    lat_south_west = 1,
-    lng_south_west = 1,
-    lat_north_east = 1,
-    lng_north_east = 1,
-    lat_north_west = 1,
-    lng_north_west = 1,
+    lat_south_east = Number(1),
+    lng_south_east = Number(1),
+    lat_south_west = Number(1),
+    lng_south_west = Number(1),
+    lat_north_east = Number(1),
+    lng_north_east = Number(1),
+    lat_north_west = Number(1),
+    lng_north_west = Number(1),
   } = req.query;
-
   try {
     const inmuebles = await Inmueble.find()
       .populate('categoria', 'nombre')
