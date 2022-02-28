@@ -1,5 +1,5 @@
 export * from './categorias';
-export * from './compartidas';
+export * from './solicitud';
 export * from './chat';
 export * from './favoritos';
 export * from './historial';

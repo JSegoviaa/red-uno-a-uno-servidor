@@ -1,4 +1,4 @@
-export * from './compartidas';
+export * from './solicitud';
 export * from './auth';
 export * from './categorias';
 export * from './chats';
