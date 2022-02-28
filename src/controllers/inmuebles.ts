@@ -148,9 +148,10 @@ export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response)
     lng_north_east = Number(1),
     lat_north_west = Number(1),
     lng_north_west = Number(1),
+    categoria,
+    tipoPropiedad,
   } = req.query;
-  const query = { publicado: true };
-
+  const query = { publicado: true, categoria, tipoPropiedad };
   try {
     const inmuebles = await Inmueble.find(query)
       .populate('categoria', 'nombre')
@@ -163,7 +164,6 @@ export const obtenerInmueblePorCoordenadas = async (req: Request, res: Response)
       .lt(Number(lng_south_east) && Number(lng_north_east))
       .where('lng')
       .gt(Number(lng_north_west) && Number(lng_south_west));
-
     res.json({ ok: true, inmuebles });
   } catch (error) {
     console.log(error);
@@ -181,8 +181,10 @@ export const obtenerInmueblesListaCoords = async (req: Request, res: Response) =
     lng_north_east = Number(1),
     lat_north_west = Number(1),
     lng_north_west = Number(1),
+    categoria,
+    tipoPropiedad,
   } = req.query;
-  const query = { publicado: true };
+  const query = { publicado: true, categoria, tipoPropiedad };
 
   try {
     const [total, inmuebles] = await Promise.all([
