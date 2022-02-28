@@ -1,8 +1,11 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
+import { compartir } from '../emails/compartir';
 import { contacto } from '../emails/contacto';
 import { nuevoPedido, nuevoPedidoAdmin } from '../emails/pedido';
+import { existeUsuarioPorId } from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
+import { validarJWT } from '../middlewares/validarJWT';
 
 const router = Router();
 
@@ -48,6 +51,20 @@ router.post(
     validarCampos,
   ],
   nuevoPedidoAdmin
+);
+
+router.post(
+  '/solicitud-compartir',
+  [
+    validarJWT,
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('apellido', 'El apellido es obligatorio').not().isEmpty(),
+    check('titulo', 'El título es obligatorio').not().isEmpty(),
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom(existeUsuarioPorId),
+    validarCampos,
+  ],
+  compartir
 );
 
 export default router;
