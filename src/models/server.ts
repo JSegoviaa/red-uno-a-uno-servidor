@@ -6,6 +6,7 @@ import rutasUsuario from '../routes/usuarios';
 import auth from '../routes/auth';
 import categorias from '../routes/categorias';
 import chats from '../routes/chats';
+import compartidas from '../routes/compartidas';
 import correos from '../routes/correos';
 import favoritos from '../routes/favoritos';
 import inmuebles from '../routes/inmuebles';
@@ -27,6 +28,7 @@ class Server {
     auth: '/api/auth/',
     categorias: '/api/categorias/',
     chats: '/api/chats/',
+    compartidos: '/api/compartidos/',
     correos: '/api/correos/',
     favoritos: '/api/favoritos/',
     inmuebles: '/api/inmuebles/',
@@ -84,6 +86,7 @@ class Server {
     this.app.use(this.rutas.auth, auth);
     this.app.use(this.rutas.categorias, categorias);
     this.app.use(this.rutas.chats, chats);
+    this.app.use(this.rutas.compartidos, compartidas);
     this.app.use(this.rutas.correos, correos);
     this.app.use(this.rutas.favoritos, favoritos);
     this.app.use(this.rutas.inmuebles, inmuebles);
