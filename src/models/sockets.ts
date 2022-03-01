@@ -39,6 +39,10 @@ class Sockets {
         });
       });
 
+      socket.on('solicitud', ({ solicitud }) => {
+        this.io.to(solicitud.propietario).emit('obtener-solicitud', solicitud);
+      });
+
       socket.on('disconnect', async () => {
         await usuarioDesconectado(uid);
       });
