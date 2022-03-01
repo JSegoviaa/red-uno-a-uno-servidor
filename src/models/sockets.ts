@@ -1,6 +1,8 @@
 import { Server } from 'socket.io';
 import { guardarMensaje, usuarioConectado, usuarioDesconectado } from '../controllers/sockets';
 import { comprobarJWT } from '../helpers/generarJWT';
+import { Inmueble } from './inmuebles';
+import { Usuario } from './usuario';
 
 class Sockets {
   private io: Server;
@@ -39,8 +41,16 @@ class Sockets {
         });
       });
 
-      socket.on('solicitud', ({ solicitud }) => {
-        this.io.to(solicitud.propietario).emit('obtener-solicitud', solicitud);
+      socket.on('solicitud', async ({ solicitud }) => {
+        const usuario = await Usuario.findById(solicitud.usuario);
+        const inmueble = await Inmueble.findById(solicitud.inmueble);
+        this.io.to(solicitud.propietario).emit('obtener-solicitud', {
+          ...solicitud,
+          nombre: usuario?.nombre,
+          apellido: usuario?.apellido,
+          titulo: inmueble?.titulo,
+          slug: inmueble?.slug,
+        });
       });
 
       socket.on('disconnect', async () => {
