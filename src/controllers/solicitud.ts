@@ -4,7 +4,9 @@ import { Solicitud } from '../models';
 export const obtenerSolicitudesUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const solicitudes = await Solicitud.find({ propietario: id });
+  const solicitudes = await Solicitud.find({ propietario: id })
+    .populate('inmueble', ['titulo', 'slug'])
+    .populate('usuario', ['nombre', 'apellido']);
 
   res.json({ ok: true, solicitudes, msg: 'Lista de solicitudes' });
 };

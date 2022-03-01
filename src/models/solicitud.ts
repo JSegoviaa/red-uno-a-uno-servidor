@@ -7,12 +7,15 @@ interface Solicitud {
   estado: boolean;
 }
 
-const SolicitudSchama = new Schema<Solicitud>({
-  usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
-  propietario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
-  inmueble: { type: Schema.Types.ObjectId, ref: 'Inmueble', required: true },
-  estado: { type: Boolean, required: true, default: false },
-});
+const SolicitudSchama = new Schema<Solicitud>(
+  {
+    usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    propietario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    inmueble: { type: Schema.Types.ObjectId, ref: 'Inmueble', required: true },
+    estado: { type: Boolean, required: true, default: false },
+  },
+  { timestamps: true }
+);
 
 SolicitudSchama.methods.toJSON = function () {
   const { __v, ...data } = this.toObject();
