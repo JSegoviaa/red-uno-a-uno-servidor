@@ -25,7 +25,7 @@ export const solicitarInmueble = async (req: Request, res: Response) => {
     return res.status(400).json({ ok: false, msg: 'Ya has solicitud compartir este inmueble' });
   }
 
-  const solicitud = new Solicitud({ usuario, propietario, inmueble, estado: false });
+  const solicitud = new Solicitud({ usuario, propietario, inmueble });
 
   await solicitud.save();
 
