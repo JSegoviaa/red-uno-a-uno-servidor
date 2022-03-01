@@ -6,7 +6,8 @@ export const obtenerSolicitudesUsuario = async (req: Request, res: Response) => 
 
   const solicitudes = await Solicitud.find({ propietario: id })
     .populate('inmueble', ['titulo', 'slug'])
-    .populate('usuario', ['nombre', 'apellido']);
+    .populate('usuario', ['nombre', 'apellido'])
+    .sort('-createdAt');
 
   res.json({ ok: true, solicitudes, msg: 'Lista de solicitudes' });
 };
