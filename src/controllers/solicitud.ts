@@ -2,14 +2,18 @@ import { Request, Response } from 'express';
 import { Solicitud } from '../models';
 
 export const obtenerSolicitudesUsuario = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id, limite = 5 } = req.params;
 
-  const solicitudes = await Solicitud.find({ propietario: id })
-    .populate('inmueble', ['titulo', 'slug'])
-    .populate('usuario', ['nombre', 'apellido'])
-    .sort('-createdAt');
+  const [total, solicitudes] = await Promise.all([
+    Solicitud.countDocuments({ propietario: id }),
+    Solicitud.find({ propietario: id })
+      .populate('inmueble', ['titulo', 'slug'])
+      .populate('usuario', ['nombre', 'apellido'])
+      .sort('-createdAt')
+      .limit(Number(limite)),
+  ]);
 
-  res.json({ ok: true, solicitudes, msg: 'Lista de solicitudes' });
+  res.json({ ok: true, solicitudes, total, msg: 'Lista de solicitudes' });
 };
 
 export const solicitarInmueble = async (req: Request, res: Response) => {
