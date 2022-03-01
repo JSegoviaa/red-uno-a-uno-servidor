@@ -4,15 +4,17 @@ interface Solicitud {
   usuario: Types.ObjectId;
   propietario: Types.ObjectId;
   inmueble: Types.ObjectId;
-  estado: boolean;
+  estado: Estado;
 }
+
+type Estado = 'Aprobado' | 'Rechazado' | 'Pendiente';
 
 const SolicitudSchama = new Schema<Solicitud>(
   {
     usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
     propietario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
     inmueble: { type: Schema.Types.ObjectId, ref: 'Inmueble', required: true },
-    estado: { type: Boolean, required: true, default: false },
+    estado: { type: String, required: true, default: 'Pendiente' },
   },
   { timestamps: true }
 );
