@@ -44,7 +44,7 @@ export const solicitarInmueble = async (req: Request, res: Response) => {
     usuario,
     inmueble,
     propietario,
-    estado: 'Aprobado' || 'Pendiente',
+    estado: 'Aprobado' && 'Pendiente',
   });
 
   if (existeSolicitud) {
