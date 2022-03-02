@@ -8,7 +8,7 @@ export const obtenerSolicitudesPropietario = async (req: Request, res: Response)
     Solicitud.countDocuments({ propietario: id }),
     Solicitud.find({ propietario: id })
       .populate('inmueble', ['titulo', 'slug', 'imgs'])
-      .populate('usuario', ['nombre', 'apellido'])
+      .populate('usuario', ['nombre', 'apellido', 'correo'])
       .sort('-createdAt')
       .limit(Number(limite)),
   ]);
