@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { compartir } from '../emails/compartir';
+import { compartir, solicitudAprobada } from '../emails/compartir';
 import { contacto } from '../emails/contacto';
 import { nuevoPedido, nuevoPedidoAdmin } from '../emails/pedido';
 import { existeUsuarioPorId } from '../helpers/dbValidators';
@@ -66,5 +66,7 @@ router.post(
   ],
   compartir
 );
+
+router.post('/solicitud-aprobada', solicitudAprobada);
 
 export default router;

@@ -7,7 +7,7 @@ export const obtenerSolicitudesPropietario = async (req: Request, res: Response)
   const [total, solicitudes] = await Promise.all([
     Solicitud.countDocuments({ propietario: id }),
     Solicitud.find({ propietario: id })
-      .populate('inmueble', ['titulo', 'slug'])
+      .populate('inmueble', ['titulo', 'slug', 'imgs'])
       .populate('usuario', ['nombre', 'apellido'])
       .sort('-createdAt')
       .limit(Number(limite)),

@@ -43,3 +43,48 @@ export const compartir = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const solicitudAprobada = async (req: Request, res: Response) => {
+  const { nombre, apellido, titulo, img, id } = req.body;
+  const usuario = await Usuario.findById(id);
+  console.log(req.body);
+
+  const contentHTML = `
+    <h1>${nombre} ${apellido} ha aprobado tu solicitud</h1>
+    <p>Ahora puedes compartir el inmueble ${titulo}</p>
+    <img src=${img} alt=${titulo} />
+`;
+
+  const transport = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
+    },
+    tls: { rejectUnauthorized: false },
+  });
+
+  const mailOptions = {
+    from: 'Red1a1 <no-reply@red1a1.com>',
+    to: usuario?.correo,
+    subject: `¡Tu solicitud ha sido aprobada!`,
+    html: contentHTML,
+  };
+
+  const info = await transport.sendMail(mailOptions);
+
+  if (info.messageId) {
+    return res.json({ ok: true, msg: '' });
+  }
+
+  if (!info.messageId) {
+    return res.json({
+      ok: false,
+      msg: '',
+    });
+  }
+};
+
+export const solicitudRechazada = async (req: Request, res: Response) => {};
