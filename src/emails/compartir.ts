@@ -45,9 +45,7 @@ export const compartir = async (req: Request, res: Response) => {
 };
 
 export const solicitudAprobada = async (req: Request, res: Response) => {
-  const { nombre, apellido, titulo, img, id } = req.body;
-  const usuario = await Usuario.findById(id);
-  console.log(req.body);
+  const { nombre, apellido, titulo, img, correo } = req.body;
 
   const contentHTML = `
     <h1>${nombre} ${apellido} ha aprobado tu solicitud</h1>
@@ -68,7 +66,7 @@ export const solicitudAprobada = async (req: Request, res: Response) => {
 
   const mailOptions = {
     from: 'Red1a1 <no-reply@red1a1.com>',
-    to: usuario?.correo,
+    to: correo,
     subject: `¡Tu solicitud ha sido aprobada!`,
     html: contentHTML,
   };
@@ -87,4 +85,44 @@ export const solicitudAprobada = async (req: Request, res: Response) => {
   }
 };
 
-export const solicitudRechazada = async (req: Request, res: Response) => {};
+export const solicitudRechazada = async (req: Request, res: Response) => {
+  const { nombre, apellido, titulo, img, correo } = req.body;
+
+  const contentHTML = `
+    <h1>${nombre} ${apellido} ha rechazado tu solicitud</h1>
+    <p>No puedes compartir el inmueble ${titulo}</p>
+    <p>Te recomendamos que te pongas en contacto con el dueño para más información</p>
+    <img src=${img} alt=${titulo} />
+`;
+
+  const transport = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
+    },
+    tls: { rejectUnauthorized: false },
+  });
+
+  const mailOptions = {
+    from: 'Red1a1 <no-reply@red1a1.com>',
+    to: correo,
+    subject: `¡Tu solicitud ha sido rechazada!`,
+    html: contentHTML,
+  };
+
+  const info = await transport.sendMail(mailOptions);
+
+  if (info.messageId) {
+    return res.json({ ok: true, msg: '' });
+  }
+
+  if (!info.messageId) {
+    return res.json({
+      ok: false,
+      msg: '',
+    });
+  }
+};

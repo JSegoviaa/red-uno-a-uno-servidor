@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { compartir, solicitudAprobada } from '../emails/compartir';
+import { compartir, solicitudAprobada, solicitudRechazada } from '../emails/compartir';
 import { contacto } from '../emails/contacto';
 import { nuevoPedido, nuevoPedidoAdmin } from '../emails/pedido';
 import { existeUsuarioPorId } from '../helpers/dbValidators';
@@ -67,6 +67,24 @@ router.post(
   compartir
 );
 
-router.post('/solicitud-aprobada', solicitudAprobada);
+router.post(
+  '/solicitud-aprobada',
+  [
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('apellido', 'El apellido es obligatorio').not().isEmpty(),
+    check('titulo', 'El título es obligatorio').not().isEmpty(),
+  ],
+  solicitudAprobada
+);
+
+router.post(
+  '/solicitud-rechazada',
+  [
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('apellido', 'El apellido es obligatorio').not().isEmpty(),
+    check('titulo', 'El título es obligatorio').not().isEmpty(),
+  ],
+  solicitudRechazada
+);
 
 export default router;
