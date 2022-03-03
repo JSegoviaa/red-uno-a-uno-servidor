@@ -2,11 +2,12 @@ import { Request, Response } from 'express';
 import { Solicitud } from '../models';
 
 export const obtenerSolicitudesPropietario = async (req: Request, res: Response) => {
-  const { id, limite = 5 } = req.params;
+  const { id } = req.params;
+  const { limite = 5, estado } = req.query;
 
   const [total, solicitudes] = await Promise.all([
-    Solicitud.countDocuments({ propietario: id }),
-    Solicitud.find({ propietario: id })
+    Solicitud.countDocuments({ propietario: id, estado }),
+    Solicitud.find({ propietario: id, estado })
       .populate('inmueble', ['titulo', 'slug', 'imgs'])
       .populate('usuario', ['nombre', 'apellido', 'correo'])
       .sort('-createdAt')
