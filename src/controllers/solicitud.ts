@@ -10,6 +10,7 @@ export const obtenerSolicitudesPropietario = async (req: Request, res: Response)
     Solicitud.find({ propietario: id, estado })
       .populate('inmueble', ['titulo', 'slug', 'imgs'])
       .populate('usuario', ['nombre', 'apellido', 'correo'])
+      .populate('propietario', ['nombre', 'apellido'])
       .sort('-createdAt')
       .limit(Number(limite)),
   ]);
