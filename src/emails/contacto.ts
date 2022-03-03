@@ -13,7 +13,7 @@ export const contacto = async (req: Request, res: Response) => {
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
-    secure: false,
+    secure: true,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
@@ -22,8 +22,8 @@ export const contacto = async (req: Request, res: Response) => {
   });
 
   const mailOptions = {
-    from: 'Red1a1 <no-reply@red1a1.com>',
-    to: process.env.SMTP_ENVIAR_A,
+    from: 'Red1a1 <josemanuel@i360.com.mx>',
+    to: 'acosta.segoviaa@gmail.com, 140300177@ucaribe.edu.mx, acosta.segoviaa@hotmail.com',
     subject: `¡${nombre} ${apellido} se ha puesto en contacto!`,
     html: contentHTML,
   };

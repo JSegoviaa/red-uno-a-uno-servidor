@@ -15,7 +15,7 @@ export const compartir = async (req: Request, res: Response) => {
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
-    secure: false,
+    secure: true,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
@@ -24,7 +24,7 @@ export const compartir = async (req: Request, res: Response) => {
   });
 
   const mailOptions = {
-    from: 'Red1a1 <no-reply@red1a1.com>',
+    from: 'Red1a1 <josemanuel@i360.com.mx>',
     to: usuario?.correo,
     subject: `¡${nombre} ${apellido} ha solicitado compartir un inmueble!`,
     html: contentHTML,
@@ -56,7 +56,7 @@ export const solicitudAprobada = async (req: Request, res: Response) => {
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
-    secure: false,
+    secure: true,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
@@ -65,7 +65,7 @@ export const solicitudAprobada = async (req: Request, res: Response) => {
   });
 
   const mailOptions = {
-    from: 'Red1a1 <no-reply@red1a1.com>',
+    from: 'Red1a1 <josemanuel@i360.com.mx>',
     to: correo,
     subject: `¡Tu solicitud ha sido aprobada!`,
     html: contentHTML,
@@ -98,7 +98,7 @@ export const solicitudRechazada = async (req: Request, res: Response) => {
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
-    secure: false,
+    secure: true,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
@@ -107,7 +107,7 @@ export const solicitudRechazada = async (req: Request, res: Response) => {
   });
 
   const mailOptions = {
-    from: 'Red1a1 <no-reply@red1a1.com>',
+    from: 'Red1a1 <josemanuel@i360.com.mx>',
     to: correo,
     subject: `¡Tu solicitud ha sido rechazada!`,
     html: contentHTML,
