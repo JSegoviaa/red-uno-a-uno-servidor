@@ -23,7 +23,7 @@ export const contacto = async (req: Request, res: Response) => {
 
   const mailOptions = {
     from: 'Red1a1 <josemanuel@i360.com.mx>',
-    to: 'acosta.segoviaa@gmail.com, 140300177@ucaribe.edu.mx, acosta.segoviaa@hotmail.com',
+    to: 'acosta.segoviaa@gmail.com, 140300177@ucaribe.edu.mx, acosta.segoviaa@hotmail.com, josemanuel@i360.com.mx',
     subject: `¡${nombre} ${apellido} se ha puesto en contacto!`,
     html: contentHTML,
   };
