@@ -10,7 +10,7 @@ export const compartir = async (req: Request, res: Response) => {
     <h1>El usuario ${nombre} ${apellido}</h1>
     <p>Solicita que le compartas el inmueble ${titulo}</p>
     <a  target="_blank" 
-        href={https://red1a1.com/app/propiedades/${slug}}>
+        href={"https://red1a1.com/app/propiedades/${slug}}">
         https://red1a1.com/app/propiedades/${slug}
     </a>
     <img src=${img} alt=${titulo} />
