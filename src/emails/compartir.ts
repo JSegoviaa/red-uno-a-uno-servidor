@@ -3,12 +3,16 @@ import nodemailer from 'nodemailer';
 import { Usuario } from '../models/usuario';
 
 export const compartir = async (req: Request, res: Response) => {
-  const { nombre, apellido, titulo, img, id } = req.body;
+  const { nombre, apellido, titulo, img, id, slug } = req.body;
   const usuario = await Usuario.findById(id);
 
   const contentHTML = `
     <h1>El usuario ${nombre} ${apellido}</h1>
     <p>Solicita que le compartas el inmueble ${titulo}</p>
+    <a  target="_blank" 
+        href={https://red1a1.com/app/propiedades/${slug}}>
+        https://red1a1.com/app/propiedades/${slug}
+    </a>
     <img src=${img} alt=${titulo} />
 `;
 
