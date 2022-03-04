@@ -3,7 +3,7 @@ import { Solicitud } from '../models';
 
 export const obtenerSolicitudesPropietario = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { limite = 5, estado = 'Pendiente' } = req.query;
+  const { limite = 20, estado = 'Pendiente' } = req.query;
 
   const [total, solicitudes] = await Promise.all([
     Solicitud.countDocuments({ propietario: id, estado }),
