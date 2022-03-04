@@ -43,13 +43,26 @@ class Sockets {
 
       socket.on('solicitud', async ({ solicitud }) => {
         const usuario = await Usuario.findById(solicitud.usuario);
+        const propietario = await Usuario.findById(solicitud.propietario);
         const inmueble = await Inmueble.findById(solicitud.inmueble);
         this.io.to(solicitud.propietario).emit('obtener-solicitud', {
-          ...solicitud,
-          nombre: usuario?.nombre,
-          apellido: usuario?.apellido,
-          titulo: inmueble?.titulo,
-          slug: inmueble?.slug,
+          inmueble: {
+            _id: inmueble?._id,
+            slug: inmueble?.slug,
+            titulo: inmueble?.titulo,
+            imgs: inmueble?.imgs,
+          },
+          propietario: { nombre: propietario?.nombre, apellido: propietario?.apellido, _id: propietario?._id },
+          usuario: {
+            _id: usuario?._id,
+            nombre: usuario?.nombre,
+            apellido: usuario?.apellido,
+            correo: usuario?.correo,
+          },
+          createdAt: solicitud.createdAt,
+          updatedAt: solicitud.updatedAt,
+          estado: solicitud.estado,
+          _id: solicitud._id,
         });
       });
 
