@@ -20,7 +20,7 @@ export const obtenerReferenciasUsuario = async (req: Request, res: Response) => 
   const { id } = req.params;
 
   try {
-    const referencias = await Referencias.find({ usuario: id });
+    const referencias = await Referencias.find({ usuario: id }).populate('paquete', 'nombre');
 
     res.status(200).json({ ok: true, msg: 'Referencias del usuario', referencias });
   } catch (error) {
