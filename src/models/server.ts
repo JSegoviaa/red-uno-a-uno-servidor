@@ -13,6 +13,7 @@ import historial from '../routes/historial';
 import mensajes from '../routes/mensajes';
 import paquetes from '../routes/paquetes';
 import pedidos from '../routes/pedido';
+import referencias from '../routes/referencias';
 import tipoPropiedad from '../routes/tipoPropiedad';
 import solicitud from '../routes/solicitud';
 import subidas from '../routes/subidas';
@@ -35,6 +36,7 @@ class Server {
     mensajes: '/api/mensajes/',
     paquetes: '/api/paquetes/',
     pedidos: '/api/pedidos/',
+    referencias: '/api/referencias/',
     solicitud: '/api/solicitud/',
     subidas: '/api/subidas/',
     tipoPropiedad: '/api/tipo-de-propiedad/',
@@ -94,6 +96,7 @@ class Server {
     this.app.use(this.rutas.mensajes, mensajes);
     this.app.use(this.rutas.paquetes, paquetes);
     this.app.use(this.rutas.pedidos, pedidos);
+    this.app.use(this.rutas.referencias, referencias);
     this.app.use(this.rutas.tipoPropiedad, tipoPropiedad);
     this.app.use(this.rutas.usuarios, rutasUsuario);
     this.app.use(this.rutas.subidas, subidas);

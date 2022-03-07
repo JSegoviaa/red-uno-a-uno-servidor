@@ -8,6 +8,7 @@ export * from './inmuebles';
 export * from './mensajes';
 export * from './paquete';
 export * from './pedido';
+export * from './referencias';
 export * from './sockets';
 export * from './subidas';
 export * from './tipoPropiedad';
