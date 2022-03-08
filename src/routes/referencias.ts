@@ -1,12 +1,19 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { actualizarReferencia, crearReferencias, obtenerReferenciasUsuario } from '../controllers';
+import {
+  actualizarReferencia,
+  crearReferencias,
+  obtenerReferenciaPorNumero,
+  obtenerReferenciasUsuario,
+} from '../controllers';
 import { existeUsuarioPorId } from '../helpers/dbValidators';
 import { esAdminRol, validarCampos, validarJWT } from '../middlewares';
 
 const router = Router();
 
 router.get('/:id', obtenerReferenciasUsuario);
+
+router.get('/ref/numero', obtenerReferenciaPorNumero);
 
 router.post(
   '/',

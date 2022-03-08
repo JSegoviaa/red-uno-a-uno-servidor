@@ -39,6 +39,18 @@ export const obtenerReferenciasUsuario = async (req: Request, res: Response) => 
   }
 };
 
+export const obtenerReferenciaPorNumero = async (req: Request, res: Response) => {
+  const { numero } = req.query;
+
+  try {
+    const referencia = await Referencias.findOne({ referencia: numero });
+    return res.status(200).json({ ok: true, msg: '', referencia });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ ok: false, msg: 'No se pudo encontrar referencia. Inténtelo nuevamente' });
+  }
+};
+
 export const actualizarReferencia = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { usuario, paquete, referencia, precio, importe, totalUsuarios, ...resto } = req.body;
