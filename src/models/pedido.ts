@@ -10,7 +10,7 @@ interface Pedido {
   fechaVencimiento: string;
   metodoPago: string;
   vigencia: boolean;
-  idStripe: string;
+  idPago: string;
 }
 
 const PedidoSchema = new Schema<Pedido>(
@@ -24,7 +24,7 @@ const PedidoSchema = new Schema<Pedido>(
     fechaVencimiento: { type: String, required: true },
     metodoPago: { type: String, required: true },
     vigencia: { type: Boolean, required: true },
-    idStripe: { type: String, required: true },
+    idPago: { type: String, required: true },
   },
   { timestamps: true }
 );

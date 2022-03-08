@@ -24,7 +24,7 @@ router.post(
     check('fechaPago', 'La fecha de pago es obligatoria').not().isEmpty(),
     check('fechaVencimiento', 'La fecha de vencimiento es obligatoria').not().isEmpty(),
     check('metodoPago', 'El método de pago es obligatorio').not().isEmpty(),
-    check('idStripe', 'El id es obligatorio').not().isEmpty(),
+    check('idPago', 'El id es obligatorio').not().isEmpty(),
     validarCampos,
   ],
   crearPedido

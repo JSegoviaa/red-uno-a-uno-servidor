@@ -56,7 +56,7 @@ export const crearPedido = async (req: Request, res: Response) => {
     vigencia,
     totalUsuarios,
     importe,
-    idStripe,
+    idPago,
   } = req.body;
 
   try {
@@ -64,7 +64,7 @@ export const crearPedido = async (req: Request, res: Response) => {
       amount: importe * 100,
       currency: 'mxn',
       automatic_payment_methods: { enabled: true },
-      payment_method: idStripe,
+      payment_method: idPago,
       confirm: true,
       return_url: 'https://www.google.com/' /*Cambiar al dominio de red1a1 cuando sea https*/,
     });
@@ -78,7 +78,7 @@ export const crearPedido = async (req: Request, res: Response) => {
       fechaVencimiento,
       metodoPago,
       vigencia,
-      idStripe: paymentIntent.id,
+      idPago: paymentIntent.id,
       totalUsuarios,
     });
 
