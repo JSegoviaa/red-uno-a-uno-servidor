@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { crearReferencias, obtenerReferenciasUsuario } from '../controllers';
+import { actualizarReferencia, crearReferencias, obtenerReferenciasUsuario } from '../controllers';
 import { existeUsuarioPorId } from '../helpers/dbValidators';
-import { validarCampos, validarJWT } from '../middlewares';
+import { esAdminRol, validarCampos, validarJWT } from '../middlewares';
 
 const router = Router();
 
@@ -24,6 +24,10 @@ router.post(
   crearReferencias
 );
 
-router.put('/:id');
+router.put(
+  '/:id',
+  [validarJWT, esAdminRol, check('estado', 'El estado de la referencia es obligatoria').not().isEmpty(), validarCampos],
+  actualizarReferencia
+);
 
 export default router;

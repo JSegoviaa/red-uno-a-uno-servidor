@@ -41,9 +41,10 @@ export const obtenerReferenciasUsuario = async (req: Request, res: Response) => 
 
 export const actualizarReferencia = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const { usuario, paquete, referencia, precio, importe, totalUsuarios, ...resto } = req.body;
 
   try {
-    const referencia = await Referencias.findByIdAndUpdate(id, { estado: true }, { new: true });
+    const referencia = await Referencias.findByIdAndUpdate(id, resto, { new: true });
     res.status(200).json({ ok: true, msg: 'Se ha actualizado la referencia', referencia });
   } catch (error) {
     console.log(error);
