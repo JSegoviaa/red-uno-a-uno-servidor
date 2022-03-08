@@ -7,6 +7,7 @@ interface Referencias {
   precio: number;
   totalUsuarios: { type: Number };
   importe: { type: Number; required: true };
+  estado: boolean;
 }
 
 const ReferenciasSchema = new Schema<Referencias>(
@@ -17,6 +18,7 @@ const ReferenciasSchema = new Schema<Referencias>(
     precio: { type: Number, required: true },
     importe: { type: Number, required: true },
     totalUsuarios: { type: Number },
+    estado: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
 );

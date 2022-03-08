@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import { Referencias } from '../models';
 
 export const crearReferencias = async (req: Request, res: Response) => {
-  const { usuario, paquete, referencia, precio, importe, totalUsuarios } = req.body;
+  const { usuario, paquete, referencia, precio, importe, totalUsuarios, estado } = req.body;
 
   try {
-    const ref = new Referencias({ usuario, paquete, referencia, precio, importe, totalUsuarios });
+    const ref = new Referencias({ usuario, paquete, referencia, precio, importe, totalUsuarios, estado });
 
     const nuevaRef = await ref.save();
 
@@ -36,5 +36,19 @@ export const obtenerReferenciasUsuario = async (req: Request, res: Response) => 
     return res
       .status(500)
       .json({ ok: false, msg: 'Error al obtener las referencias del usuario. Inténtelo más tarde' });
+  }
+};
+
+export const actualizarReferencia = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const referencia = await Referencias.findByIdAndUpdate(id, { estado: true }, { new: true });
+    res.status(200).json({ ok: true, msg: 'Se ha actualizado la referencia', referencia });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ ok: false, msg: 'Error al momento de actualizar la referencia. Inténtelo más tarde' });
   }
 };
