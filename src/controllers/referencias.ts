@@ -43,7 +43,10 @@ export const obtenerReferenciaPorNumero = async (req: Request, res: Response) =>
   const { numero } = req.query;
 
   try {
-    const referencia = await Referencias.findOne({ referencia: numero });
+    const referencia = await Referencias.findOne({ referencia: numero })
+      .populate('usuario', ['nombre', 'apellido', 'correo', 'img'])
+      .populate('paquete', 'nombre');
+
     return res.status(200).json({ ok: true, msg: '', referencia });
   } catch (error) {
     console.log(error);
