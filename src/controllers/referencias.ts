@@ -51,6 +51,21 @@ export const obtenerReferenciaPorNumero = async (req: Request, res: Response) =>
   }
 };
 
+export const obtenerReferencias = async (req: Request, res: Response) => {
+  const { desde = 0, limite = 15 } = req.query;
+  try {
+    const [total, referencias] = await Promise.all([
+      Referencias.countDocuments(),
+      Referencias.find().populate('paquete', 'nombre').skip(Number(desde)).limit(Number(limite)).sort('-createdAt'),
+    ]);
+
+    res.status(200).json({ ok: true, msg: 'Lista de referencias', referencias, total });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ ok: false, msg: 'No se pudo obtener la lista de referencias. Inténtelo más tarde' });
+  }
+};
+
 export const actualizarReferencia = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { usuario, paquete, referencia, precio, importe, totalUsuarios, ...resto } = req.body;

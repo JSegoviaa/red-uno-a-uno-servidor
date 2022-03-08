@@ -4,12 +4,15 @@ import {
   actualizarReferencia,
   crearReferencias,
   obtenerReferenciaPorNumero,
+  obtenerReferencias,
   obtenerReferenciasUsuario,
 } from '../controllers';
 import { existeUsuarioPorId } from '../helpers/dbValidators';
 import { esAdminRol, validarCampos, validarJWT } from '../middlewares';
 
 const router = Router();
+
+router.get('/', obtenerReferencias);
 
 router.get('/:id', obtenerReferenciasUsuario);
 
