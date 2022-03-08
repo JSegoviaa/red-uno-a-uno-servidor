@@ -18,11 +18,19 @@ export const crearReferencias = async (req: Request, res: Response) => {
 
 export const obtenerReferenciasUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const { desde = 0, limite = 15 } = req.query;
 
   try {
-    const referencias = await Referencias.find({ usuario: id }).populate('paquete', 'nombre');
+    const [total, referencias] = await Promise.all([
+      Referencias.countDocuments({ usuario: id }),
+      Referencias.find({ usuario: id })
+        .populate('paquete', 'nombre')
+        .skip(Number(desde))
+        .limit(Number(limite))
+        .sort('-createdAt'),
+    ]);
 
-    res.status(200).json({ ok: true, msg: 'Referencias del usuario', referencias });
+    res.status(200).json({ ok: true, msg: 'Referencias del usuario', referencias, total });
   } catch (error) {
     console.log(error);
     return res
