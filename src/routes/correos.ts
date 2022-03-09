@@ -40,6 +40,21 @@ router.post(
 );
 
 router.post(
+  '/aprobar-pedido',
+  [
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('apellido', 'El apellido es obligatorio').not().isEmpty(),
+    check('correo', 'El correo electrónico ingresado no es correcto').isEmail(),
+    check('nombrePaquete', 'El nombre del paquete es obligatorio').not().isEmpty(),
+    check('precio', 'El precio es obligatorio').not().isEmpty(),
+    check('importe', 'El precio es obligatorio').not().isEmpty(),
+    check('idCompra', 'El id es obligatorio').not().isEmpty(),
+    validarCampos,
+  ],
+  nuevoPedido
+);
+
+router.post(
   '/nuevo-pedido-admin',
   [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
