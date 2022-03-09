@@ -3,16 +3,18 @@ import { Solicitud } from '../models';
 
 export const obtenerSolicitudesPropietario = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { limite = 20, estado = 'Pendiente' } = req.query;
+  const { limite = 20, desde = 0, estado = 'Pendiente' } = req.query;
+  const query = { propietario: id, estado };
 
   const [total, solicitudes] = await Promise.all([
-    Solicitud.countDocuments({ propietario: id, estado }),
-    Solicitud.find({ propietario: id, estado })
+    Solicitud.countDocuments(query),
+    Solicitud.find(query)
       .populate('inmueble', ['titulo', 'slug', 'imgs'])
       .populate('usuario', ['nombre', 'apellido', 'correo'])
       .populate('propietario', ['nombre', 'apellido'])
-      .sort('-createdAt')
-      .limit(Number(limite)),
+      .skip(Number(desde))
+      .limit(Number(limite))
+      .sort('-createdAt'),
   ]);
 
   res.json({ ok: true, solicitudes, total, msg: 'Lista de solicitudes' });
@@ -21,11 +23,12 @@ export const obtenerSolicitudesPropietario = async (req: Request, res: Response)
 export const obtenerSolicitudesUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { limite = 20, desde = 0, estado } = req.query;
+  const query = { usuario: id, estado };
 
   try {
     const [total, compartidas] = await Promise.all([
-      Solicitud.countDocuments({ usuario: id, estado }),
-      Solicitud.find({ usuario: id, estado })
+      Solicitud.countDocuments(query),
+      Solicitud.find(query)
         .populate('inmueble', ['titulo', 'slug', 'imgs'])
         .populate('propietario', ['nombre', 'apellido'])
         .skip(Number(desde))
