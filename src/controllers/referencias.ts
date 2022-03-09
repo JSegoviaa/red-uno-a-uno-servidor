@@ -59,7 +59,12 @@ export const obtenerReferencias = async (req: Request, res: Response) => {
   try {
     const [total, referencias] = await Promise.all([
       Referencias.countDocuments(),
-      Referencias.find().populate('paquete', 'nombre').skip(Number(desde)).limit(Number(limite)).sort('-createdAt'),
+      Referencias.find()
+        .populate('paquete', 'nombre')
+        .populate('usuario', ['nombre', 'apellido', 'correo', 'img'])
+        .skip(Number(desde))
+        .limit(Number(limite))
+        .sort('-createdAt'),
     ]);
 
     res.status(200).json({ ok: true, msg: 'Lista de referencias', referencias, total });
