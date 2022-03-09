@@ -32,7 +32,8 @@ router.get(
   obtenerSolicitudesUsuario
 );
 
-router.post('/', solicitarInmueble);
+router.post('/', [validarJWT, validarCampos], solicitarInmueble);
+
 router.put(
   '/aceptar/:id',
   [
