@@ -116,3 +116,45 @@ export const crearPedido = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const crearPedidoRef = async (req: Request, res: Response) => {
+  const {
+    usuario,
+    paquete,
+    precio,
+    fechaPago,
+    fechaVencimiento,
+    metodoPago,
+    vigencia,
+    totalUsuarios,
+    importe,
+    idPago,
+  } = req.body;
+
+  try {
+    const pedido = new Pedido({
+      usuario,
+      paquete,
+      precio,
+      importe,
+      fechaPago,
+      fechaVencimiento,
+      metodoPago,
+      vigencia,
+      idPago,
+      totalUsuarios,
+    });
+
+    await pedido.save();
+    res.status(200).json({
+      ok: true,
+      msg: 'Se ha agregado paquete al usuario',
+      pedido,
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ ok: false, msg: 'Hubo un error al momento de aprobar al pago. Inténtelo nuevamente' });
+  }
+};
