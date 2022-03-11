@@ -3,7 +3,14 @@ import { check } from 'express-validator';
 import { v2 } from 'cloudinary';
 import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import { actualizarImgs, eliminarImgs, imagenesInmueble, subirFotoPerfil, subirVideo } from '../controllers/subidas';
+import {
+  actualizarImgs,
+  eliminarImgs,
+  imagenesInmueble,
+  subirFotoPerfil,
+  subirVideo,
+  subirComprobante,
+} from '../controllers/subidas';
 import { validarCampos } from '../middlewares/validarCampos';
 import { validarJWT } from '../middlewares/validarJWT';
 import { existeInmueblePorId, existeUsuarioPorId } from '../helpers/dbValidators';
@@ -55,10 +62,28 @@ const storageVideo = new CloudinaryStorage({
 
 const video = multer({ storage: storageVideo }).single('video');
 
+const storageComprobante = new CloudinaryStorage({
+  cloudinary: v2,
+  params: async (req: Request, file) => {
+    return {
+      folder: `red1a1/usuarios/${req.params.uid}/comprobante/${req.params.rid}`,
+      public_id: 'comprobante',
+    };
+  },
+});
+
+const uploadComprobante = multer({ storage: storageComprobante });
+
 router.post(
   '/usuarios/:id',
   [validarJWT, check('id', 'No es un id válido').isMongoId(), uploadPerfil.single('picture'), validarCampos],
   subirFotoPerfil
+);
+
+router.post(
+  '/comprobante/:uid/:rid',
+  [validarJWT, uploadComprobante.single('comprobante'), validarCampos],
+  subirComprobante
 );
 
 router.post(

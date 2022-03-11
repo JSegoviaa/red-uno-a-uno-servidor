@@ -8,7 +8,7 @@ interface Referencias {
   totalUsuarios: { type: Number };
   importe: { type: Number; required: true };
   estado: boolean;
-  comprobante: string;
+  comprobante: string | undefined;
 }
 
 const ReferenciasSchema = new Schema<Referencias>(

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Usuario } from '../models/usuario';
 import { Inmueble } from '../models/inmuebles';
 import { v2 } from 'cloudinary';
+import { Referencias } from '../models';
 
 export const subirFotoPerfil = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -100,4 +101,26 @@ export const eliminarImgs = async (req: Request, res: Response) => {
   });
 
   res.json({ ok: true, msg: 'Se han eliminado las imágenes' });
+};
+
+export const subirComprobante = async (req: Request, res: Response) => {
+  const { rid } = req.params;
+
+  const referencia = await Referencias.findById(rid);
+
+  if (!referencia) {
+    return res.status(400).json({ ok: false, msg: 'No existe una referencia con ese id' + rid });
+  }
+
+  const url = req.file?.path;
+
+  referencia.comprobante = url;
+
+  await referencia.save();
+
+  res.json({
+    ok: true,
+    msg: 'El comprobante se ha subido éxitosamente',
+    referencia,
+  });
 };
