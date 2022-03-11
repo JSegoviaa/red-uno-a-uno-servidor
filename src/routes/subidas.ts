@@ -67,7 +67,7 @@ const storageComprobante = new CloudinaryStorage({
   params: async (req: Request, file) => {
     return {
       folder: `red1a1/usuarios/${req.params.uid}/comprobante/${req.params.rid}`,
-      public_id: 'comprobante',
+      public_id: file.originalname,
     };
   },
 });
