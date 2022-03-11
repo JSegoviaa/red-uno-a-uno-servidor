@@ -44,7 +44,7 @@ export const obtenerReferenciaPorNumero = async (req: Request, res: Response) =>
 
   try {
     const referencia = await Referencias.findOne({ referencia: numero })
-      .populate('usuario', ['nombre', 'apellido', 'correo', 'img', 'role'])
+      .populate('usuario', ['nombre', 'apellido', 'correo', 'img', 'role', 'telefonoOficina', 'telefonoPersonal'])
       .populate('paquete', 'nombre');
 
     return res.status(200).json({ ok: true, msg: '', referencia });
@@ -61,7 +61,7 @@ export const obtenerReferencias = async (req: Request, res: Response) => {
       Referencias.countDocuments(),
       Referencias.find()
         .populate('paquete', 'nombre')
-        .populate('usuario', ['nombre', 'apellido', 'correo', 'img', 'role'])
+        .populate('usuario', ['nombre', 'apellido', 'correo', 'img', 'role', 'telefonoOficina', 'telefonoPersonal'])
         .skip(Number(desde))
         .limit(Number(limite))
         .sort('-createdAt'),
