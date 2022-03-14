@@ -25,6 +25,7 @@ export const obtenerReferenciasUsuario = async (req: Request, res: Response) => 
       Referencias.countDocuments({ usuario: id }),
       Referencias.find({ usuario: id })
         .populate('paquete', 'nombre')
+        .populate('usuario', 'nombre')
         .skip(Number(desde))
         .limit(Number(limite))
         .sort('-createdAt'),
