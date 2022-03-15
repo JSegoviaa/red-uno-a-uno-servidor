@@ -9,6 +9,7 @@ import {
   obtenerUsuario,
   obtenerUsuarioPorPropietario,
   obtenerUsuarios,
+  obtenerUsuariosPorDir,
 } from '../controllers/usuarios';
 import { esRolValido, existeCorreo, existeUsuarioPorId } from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
@@ -20,6 +21,8 @@ const router = Router();
 router.get('/', obtenerUsuarios);
 router.get('/:id', obtenerUsuario);
 router.get('/propietario/:id', obtenerUsuarioPorPropietario);
+
+router.get('/usuario/ubicacion', obtenerUsuariosPorDir);
 
 router.post(
   '/',

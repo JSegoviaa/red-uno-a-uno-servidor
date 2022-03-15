@@ -102,3 +102,18 @@ export const eliminarUsuario = async (req: Request, res: Response) => {
 
   res.json(usuario);
 };
+
+export const obtenerUsuariosPorDir = async (req: Request, res: Response) => {
+  const { direccion } = req.query;
+
+  try {
+    const usuarios = await Usuario.find({
+      direccionFisica: { $regex: direccion },
+    });
+
+    res.status(200).json({ ok: true, msg: '', direccion, usuarios });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ ok: false, msg: 'Error al intentar encontrar usuarios. Inténtelo más tarde.' });
+  }
+};
