@@ -111,7 +111,7 @@ export const obtenerUsuariosPorDir = async (req: Request, res: Response) => {
       direccionFisica: { $regex: direccion },
     });
 
-    res.status(200).json({ ok: true, msg: '', direccion, usuarios });
+    res.status(200).json({ ok: true, msg: '', usuarios });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ ok: false, msg: 'Error al intentar encontrar usuarios. Inténtelo más tarde.' });
