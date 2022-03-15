@@ -106,10 +106,13 @@ export const eliminarUsuario = async (req: Request, res: Response) => {
 export const obtenerUsuariosPorDir = async (req: Request, res: Response) => {
   const { direccion } = req.query;
 
+  const query = {
+    direccionFisica: { $regex: direccion },
+    recibirCorreo: true,
+  };
+
   try {
-    const usuarios = await Usuario.find({
-      direccionFisica: { $regex: direccion },
-    });
+    const usuarios = await Usuario.find(query);
 
     res.status(200).json({ ok: true, msg: '', usuarios });
   } catch (error) {
