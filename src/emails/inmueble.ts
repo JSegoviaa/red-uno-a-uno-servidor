@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 
-export const contacto = async (req: Request, res: Response) => {
+export const inmuebleZona = async (req: Request, res: Response) => {
   const { nombre, apellido, correo, tituloInmueble, imgInmueble, slug } = req.body;
   const contentHTML = `
-    <h1>${nombre} ${apellido}</h1>
+    <h1>${nombre} ${apellido} ${correo}</h1>
     <h2>Se ha publicado el siguiente inmueble ${tituloInmueble}</h2>
     <a  target="_blank" 
         href={"https://red1a1.com/app/propiedades/${slug}}">
