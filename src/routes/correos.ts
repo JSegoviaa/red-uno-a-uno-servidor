@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { compartir, solicitudAprobada, solicitudRechazada } from '../emails/compartir';
 import { contacto } from '../emails/contacto';
+import { inmuebleZona } from '../emails/inmueble';
 import { nuevoPedido, nuevoPedidoAdmin } from '../emails/pedido';
 import { existeUsuarioPorId } from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
@@ -100,6 +101,19 @@ router.post(
     check('titulo', 'El título es obligatorio').not().isEmpty(),
   ],
   solicitudRechazada
+);
+
+router.post(
+  'inmueble-zona',
+  [
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('apellido', 'El apellido es obligatorio').not().isEmpty(),
+    check('correo', 'El correo electrónico ingresado no es correcto').isEmail(),
+    check('tituloInmueble', 'El título es obligatorio').not().isEmpty(),
+    check('imgInmueble', 'La imagen es obligatoria').not().isEmpty(),
+    check('slug', 'El url es obligatorio').not().isEmpty(),
+  ],
+  inmuebleZona
 );
 
 export default router;
