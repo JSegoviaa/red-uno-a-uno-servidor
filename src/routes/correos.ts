@@ -104,7 +104,7 @@ router.post(
 );
 
 router.post(
-  'inmueble-zona',
+  '/inmueble-zona',
   [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('apellido', 'El apellido es obligatorio').not().isEmpty(),

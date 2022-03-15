@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 export const inmuebleZona = async (req: Request, res: Response) => {
   const { nombre, apellido, correo, tituloInmueble, imgInmueble, slug } = req.body;
   const contentHTML = `
-    <h1>${nombre} ${apellido} ${correo}</h1>
+    <h1>${nombre} ${apellido}</h1>
     <h2>Se ha publicado el siguiente inmueble ${tituloInmueble}</h2>
     <a  target="_blank" 
         href={"https://red1a1.com/app/propiedades/${slug}}">
@@ -26,8 +26,8 @@ export const inmuebleZona = async (req: Request, res: Response) => {
 
   const mailOptions = {
     from: 'Red1a1 <josemanuel@i360.com.mx>',
-    to: 'acosta.segoviaa@gmail.com',
-    subject: `¡${nombre} ${apellido} se ha publicado un inmueble en tu zona!`,
+    to: correo,
+    subject: `¡${nombre} ${apellido}, se ha publicado un inmueble en tu zona!`,
     html: contentHTML,
   };
 
