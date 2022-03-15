@@ -72,6 +72,7 @@ export const actualizarUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { _id, password, google, online, correo, ...resto } = req.body;
 
+  console.log(resto);
   if (password) {
     //Encriptar contraseña
     const salt = bcryptjs.genSaltSync();

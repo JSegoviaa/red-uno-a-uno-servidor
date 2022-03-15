@@ -24,7 +24,7 @@ interface Usuario {
   paqueteAdquirido: string;
   usuarios: number;
   propietario?: string;
-  recibirCorreo: boolean;
+  recibirCorreos: boolean;
 }
 
 const UsuarioSchema = new Schema<Usuario>({
@@ -61,7 +61,7 @@ const UsuarioSchema = new Schema<Usuario>({
   paqueteAdquirido: { type: String },
   usuarios: { type: Number },
   propietario: { type: String },
-  recibirCorreo: { type: Boolean },
+  recibirCorreos: { type: Boolean },
 });
 
 UsuarioSchema.methods.toJSON = function () {
