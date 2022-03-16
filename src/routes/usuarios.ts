@@ -22,7 +22,7 @@ router.get('/', obtenerUsuarios);
 router.get('/:id', obtenerUsuario);
 router.get('/propietario/:id', obtenerUsuarioPorPropietario);
 
-router.get('/usuario/ubicacion', obtenerUsuariosPorDir);
+router.get('/usuario/ubicacion', [validarJWT], obtenerUsuariosPorDir);
 
 router.post(
   '/',

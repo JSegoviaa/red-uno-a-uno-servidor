@@ -3,6 +3,14 @@ import bcryptjs from 'bcryptjs';
 import { Usuario } from '../models/usuario';
 import { generarJWT } from '../helpers/generarJWT';
 
+declare global {
+  namespace Express {
+    interface Request {
+      uid: string;
+    }
+  }
+}
+
 export const obtenerUsuarios = async (req: Request, res: Response) => {
   const { limite = 20, desde = 0 } = req.query;
   const query = { estado: true };
@@ -105,6 +113,7 @@ export const eliminarUsuario = async (req: Request, res: Response) => {
 
 export const obtenerUsuariosPorDir = async (req: Request, res: Response) => {
   const { direccion } = req.query;
+  const { uid } = req;
 
   const query = {
     direccionFisica: { $regex: direccion },
@@ -112,9 +121,9 @@ export const obtenerUsuariosPorDir = async (req: Request, res: Response) => {
   };
 
   try {
-    const usuarios = await Usuario.find(query);
+    const usuarios = await Usuario.find(query).where('_id').ne(uid);
 
-    res.status(200).json({ ok: true, msg: '', usuarios });
+    return res.status(200).json({ ok: true, msg: '', usuarios });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ ok: false, msg: 'Error al intentar encontrar usuarios. Inténtelo más tarde.' });
