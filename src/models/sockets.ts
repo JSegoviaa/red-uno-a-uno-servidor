@@ -58,6 +58,7 @@ class Sockets {
             nombre: usuario?.nombre,
             apellido: usuario?.apellido,
             correo: usuario?.correo,
+            img: usuario?.img,
           },
           createdAt: solicitud.createdAt,
           updatedAt: solicitud.updatedAt,
