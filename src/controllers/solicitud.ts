@@ -10,7 +10,7 @@ export const obtenerSolicitudesPropietario = async (req: Request, res: Response)
     Solicitud.countDocuments(query),
     Solicitud.find(query)
       .populate('inmueble', ['titulo', 'slug', 'imgs'])
-      .populate('usuario', ['nombre', 'apellido', 'correo'])
+      .populate('usuario', ['nombre', 'apellido', 'correo', 'img'])
       .populate('propietario', ['nombre', 'apellido'])
       .skip(Number(desde))
       .limit(Number(limite))
