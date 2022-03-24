@@ -217,3 +217,9 @@ export const obtenerInmueblesListaCoords = async (req: Request, res: Response) =
     console.log(error);
   }
 };
+
+export const obtenerInmueblesPorFecha = async (req: Request, res: Response) => {
+  const inmuebles = await Inmueble.find();
+  //Esta va a ser la función para buscar los inmuebles nuevos por fecha
+  res.status(200).json({ ok: true, msg: 'Se obtiene por fecha', inmuebles });
+};

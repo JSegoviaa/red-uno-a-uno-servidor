@@ -1,12 +1,17 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { compartir, solicitudAprobada, solicitudRechazada } from '../emails/compartir';
-import { contacto } from '../emails/contacto';
-import { inmuebleZona } from '../emails/inmueble';
-import { nuevoPedido, nuevoPedidoAdmin } from '../emails/pedido';
+import {
+  bienvenida,
+  compartir,
+  contacto,
+  inmuebleZona,
+  nuevoPedido,
+  nuevoPedidoAdmin,
+  solicitudAprobada,
+  solicitudRechazada,
+} from '../emails';
 import { existeUsuarioPorId } from '../helpers/dbValidators';
-import { validarCampos } from '../middlewares/validarCampos';
-import { validarJWT } from '../middlewares/validarJWT';
+import { validarCampos, validarJWT } from '../middlewares';
 
 const router = Router();
 
@@ -115,5 +120,7 @@ router.post(
   ],
   inmuebleZona
 );
+
+router.post('/bienvenida', bienvenida);
 
 export default router;
