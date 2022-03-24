@@ -189,7 +189,15 @@ export const obtenerInmueblesListaCoords = async (req: Request, res: Response) =
 
   try {
     const [total, inmuebles] = await Promise.all([
-      Inmueble.countDocuments(query),
+      Inmueble.countDocuments(query)
+        .where('lat')
+        .lt(Number(lat_north_east) && Number(lat_north_west))
+        .where('lat')
+        .gt(Number(lat_south_east) && Number(lat_south_west))
+        .where('lng')
+        .lt(Number(lng_south_east) && Number(lng_north_east))
+        .where('lng')
+        .gt(Number(lng_north_west) && Number(lng_south_west)),
       Inmueble.find(query)
         .populate('categoria', 'nombre')
         .populate('tipoPropiedad', 'nombre')
