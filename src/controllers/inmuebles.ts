@@ -218,6 +218,26 @@ export const obtenerInmueblesListaCoords = async (req: Request, res: Response) =
   }
 };
 
+export const obtenerInmueblePorTipo = async (req: Request, res: Response) => {
+  const { tipoPropiedad } = req.query;
+
+  const query = { publicado: true, tipoPropiedad };
+
+  const [total] = await Promise.all([Inmueble.countDocuments(query), Inmueble.find(query)]);
+
+  res.json({ ok: true, total });
+};
+
+export const obtenerInmueblePorCategoria = async (req: Request, res: Response) => {
+  const { categoria } = req.query;
+
+  const query = { publicado: true, categoria };
+
+  const [total] = await Promise.all([Inmueble.countDocuments(query), Inmueble.find(query)]);
+
+  res.json({ ok: true, total });
+};
+
 export const obtenerInmueblesPorFecha = async (req: Request, res: Response) => {
   const inmuebles = await Inmueble.find();
   //Esta va a ser la función para buscar los inmuebles nuevos por fecha

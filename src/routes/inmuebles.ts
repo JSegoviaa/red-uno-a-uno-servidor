@@ -7,18 +7,19 @@ import {
   actualizarInmueble,
   crearInmuebles,
   eliminarInmueble,
+  obtenerInmueblePorCategoria,
   obtenerInmueblePorCoordenadas,
   obtenerInmueblePorDir,
   obtenerInmueblePorId,
+  obtenerInmueblePorTipo,
   obtenerInmueblePorURL,
   obtenerInmuebles,
   obtenerInmueblesLista,
   obtenerInmueblesListaCoords,
   obtenerInmueblesPorUsuario,
-} from '../controllers/inmuebles';
+} from '../controllers';
 import { existeCategoriaPorId, existeInmueblePorId, existeTipoDePropiedadPorId } from '../helpers/dbValidators';
-import { validarCampos } from '../middlewares/validarCampos';
-import { validarJWT } from '../middlewares/validarJWT';
+import { validarJWT, validarCampos } from '../middlewares';
 
 const router = Router();
 
@@ -102,5 +103,8 @@ router.delete(
 router.get('/inmuebles/coordenadas', obtenerInmueblePorCoordenadas);
 
 router.get('/lista-inmuebles/coordenadas', obtenerInmueblesListaCoords);
+
+router.get('/inmuebles/tipo-propiedad', obtenerInmueblePorTipo);
+router.get('/inmuebles/categoria', obtenerInmueblePorCategoria);
 
 export default router;
