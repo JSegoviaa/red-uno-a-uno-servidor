@@ -18,9 +18,9 @@ import { existeInmueblePorId, existeUsuarioPorId } from '../helpers/dbValidators
 const router = Router();
 
 v2.config({
-  cloud_name: 'du6f7alxg',
-  api_key: '575558682358524',
-  api_secret: 'gFqgCCTVoJ-RrNufHsd8JHmIa3Y',
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const storagePerfil = new CloudinaryStorage({
