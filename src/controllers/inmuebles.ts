@@ -239,7 +239,14 @@ export const obtenerInmueblePorCategoria = async (req: Request, res: Response) =
 };
 
 export const obtenerInmueblesPorFecha = async (req: Request, res: Response) => {
-  const inmuebles = await Inmueble.find();
-  //Esta va a ser la función para buscar los inmuebles nuevos por fecha
-  res.status(200).json({ ok: true, msg: 'Se obtiene por fecha', inmuebles });
+  const { createdAt } = req.query;
+
+  const query = { publicado: true, createdAt };
+
+  const [total] = await Promise.all([
+    Inmueble.countDocuments(query).where('createdAt').gt(Number(createdAt)),
+    Inmueble.find(query),
+  ]);
+
+  res.json({ ok: true, total });
 };

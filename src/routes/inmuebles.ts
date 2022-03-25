@@ -16,6 +16,7 @@ import {
   obtenerInmuebles,
   obtenerInmueblesLista,
   obtenerInmueblesListaCoords,
+  obtenerInmueblesPorFecha,
   obtenerInmueblesPorUsuario,
 } from '../controllers';
 import { existeCategoriaPorId, existeInmueblePorId, existeTipoDePropiedadPorId } from '../helpers/dbValidators';
@@ -106,5 +107,6 @@ router.get('/lista-inmuebles/coordenadas', obtenerInmueblesListaCoords);
 
 router.get('/inmuebles/tipo-propiedad', obtenerInmueblePorTipo);
 router.get('/inmuebles/categoria', obtenerInmueblePorCategoria);
+router.get('/inmuebles/fecha', obtenerInmueblesPorFecha);
 
 export default router;
